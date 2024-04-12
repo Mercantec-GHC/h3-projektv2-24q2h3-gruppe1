@@ -1,4 +1,4 @@
-### H3-Smart-Kommunikationsplatform - {Indsæt gruppenavn}
+### H3-Smart-Kommunikationsplatform - Water my pot
 
 Her skal alt omkring jeres projekt være. 
 
@@ -28,7 +28,7 @@ README.md
 
 ### Projekt pitch:
 
-"Vi vil lave en **[grundlæggende beskrivelse af projektidéen]**, som gør brug af disse hardwarekomponenter: **[nævn hardwarekomponenter]**. Vores mål er at udvikle en løsning, der kan **[kort beskrivelse af, hvad løsningen gør eller løser]**, ved at integrere et interaktivt system, der kan indsamle og reagere på data. For at opnå dette, tænker vi at an	vende **[nævn teknologier, programmeringssprog, databaser osv.]** til at opbygge systemet, som vil tillade os at **[beskriv hvordan teknologien vil blive brugt til at løse problemet eller forbedre en situation]**.
+"Vi vil lave et vandingssystem, som man både kan benytte manuelt, men også automatisk. Hvor brugeren vælger hvilken plante som er tilknyttet hvilken sensor, så vil en ventil åbne og kunne vande planterne, som gør brug af disse hardwarekomponenter: arduino 2+ moisture, heat sensor and a motor. Vores mål er at udvikle en løsning, der kan vande planter, ved at integrere et interaktivt system, der kan indsamle og reagere på data. For at opnå dette, tænker vi at anvende  programmeringssprog c#(blazor og asp .net api), databaser mysql(heidi). til at opbygge systemet, som vil tillade os at bruge teknologien, til hvis man nu glemmer at vande dine planter, at det bliver gjort automatisk når fugtigheden er for lav, at den så selv vil vande planten, hvor vi har motor som åbner og lukker en ventil, som er forbundet til en vand container.
 
-Vores system vil kunne interagere med brugerne gennem et dashboard, der viser **[nævn hvilke data eller funktioner dashboardet vil vise eller kontrollere]**, hvilket giver brugerne mulighed for at **[beskriv hvad brugerne kan gøre med dashboardet]**. Dette projekt vil ikke kun give os praktisk erfaring med **[nævn relevante teknologier eller færdigheder]**, men også muligheden for at udforske, hvordan teknologi kan anvendes til at løse reelle problemer eller forbedre dagligdagen."
+Vores system vil kunne interagere med brugerne gennem et dashboard, der viser 1+ graf og hvor man kan vælge dage og man skal kunne tilføje en ny plante. om den skal være i auto eller manuel tilstand og hvor meget vand der er i containeren], hvilket giver brugerne mulighed for at  vælge en plante fra en drop down eller de kan selv skrive en plante ind og hvor meget vand den skal bruge. De kan se en graf over fugtigheden og rumtemperaturen.
 

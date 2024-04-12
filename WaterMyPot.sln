@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterMyPot", "WaterMyPot\WaterMyPot.csproj", "{B0EC8A96-1E1B-40F8-88C5-97235DCCD7FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{1354E342-BBF4-4302-81F5-81849EA3D4F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Arduino", "Arduino", "{62A20056-C547-4B17-B59D-7BA5F7F66A37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dokumentation", "Dokumentation", "{A5BF50A8-6438-4E7F-BB58-C8B60E409493}"
+	ProjectSection(SolutionItems) = preProject
+		Kravspecifikationer.md.txt = Kravspecifikationer.md.txt
+		project pitch.txt = project pitch.txt
+		Case beskrivelse.md.txt = Case beskrivelse.md.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Undervisning", "Undervisning", "{B1A3D465-692B-4AB3-98CC-08037C1B382E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ER Diagram", "ER Diagram", "{51B8557C-249B-4CCF-9024-018B19C89A0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flowcharts", "Flowcharts", "{AFD56ADE-27B4-4963-80FD-C50EE7013003}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0EC8A96-1E1B-40F8-88C5-97235DCCD7FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0EC8A96-1E1B-40F8-88C5-97235DCCD7FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0EC8A96-1E1B-40F8-88C5-97235DCCD7FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0EC8A96-1E1B-40F8-88C5-97235DCCD7FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1354E342-BBF4-4302-81F5-81849EA3D4F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1354E342-BBF4-4302-81F5-81849EA3D4F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1354E342-BBF4-4302-81F5-81849EA3D4F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1354E342-BBF4-4302-81F5-81849EA3D4F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{51B8557C-249B-4CCF-9024-018B19C89A0D} = {A5BF50A8-6438-4E7F-BB58-C8B60E409493}
+		{AFD56ADE-27B4-4963-80FD-C50EE7013003} = {A5BF50A8-6438-4E7F-BB58-C8B60E409493}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF91A535-4CF2-4B5F-9041-CBF059E4EE4D}
+	EndGlobalSection
+EndGlobal

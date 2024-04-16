@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "G0JSnPX0PxFYRykHn/DRz8t5ZEBtBV8HN3PCEMIy58bL/Hy22WDOfkDhMSoDSK5V/MGW33crY065C4la2KuvSQ==",
+  "dgSpecHash": "95L9LcWfSsEei0noidRDU7HEU3CFBmPLG7DLNbR6EkpVrZ+lT2mGhzWkMNZlBdpW112p1vxpbzy1FDWvFU2hzA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\chso.skp\\source\\repos\\WaterMyPot\\WaterMyPot\\WaterMyPot.csproj",
+  "projectFilePath": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chso.skp\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.20\\microsoft.aspnetcore.authorization.6.0.20.nupkg.sha512",
     "C:\\Users\\chso.skp\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.20\\microsoft.aspnetcore.components.6.0.20.nupkg.sha512",

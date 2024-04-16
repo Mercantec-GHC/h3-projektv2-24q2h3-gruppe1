@@ -532,11 +532,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chso.skp\\source\\repos\\WaterMyPot\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\chso.skp\\source\\repos\\WaterMyPot\\API\\API.csproj",
+      "projectPath": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
       "packagesPath": "C:\\Users\\chso.skp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chso.skp\\source\\repos\\WaterMyPot\\API\\obj\\",
+      "outputPath": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

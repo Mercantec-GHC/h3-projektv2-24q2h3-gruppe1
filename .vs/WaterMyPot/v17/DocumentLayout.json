@@ -1,0 +1,89 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\plantsensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\plantsensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
+              "RelativeDocumentMoniker": "API\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
+              "RelativeToolTip": "API\\Models\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-16T11:26:28.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "sensor.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\sensor.cs",
+              "RelativeDocumentMoniker": "API\\Models\\sensor.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\sensor.cs",
+              "RelativeToolTip": "API\\Models\\sensor.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-16T11:26:21.242Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "plantsensor.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plantsensor.cs",
+              "RelativeDocumentMoniker": "API\\Models\\plantsensor.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plantsensor.cs",
+              "RelativeToolTip": "API\\Models\\plantsensor.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-16T11:26:13.94Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "plant.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs",
+              "RelativeDocumentMoniker": "API\\Models\\plant.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs",
+              "RelativeToolTip": "API\\Models\\plant.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-16T11:26:04.623Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

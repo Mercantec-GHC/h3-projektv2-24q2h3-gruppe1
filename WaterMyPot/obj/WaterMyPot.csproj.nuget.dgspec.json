@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj": {}
+    "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj": {
+    "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
+        "projectUniqueName": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
         "projectName": "WaterMyPot",
-        "projectPath": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
-        "packagesPath": "C:\\Users\\chso.skp\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chso.skp\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\obj\\",
+        "projectPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
+        "packagesPath": "C:\\Users\\kasp728h\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\chso.skp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\kasp728h\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -53,6 +53,24 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.20, )"
+            },
+            "Microsoft.NET.ILLink.Analyzers": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.100-1.23211.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.100-1.23211.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.NET.Sdk.WebAssembly.Pack": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )",
+              "autoReferenced": true
             }
           },
           "imports": [
@@ -69,7 +87,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-              "version": "[6.0.21, 6.0.21]"
+              "version": "[6.0.29, 6.0.29]"
             }
           ],
           "frameworkReferences": {
@@ -77,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

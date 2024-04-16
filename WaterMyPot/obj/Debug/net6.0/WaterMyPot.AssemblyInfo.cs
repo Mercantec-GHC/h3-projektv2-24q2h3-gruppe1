@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WaterMyPot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cccaa91eb3b25c449a8358ff1fd19d29e29bf09b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("WaterMyPot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WaterMyPot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

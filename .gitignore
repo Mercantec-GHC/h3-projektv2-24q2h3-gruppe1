@@ -40,3 +40,6 @@ packages/
 *.log
 *.sql
 *.db
+
+appsettings.json
+*.txt

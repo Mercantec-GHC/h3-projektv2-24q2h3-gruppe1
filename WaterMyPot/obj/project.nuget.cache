@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1+JPCVPgz5UK8LAR2Jcwlr50rE6cU3IlBGM938RbDOLZawmbwkF6Y3g0XCHC98iit+BfCFGVw3+kb9fWY7udwQ==",
+  "dgSpecHash": "zPYdHj2adHf5zkObpkj9BnmT5VP0A31CcyJdXLzZZwdxOgqS12XzfSolznS34N0eV3kAahG7IB9hG9iQQ8+o1Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
+  "projectFilePath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\Blazor.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MAGS\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.20\\microsoft.aspnetcore.authorization.6.0.20.nupkg.sha512",
     "C:\\Users\\MAGS\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.20\\microsoft.aspnetcore.components.6.0.20.nupkg.sha512",

@@ -1924,9 +1924,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
-      "projectName": "WaterMyPot",
-      "projectPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\WaterMyPot.csproj",
+      "projectUniqueName": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\Blazor.csproj",
+      "projectName": "Blazor",
+      "projectPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\Blazor.csproj",
       "packagesPath": "C:\\Users\\MAGS\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\WaterMyPot\\obj\\",
       "projectStyle": "PackageReference",

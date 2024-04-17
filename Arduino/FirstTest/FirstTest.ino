@@ -1,7 +1,7 @@
 #include <Arduino_MKRIoTCarrier.h>
 MKRIoTCarrier carrier;
 
-// hello
+// Error
 // Define the pins connected to the moisture sensors
 const int moisturePin = A6;  // Change this if needed
 const int moisturePin2 = A5; // Change this if needed

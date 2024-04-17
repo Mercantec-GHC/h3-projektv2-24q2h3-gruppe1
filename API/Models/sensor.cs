@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace watervand.Models
+﻿namespace API.Models
 {
-    public class sensor
+    public class Sensor : Common
     {
-        [Key]
-        public int sensor_id {  get; set; }
-        public string name { get; set;}
+        
     }
 }

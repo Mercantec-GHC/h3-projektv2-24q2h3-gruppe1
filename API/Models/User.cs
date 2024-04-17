@@ -1,13 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace watervand.Models
+﻿namespace API.Models
 {
-    public class User
+    public class User : Common
     {
-        [Key]
-        public int user_id {  get; set; }
-       public string username { get; set; }
-        public string hashed_password { get; set; }
-        public string email { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }

@@ -1,3 +1,7 @@
+
+using API.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace API
 {
     public class Program
@@ -13,19 +17,22 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            IConfiguration Configuration = builder.Configuration;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("DefaultConnection");
+
+
+            builder.Services.AddDbContext<AppDBContext>(options =>
+            options.UseNpgsql(connectionString));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

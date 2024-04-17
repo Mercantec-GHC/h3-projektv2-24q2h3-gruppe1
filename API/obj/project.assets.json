@@ -1591,19 +1591,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kasp728h\\.nuget\\packages\\": {}
+    "C:\\Users\\MAGS\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\kasp728h\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
+      "projectPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\MAGS\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\kasp728h\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\MAGS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1611,6 +1616,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1623,11 +1629,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1676,7 +1677,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

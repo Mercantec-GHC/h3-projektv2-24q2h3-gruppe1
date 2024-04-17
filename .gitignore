@@ -41,5 +41,8 @@ packages/
 *.sql
 *.db
 
-appsettings.json
 *.txt
+.vs/
+appsettings.json
+obj/
+bin/

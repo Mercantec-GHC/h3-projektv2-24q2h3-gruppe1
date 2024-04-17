@@ -10,44 +10,46 @@ build_property.ProjectTypeGuids =
 build_property.InvariantGlobalization = false
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
-build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = browser
 build_property.RootNamespace = WaterMyPot
 build_property.RootNamespace = WaterMyPot
-build_property.ProjectDir = C:\Users\chso.skp\Source\Repos\h3-projektv2-24q2h3-gruppe1\WaterMyPot\
+build_property.ProjectDir = C:\Users\kasp728h\source\repos\h3-projektv2-24q2h3-gruppe1\WaterMyPot\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\chso.skp\Source\Repos\h3-projektv2-24q2h3-gruppe1\WaterMyPot
+build_property.MSBuildProjectDirectory = C:\Users\kasp728h\source\repos\h3-projektv2-24q2h3-gruppe1\WaterMyPot
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/App.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Pages/Counter.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Pages/FetchData.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Pages/Index.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Shared/SurveyPrompt.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/_Imports.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Shared/MainLayout.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-nlfvrqtw07
 
-[C:/Users/chso.skp/Source/Repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Shared/NavMenu.razor]
+[C:/Users/kasp728h/source/repos/h3-projektv2-24q2h3-gruppe1/WaterMyPot/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ywcum9i90b

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
-    public class PlantOverview : Common2
+    public class PlantOverview : Common
     {
         public string PlantName { get; set; }
         public int MoistureLevel { get; set; }

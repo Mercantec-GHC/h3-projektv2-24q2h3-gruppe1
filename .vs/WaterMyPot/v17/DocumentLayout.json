@@ -1,26 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\",
+  "WorkspaceRootPath": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\plantsensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\plantsensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\api\\models\\plantsensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\plantsensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1354E342-BBF4-4302-81F5-81849EA3D4F1}|API\\API.csproj|solutionrelative:api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -40,9 +39,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "AppDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Data\\AppDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Data\\AppDBContext.cs",
               "RelativeDocumentMoniker": "API\\Data\\AppDBContext.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Data\\AppDBContext.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Data\\AppDBContext.cs",
               "RelativeToolTip": "API\\Data\\AppDBContext.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -52,22 +51,22 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
               "RelativeDocumentMoniker": "API\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
               "RelativeToolTip": "API\\Models\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAFAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-16T11:26:28.348Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "sensor.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\sensor.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\sensor.cs",
               "RelativeDocumentMoniker": "API\\Models\\sensor.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\sensor.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\sensor.cs",
               "RelativeToolTip": "API\\Models\\sensor.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -77,9 +76,9 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "plantsensor.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plantsensor.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plantsensor.cs",
               "RelativeDocumentMoniker": "API\\Models\\plantsensor.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plantsensor.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plantsensor.cs",
               "RelativeToolTip": "API\\Models\\plantsensor.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -87,12 +86,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "plant.cs",
               "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs",
-              "RelativeDocumentMoniker": "API\\Models\\plant.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs",
               "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs",
-              "RelativeToolTip": "API\\Models\\plant.cs",
+              "RelativeToolTip": "..\\..\\..\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\plant.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-16T11:26:04.623Z"

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {}
+    "C:\\Users\\kasp728h\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {
+    "C:\\Users\\kasp728h\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\kasp728h\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
+        "projectPath": "C:\\Users\\kasp728h\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
         "packagesPath": "C:\\Users\\kasp728h\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
+        "outputPath": "C:\\Users\\kasp728h\\Source\\Repos\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kasp728h\\AppData\\Roaming\\NuGet\\NuGet.Config",

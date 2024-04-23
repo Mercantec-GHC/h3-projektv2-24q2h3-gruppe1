@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\API",
+    "\\API\\Models"
   ],
-  "SelectedNode": "\\WaterMyPot.sln",
+  "SelectedNode": "\\API\\Models\\User.cs",
   "PreviewInSolutionExplorer": false
 }

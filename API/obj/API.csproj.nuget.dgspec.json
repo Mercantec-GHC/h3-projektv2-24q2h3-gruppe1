@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {}
+    "C:\\Users\\mads020n\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {
+    "C:\\Users\\mads020n\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\mads020n\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\MAGS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\MAGS\\Documents\\GitHub\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
+        "projectPath": "C:\\Users\\mads020n\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\mads020n\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mads020n\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\MAGS\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\mads020n\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

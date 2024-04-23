@@ -1,22 +1,22 @@
+so like this?
 #include <Arduino_MKRIoTCarrier.h>
-#include <SPI.h>
-#include <WiFi101.h>
+#include <WiFiNINA.h> // Include WiFi library
+#include <ArduinoHttpClient.h>
+
 MKRIoTCarrier carrier;
 
-// Connection to wifi
-char ssid[] = "H3Gruppe1";   // your network SSID (name)
-char pass[] = "Merc1234";    // your network password (use for WPA, or use as key for WEP)
 
-IPAddress subnet(255, 255, 255, 0);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress local_IP(192, 168, 1, 200);
+// WiFi credentials
+char ssid[] = "H3Gruppe1";
+char pass[] = "Merc1234";
 
 const char* serverAddress = "http://192.168.1.135";
 const int serverPort = 80;
 const char* endpoint = "api/SensorController/PostSensor";
 
-WiFiServer server(80);
-// Connection to wifi end
+
+WiFiClient wifi;
+HttpClient client = HttpClient(wifi, serverAddress, serverPort);
 
 // Define the pins connected to the moisture sensors
 const int moisturePin = A6;  // Change this if needed
@@ -32,8 +32,8 @@ bool showNotification = false;
 // Read moisture sensor values
 int moistureValue = analogRead(moisturePin);
 int moistureValue2 = analogRead(moisturePin2);
-const int dry = 1023; // Value for dry sensor
-const int wet = 0; // Value for wet sensor
+const int dry = 1000; // Value for dry sensor
+const int wet = 239; // Value for wet sensor
 
 // Convert the measured values to a percentage with map()
 int percentageHumididySensor;
@@ -44,32 +44,10 @@ void setup() {
     CARRIER_CASE = false;
     carrier.begin();
     carrier.display.setRotation(2); // Adjust rotation to your setup
-    Serial.begin(9600); // Initialize serial communication for debugging�
+    Serial.begin(9600); // Initialize serial communication for debugging
 
-    while(!Serial) {
-      ; //Wait for the serial port to connect
-    }
+     connectToWiFi();
 
-   if (WiFi.status() == WL_NO_SHIELD) {
-    Serial.println("WIFi101 shield not present");
-    // Don't continue
-    while(true);
-   }
-   
-   WiFi.config(local_IP, gateway, subnet);
-
-   while(status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to SSID: ");
-    Serial.println("place ssid name here.");
-
-    status = WiFi.begin(ssid, pass);
-
-    delay(10000);
-   }
-
-   server.begin();
-
-   Serial.println("Connected");
 }
 
 void loop() {
@@ -140,11 +118,13 @@ void displayMoisture() {
         carrier.display.setCursor(20, 100); // Change y coordinate for second line
         carrier.display.print("Moisture 2: ");
         carrier.display.println(percentageHumididySensor2);
+         // Create JSON payload
+         String jsonPayload = "{\"SensorController\": " + String(moistureValue) + "}";
+         String jsonPayload2 = "{\"SensorController\": " + String(moistureValue2) + "}";
+         // Send POST request
+         sendPostRequest(jsonPayload);
+         sendPostRequest(jsonPayload2);
 
-         // Create JSON payload with both sensor values
-         String jsonPayload = "{\"sensor1\": " + String(percentageHumididySensor) + ", \"sensor2\": " + String(percentageHumididySensor2) + "}";
-          // Send POST request
-        sendPostRequest(jsonPayload);
     }
 }
 
@@ -198,21 +178,18 @@ void connectToWiFi() {
 }
 
 void sendPostRequest(String payload) {
-    client.beginRequest();
-    client.post(endpoint);
-    client.sendHeader("Content-Type", "application/json");
-    client.sendHeader("Content-Length", payload.length());
-    client.endRequest();
+  client.beginRequest();
+  client.post(endpoint);
+  client.sendHeader("Content-Type", "application/json");
+  client.sendHeader("Content-Length", payload.length());
+  client.sendRequestBody(payload);
+  client.endRequest();
 
-    // Send request body
-    client.print(payload);
+  int statusCode = client.responseStatusCode();
+  String response = client.responseBody();
 
-    // Check HTTP response
-    int statusCode = client.responseStatusCode();
-    String response = client.responseBody();
-
-    Serial.print("HTTP Response Code: ");
-    Serial.println(statusCode);
-    Serial.print("Response Body: ");
-    Serial.println(response);
+  Serial.print("HTTP Response Code: ");
+  Serial.println(statusCode);
+  Serial.print("Response Body: ");
+  Serial.println(response);
 }

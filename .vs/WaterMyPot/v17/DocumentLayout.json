@@ -11,10 +11,6 @@
       "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -33,7 +29,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,14 +43,14 @@
               "RelativeDocumentMoniker": "API\\Controllers\\SensorsController.cs",
               "ToolTip": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Controllers\\SensorsController.cs",
               "RelativeToolTip": "API\\Controllers\\SensorsController.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAAIwFIAAAAAAAAA",
+              "ViewState": "AQIAADIAAAAAAAAAAAAIwEIAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-23T06:08:19.087Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\kasp728h\\Desktop\\vand\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
               "RelativeDocumentMoniker": "API\\Models\\User.cs",

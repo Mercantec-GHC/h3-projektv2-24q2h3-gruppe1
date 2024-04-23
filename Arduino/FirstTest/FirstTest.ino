@@ -1,4 +1,4 @@
-so like this?
+
 #include <Arduino_MKRIoTCarrier.h>
 #include <WiFiNINA.h> // Include WiFi library
 #include <ArduinoHttpClient.h>
@@ -178,18 +178,21 @@ void connectToWiFi() {
 }
 
 void sendPostRequest(String payload) {
-  client.beginRequest();
-  client.post(endpoint);
-  client.sendHeader("Content-Type", "application/json");
-  client.sendHeader("Content-Length", payload.length());
-  client.sendRequestBody(payload);
-  client.endRequest();
+    client.beginRequest();
+    client.post(endpoint);
+    client.sendHeader("Content-Type", "application/json");
+    client.sendHeader("Content-Length", payload.length());
+    client.endRequest();
 
-  int statusCode = client.responseStatusCode();
-  String response = client.responseBody();
+    // Send request body
+    client.print(payload);
 
-  Serial.print("HTTP Response Code: ");
-  Serial.println(statusCode);
-  Serial.print("Response Body: ");
-  Serial.println(response);
+    // Check HTTP response
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+
+    Serial.print("HTTP Response Code: ");
+    Serial.println(statusCode);
+    Serial.print("Response Body: ");
+    Serial.println(response);
 }

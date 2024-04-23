@@ -10,10 +10,9 @@ MKRIoTCarrier carrier;
 char ssid[] = "H3Gruppe1";
 char pass[] = "Merc1234";
 
-const char* serverAddress = "http://192.168.1.135";
+const char* serverAddress = "192.168.1.138";
 const int serverPort = 80;
-const char* endpoint = "api/SensorController/PostSensor";
-
+const char* endpoint = "/API/PlantSensor/";
 
 WiFiClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);
@@ -47,11 +46,15 @@ void setup() {
     Serial.begin(9600); // Initialize serial communication for debugging
 
      connectToWiFi();
+     Serial.println("Setup complete");
 
 }
 
 void loop() {
     carrier.Buttons.update();
+    testServerConnection();
+
+    //WiFiClient client = server.available(); // Listen for incoming clients
 
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
     percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
@@ -93,6 +96,7 @@ void loop() {
         previousMillis = currentMillis; // Save the last update time
         displayMoisture();
     }
+    
 
     delay(10); // Short delay for button responsiveness
 }
@@ -118,12 +122,12 @@ void displayMoisture() {
         carrier.display.setCursor(20, 100); // Change y coordinate for second line
         carrier.display.print("Moisture 2: ");
         carrier.display.println(percentageHumididySensor2);
-         // Create JSON payload
-         String jsonPayload = "{\"SensorController\": " + String(moistureValue) + "}";
-         String jsonPayload2 = "{\"SensorController\": " + String(moistureValue2) + "}";
-         // Send POST request
-         sendPostRequest(jsonPayload);
-         sendPostRequest(jsonPayload2);
+          // Create JSON payload
+          //  String jsonPayload = "{\"SensorController\": " + String(moistureValue) + "}";
+          //  String jsonPayload2 = "{\"SensorController\": " + String(moistureValue2) + "}";
+          //  // Send POST request
+          // sendPostRequest(jsonPayload);
+          // sendPostRequest(jsonPayload2);
 
     }
 }
@@ -177,22 +181,54 @@ void connectToWiFi() {
     Serial.println(WiFi.localIP());
 }
 
-void sendPostRequest(String payload) {
-    client.beginRequest();
-    client.post(endpoint);
-    client.sendHeader("Content-Type", "application/json");
-    client.sendHeader("Content-Length", payload.length());
-    client.endRequest();
+  // void sendPostRequest(String payload) {
+  //  Serial.println("Sending POST request");
 
-    // Send request body
-    client.print(payload);
+  //     client.beginRequest();
+  //     client.post(endpoint);
+  //     client.sendHeader("Content-Type", "application/json");
+  //     client.sendHeader("Content-Length", payload.length());
+  //    client.endRequest();
 
-    // Check HTTP response
-    int statusCode = client.responseStatusCode();
-    String response = client.responseBody();
+  //     // Send request body
+  //     client.print(payload);
 
-    Serial.print("HTTP Response Code: ");
-    Serial.println(statusCode);
-    Serial.print("Response Body: ");
-    Serial.println(response);
+  //     // Check HTTP response
+  //     int statusCode = client.responseStatusCode();
+  //     String response = client.responseBody();
+
+  //     Serial.print("HTTP Response Code: ");
+  //     Serial.println(statusCode);
+  //     Serial.print("Response Body: ");
+  //     Serial.println(response);
+  // }
+
+void testServerConnection() {
+    Serial.println("Testing server connection...");
+
+    if (wifi.connect(serverAddress, serverPort)) {
+        Serial.println("Connected to server!");
+
+        // Specify the ID for the request
+        int id = 1; // Change this to the ID you want to test
+
+        // Send a GET request to the endpoint with the specified ID
+        wifi.print(String("GET ") + endpoint  + " HTTP/1.1\r\n" +
+                   "Host: " + serverAddress + "\r\n" +
+                   "Connection: close\r\n\r\n");
+
+        // Wait for the server to respond
+        while (wifi.connected()) {
+            if (wifi.available()) {
+                // Print the server's response to the Serial Monitor
+                Serial.write(wifi.read());
+            }
+        }
+
+        // Close the connection to the server
+        wifi.stop();
+    } else {
+        Serial.println("Failed to connect to server!");
+    }
+    delay(10000);
 }

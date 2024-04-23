@@ -11,8 +11,9 @@ IPAddress subnet(255, 255, 255, 0);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress local_IP(192, 168, 1, 200);
 
-int status = WL_IDLE_STATUS;
-unsigned int localPort = 4000;
+const char* serverAddress = "http://192.168.1.135";
+const int serverPort = 80;
+const char* endpoint = "api/SensorController/PostSensor";
 
 WiFiServer server(80);
 // Connection to wifi end
@@ -43,7 +44,7 @@ void setup() {
     CARRIER_CASE = false;
     carrier.begin();
     carrier.display.setRotation(2); // Adjust rotation to your setup
-    Serial.begin(9600); // Initialize serial communication for debugging¨
+    Serial.begin(9600); // Initialize serial communication for debugging�
 
     while(!Serial) {
       ; //Wait for the serial port to connect
@@ -130,15 +131,20 @@ void displayMoisture() {
 
     // Display the moisture values on the carrier's OLED
     if (displayOn) {
-      carrier.display.fillScreen(ST77XX_BLUE); // Clear the screen with blue
-      carrier.display.setTextSize(2); // Set text size
-      carrier.display.setTextColor(ST77XX_WHITE); // Set text color
-      carrier.display.setCursor(20, 80); // Set position to start writing text
-      carrier.display.print("Moisture 1: ");
-      carrier.display.println(percentageHumididySensor);
-      carrier.display.setCursor(20, 100); // Change y coordinate for second line
-      carrier.display.print("Moisture 2: ");
-      carrier.display.println(percentageHumididySensor2);
+        carrier.display.fillScreen(ST77XX_BLUE); // Clear the screen with blue
+        carrier.display.setTextSize(2); // Set text size
+        carrier.display.setTextColor(ST77XX_WHITE); // Set text color
+        carrier.display.setCursor(20, 80); // Set position to start writing text
+        carrier.display.print("Moisture 1: ");
+        carrier.display.println(percentageHumididySensor);
+        carrier.display.setCursor(20, 100); // Change y coordinate for second line
+        carrier.display.print("Moisture 2: ");
+        carrier.display.println(percentageHumididySensor2);
+
+         // Create JSON payload with both sensor values
+         String jsonPayload = "{\"sensor1\": " + String(percentageHumididySensor) + ", \"sensor2\": " + String(percentageHumididySensor2) + "}";
+          // Send POST request
+        sendPostRequest(jsonPayload);
     }
 }
 
@@ -177,4 +183,36 @@ void notification() {
     else if(moistureValue2 < 1000) {
       carrier.display.print("Plant 2 dying!");
     }
+}
+
+void connectToWiFi() {
+  Serial.println("Attempting to connect to WiFi...");
+    while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
+        // If connection failed, retry
+        Serial.println("Connection failed, retrying...");
+        delay(5000);
+    }
+    Serial.println("Connected to WiFi!");
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+}
+
+void sendPostRequest(String payload) {
+    client.beginRequest();
+    client.post(endpoint);
+    client.sendHeader("Content-Type", "application/json");
+    client.sendHeader("Content-Length", payload.length());
+    client.endRequest();
+
+    // Send request body
+    client.print(payload);
+
+    // Check HTTP response
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+
+    Serial.print("HTTP Response Code: ");
+    Serial.println(statusCode);
+    Serial.print("Response Body: ");
+    Serial.println(response);
 }

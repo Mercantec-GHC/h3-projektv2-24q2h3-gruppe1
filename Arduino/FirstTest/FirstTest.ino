@@ -10,11 +10,12 @@ MKRIoTCarrier carrier;
 char ssid[] = "H3Gruppe1";
 char pass[] = "Merc1234";
 
-const char* serverAddress = "3.75.158.163";
-const int serverPort = 80;
-const char* endpoint = "/API/PlantSensor/";
+const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-sqve.onrender.com";
+const int serverPort = 443; // Use port 443 for HTTPS
+const char* endpoint = "/api/PlantOverviews";
 
-WiFiClient wifi;
+
+WiFiSSLClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);
 
 // Define the pins connected to the moisture sensors
@@ -52,8 +53,7 @@ void setup() {
 
 void loop() {
     carrier.Buttons.update();
-    testServerConnection();
-
+    sendGetRequest();
     //WiFiClient client = server.available(); // Listen for incoming clients
 
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
@@ -202,33 +202,26 @@ void connectToWiFi() {
   //     Serial.print("Response Body: ");
   //     Serial.println(response);
   // }
+void sendGetRequest() {
+    client.beginRequest();
+    client.get(endpoint);
+    client.sendHeader(HTTP_HEADER_CONNECTION, "close");
+    client.endRequest();
 
-void testServerConnection() {
-    Serial.println("Testing server connection...");
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
 
-    if (wifi.connect(serverAddress, serverPort)) {
-        Serial.println("Connected to server!");
-
-        // Specify the ID for the request
-        int id = 1; // Change this to the ID you want to test
-
-        // Send a GET request to the endpoint with the specified ID
-        wifi.print(String("GET ") + endpoint + id + " HTTP/1.1\r\n" +
-                   "Host: " + serverAddress + "\r\n" +
-                   "Connection: close\r\n\r\n");
-
-        // Wait for the server to respond
-        while (wifi.connected()) {
-            if (wifi.available()) {
-                // Print the server's response to the Serial Monitor
-                Serial.write(wifi.read());
-            }
-        }
-
-        // Close the connection to the server
-        wifi.stop();
-    } else {
-        Serial.println("Failed to connect to server!");
-    }
+    Serial.print("Status code: ");
+    Serial.println(statusCode);
+    Serial.print("Response: ");
+    Serial.println(response);
     delay(10000);
 }
+
+
+
+
+
+
+
+

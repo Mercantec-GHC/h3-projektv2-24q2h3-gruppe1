@@ -10,7 +10,7 @@ MKRIoTCarrier carrier;
 char ssid[] = "H3Gruppe1";
 char pass[] = "Merc1234";
 
-const char* serverAddress = "192.168.1.138";
+const char* serverAddress = "3.75.158.163";
 const int serverPort = 80;
 const char* endpoint = "/API/PlantSensor/";
 
@@ -213,7 +213,7 @@ void testServerConnection() {
         int id = 1; // Change this to the ID you want to test
 
         // Send a GET request to the endpoint with the specified ID
-        wifi.print(String("GET ") + endpoint  + " HTTP/1.1\r\n" +
+        wifi.print(String("GET ") + endpoint + id + " HTTP/1.1\r\n" +
                    "Host: " + serverAddress + "\r\n" +
                    "Connection: close\r\n\r\n");
 

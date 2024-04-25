@@ -2,6 +2,7 @@
 #include <Arduino_MKRIoTCarrier.h>
 #include <WiFiNINA.h> // Include WiFi library
 #include <ArduinoHttpClient.h>
+#include <ArduinoJson.h>
 
 MKRIoTCarrier carrier;
 
@@ -14,7 +15,6 @@ const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-sqve.onrender.com";
 const int serverPort = 443; // Use port 443 for HTTPS
 const char* endpoint = "/api/PlantOverviews";
 
-
 WiFiSSLClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);
 
@@ -25,6 +25,8 @@ bool displayOn = true;
 bool autoUpdate = false;     // Flag to control automatic update
 unsigned long previousMillis = 0; // Store last update time
 const long interval = 10000;  // Interval at which to update (10 seconds)
+unsigned long lastPostTime = 0;
+const unsigned long postInterval = 10000; // 10 seconds between posts
 bool autoMode = true;
 String modePrint = "";
 bool showNotification = false;
@@ -32,8 +34,8 @@ bool showNotification = false;
 // Read moisture sensor values
 int moistureValue = analogRead(moisturePin);
 int moistureValue2 = analogRead(moisturePin2);
-const int dry = 1000; // Value for dry sensor
-const int wet = 239; // Value for wet sensor
+const int dry = 1023; // Value for dry sensor
+const int wet = 0; // Value for wet sensor
 
 // Convert the measured values to a percentage with map()
 int percentageHumididySensor;
@@ -41,7 +43,6 @@ int percentageHumididySensor2;
 
 void setup() {
     // Initialize carrier and display
-    CARRIER_CASE = false;
     carrier.begin();
     carrier.display.setRotation(2); // Adjust rotation to your setup
     Serial.begin(9600); // Initialize serial communication for debugging
@@ -53,8 +54,8 @@ void setup() {
 
 void loop() {
     carrier.Buttons.update();
-    sendGetRequest();
-    //WiFiClient client = server.available(); // Listen for incoming clients
+    //sendGetRequest();
+ 
 
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
     percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
@@ -97,6 +98,11 @@ void loop() {
         displayMoisture();
     }
     
+    if (currentMillis - lastPostTime >= postInterval) {
+        lastPostTime = currentMillis;
+        sendPostRequest(percentageHumididySensor, "s1", "sol");
+        sendPostRequest(percentageHumididySensor2, "s2", "sne");
+    }
 
     delay(10); // Short delay for button responsiveness
 }
@@ -104,14 +110,11 @@ void loop() {
 void displayMoisture() {
     moistureValue = analogRead(moisturePin);
     moistureValue2 = analogRead(moisturePin2);
-
-    // Print the moisture values to the serial monitor
-    Serial.print("Moisture Level: ");
-    Serial.println(percentageHumididySensor);
-    Serial.print("Moisture 2 Level: ");
-    Serial.println(percentageHumididySensor2);
-
-    // Display the moisture values on the carrier's OLED
+ 
+    // Update percentage values
+    percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
+    percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
+ 
     if (displayOn) {
         carrier.display.fillScreen(ST77XX_BLUE); // Clear the screen with blue
         carrier.display.setTextSize(2); // Set text size
@@ -122,13 +125,12 @@ void displayMoisture() {
         carrier.display.setCursor(20, 100); // Change y coordinate for second line
         carrier.display.print("Moisture 2: ");
         carrier.display.println(percentageHumididySensor2);
-          // Create JSON payload
-          //  String jsonPayload = "{\"SensorController\": " + String(moistureValue) + "}";
-          //  String jsonPayload2 = "{\"SensorController\": " + String(moistureValue2) + "}";
-          //  // Send POST request
-          // sendPostRequest(jsonPayload);
-          // sendPostRequest(jsonPayload2);
-
+        // // Send JSON payload for sensor 1
+        // sendPostRequest(moisturePercentage, "s1", "sol");
+ 
+        // // Send JSON payload for sensor 2
+        // sendPostRequest(percentageHumididySensor2, "s2", "sne");
+        // Serial.print("Current Moisture Level: ");     Serial.println(percentageHumididySensor);  // Debugging line to check the value before sending
     }
 }
 
@@ -181,27 +183,37 @@ void connectToWiFi() {
     Serial.println(WiFi.localIP());
 }
 
-  // void sendPostRequest(String payload) {
-  //  Serial.println("Sending POST request");
 
-  //     client.beginRequest();
-  //     client.post(endpoint);
-  //     client.sendHeader("Content-Type", "application/json");
-  //     client.sendHeader("Content-Length", payload.length());
-  //    client.endRequest();
+// Function to send POST request to the server
+void sendPostRequest(int moisturePercentage, const char* sensorName, const char* plantName) {
+    DynamicJsonDocument doc(1024);
+    doc["moistureLevel"] = moisturePercentage;  // Use a descriptive key for the JSON payload
+      //  doc["minWaterLevel"] = change this minWaterLevel;
+      //doc["maxWaterLevel"] = change this maxWaterLevel;
+    doc["SensorName"] = sensorName;
+    doc["PlantName"] = plantName;
+ 
+    String payload;
+    serializeJson(doc, payload);
+ 
+    Serial.println("Sending POST request");
+    client.beginRequest();
+    client.post(endpoint);
+    client.sendHeader("Content-Type", "application/json");
+    client.sendHeader("Content-Length", payload.length());
+    client.endRequest();
+    client.print(payload);
+ 
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+ 
+    Serial.print("HTTP Response Code: ");
+    Serial.println(statusCode);
+    Serial.print("Response Body: ");
+    Serial.println(response);
+}
 
-  //     // Send request body
-  //     client.print(payload);
 
-  //     // Check HTTP response
-  //     int statusCode = client.responseStatusCode();
-  //     String response = client.responseBody();
-
-  //     Serial.print("HTTP Response Code: ");
-  //     Serial.println(statusCode);
-  //     Serial.print("Response Body: ");
-  //     Serial.println(response);
-  // }
 void sendGetRequest() {
     client.beginRequest();
     client.get(endpoint);
@@ -217,7 +229,6 @@ void sendGetRequest() {
     Serial.println(response);
     delay(10000);
 }
-
 
 
 

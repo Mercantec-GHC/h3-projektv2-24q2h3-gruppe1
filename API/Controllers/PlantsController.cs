@@ -10,11 +10,11 @@ using API.Models;
 
 namespace API.Controllers
 {
-    public class PlantController : Controller
+    public class PlantsController : Controller
     {
         private readonly AppDBContext _context;
 
-        public PlantController(AppDBContext context)
+        public PlantsController(AppDBContext context)
         {
             _context = context;
         }

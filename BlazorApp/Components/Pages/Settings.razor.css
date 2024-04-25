@@ -1,3 +1,12 @@
+.container {
+    position: fixed;
+    left: 50%;
+    width: 250px;
+    background-color: lightsteelblue;
+    padding: 25px;
+    border-radius: 10px;
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;

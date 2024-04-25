@@ -4,68 +4,55 @@
 
 <h1>Settings</h1>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div>
-        <h2>Edit Profile</h2>
-        <form action="/">
-            <label for="uname">Username:</label><br>
-            <input type="text" id="uname" name="uname"><br><br>
-            <label for="pass">Password:</label><br>
-            <input type="password" id="pass" name="pass"><br><br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email"><br><br>
 
-            <div class="d-flex">
-                <div class="w-50">
-                    <!-- Rounded switch -->
-                    <p>Auto</p>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <div class="w-50">
-                    <!-- Rounded switch -->
-                    <p>Man</p>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div><br>
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-}
+<div class="container">
+    <h2>Edit Profile</h2>
+    <form action="/">
+        <label for="uname">Username:</label><br>
+        <input type="text" id="uname" name="uname" placeholder="Username"><br><br>
+        <label for="pass">Password:</label><br>
+        <input type="password" id="pass" name="pass" placeholder="Password"><br><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Email"><br><br>
+
+        <div class="d-flex">
+            <div class="w-50">
+                <p>Auto</p>
+                <label class="switch">
+                    <input type="checkbox" checked="@IsAutoChecked" @onchange="() => Toggle('a')">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="w-50">
+                <p>Man</p>
+                <label class="switch">
+                    <input type="checkbox" checked="@IsManualChecked" @onchange="() => Toggle('m')">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private bool IsAutoChecked = true;
+    private bool IsManualChecked = false;
 
-    protected override async Task OnInitializedAsync()
+    private void Toggle(char switchName)
     {
-        // Simulate asynchronous loading to demonstrate a loading indicator
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        if (switchName == 'a' && !IsManualChecked)
         {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
-
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+            IsAutoChecked = true; // Prevent turning off if manual is already off
+        }
+        else if (switchName == 'm' && !IsAutoChecked)
+        {
+            IsManualChecked = true; // Prevent turning off if auto is already off
+        }
+        else
+        {
+            IsAutoChecked = !IsAutoChecked;
+            IsManualChecked = !IsManualChecked;
+        }
     }
 }

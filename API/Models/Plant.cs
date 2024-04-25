@@ -1,6 +1,6 @@
 ﻿namespace API.Models
 {
-    public class Plants : Common
+    public class Plant : Common
     {
         public string PlantName { get; set; }
         public int MinWaterLevel { get; set; }

@@ -79,7 +79,7 @@ namespace API.Controllers
         public async Task<ActionResult<PlantSensor>> PostPlantSensor(PlantSensor plantSensor)
         {
             _context.PlantSensor.Add(plantSensor);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();  
 
             return CreatedAtAction("GetPlantSensor", new { id = plantSensor.Id }, plantSensor);
         }

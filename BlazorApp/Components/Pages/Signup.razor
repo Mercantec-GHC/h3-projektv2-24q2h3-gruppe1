@@ -1,8 +1,8 @@
-﻿@page "/weather"
+@page "/signup"
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Signup</PageTitle>
 
-<h1>Weather</h1>
+<h1>Signup</h1>
 
 <p>This component demonstrates showing data.</p>
 
@@ -12,27 +12,18 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div>
+        <h2>Create your Profile</h2>
+        <form action="/">
+            <label for="uname">Username:</label><br>
+            <input type="text" id="uname" name="uname"><br><br>
+            <label for="pass">Password:</label><br>
+            <input type="password" id="pass" name="pass"><br><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 }
 
 @code {

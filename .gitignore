@@ -10,6 +10,7 @@
 *.user
 *.suo
 *.wsuo
+*.DocumentLayout.json
 *.userosscache
 *.sln.docstates
 *.userprefs

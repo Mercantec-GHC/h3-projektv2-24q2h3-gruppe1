@@ -41,14 +41,15 @@
 
     private void Toggle(char switchName)
     {
-        if (switchName == 'a' && !IsManualChecked)
-        {
-            IsAutoChecked = true; // Prevent turning off if manual is already off
-        }
-        else if (switchName == 'b' && !IsAutoChecked)
-        {
-            IsManualChecked = true; // Prevent turning off if auto is already off
-        }
+        // if (switchName == 'a' && !IsManualChecked)
+        // {
+        //     IsAutoChecked = true; // Prevent turning off if manual is already off
+        // }
+        // else if (switchName == 'b' && !IsAutoChecked)
+        // {
+        //     IsManualChecked = true; // Prevent turning off if auto is already off
+        // }
+        
         if (!IsManualChecked && !IsAutoChecked)
         {
             IsAutoChecked = true;

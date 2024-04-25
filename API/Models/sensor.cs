@@ -2,7 +2,7 @@
 {
     public class Sensor : Common
     {
-        public string PlantName { get; set; }
+        public string SensortName { get; set; }
 
     }
 }

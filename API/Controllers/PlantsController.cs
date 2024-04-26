@@ -104,7 +104,7 @@ namespace API.Controllers
 
         private bool PlantExists(int id)
         {
-            return _context.PlantOverviews.Any(e => e.Id == id);
+            return _context.Plants.Any(e => e.Id == id);
         }
     }
 }

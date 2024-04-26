@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
 
+// Planted createdTime = createdTime DateTime.UtcNow
+
 namespace API.Controllers
 {
-    public class PlantsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PlantsController : ControllerBase
     {
         private readonly AppDBContext _context;
 
@@ -19,139 +23,88 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: Plants
-        public async Task<IActionResult> Index()
+        // GET: api/PlantOverviews
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Plant>>> GetPlants()
         {
-            return View(await _context.Plants.ToListAsync());
+            return await _context.Plants.ToListAsync();
         }
 
-        // GET: Plants/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/PlantOverviews/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Plant>> GetPlantOverview(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var plant = await _context.Plants.FindAsync(id);
 
-            var plant = await _context.Plants
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (plant == null)
             {
                 return NotFound();
             }
 
-            return View(plant);
+            return plant;
         }
 
-        // GET: Plants/Create
-        public IActionResult Create()
+        // PUT: api/PlantOverviews/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPlantOverview(int id, Plant plantOverview)
         {
-            return View();
-        }
-
-        // POST: Plants/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PlantName,MinWaterLevel,MaxWaterLevel,Id,CreatedAt,UpdatedAt")] Plant plant)
-        {
-            if (ModelState.IsValid)
+            if (id != plantOverview.Id)
             {
-                _context.Add(plant);
+                return BadRequest();
+            }
+
+            _context.Entry(plantOverview).State = EntityState.Modified;
+
+            try
+            {
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(plant);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PlantExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Plants/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var plant = await _context.Plants.FindAsync(id);
-            if (plant == null)
-            {
-                return NotFound();
-            }
-            return View(plant);
-        }
-
-        // POST: Plants/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/PlantOverviews
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PlantName,MinWaterLevel,MaxWaterLevel,Id,CreatedAt,UpdatedAt")] Plant plant)
+        public async Task<ActionResult<Plant>> PostPlant(Plant plants)
         {
-            if (id != plant.Id)
-            {
-                return NotFound();
-            }
+            _context.Plants.Add(plants);
+            await _context.SaveChangesAsync();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(plant);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PlantExists(plant.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(plant);
+            return CreatedAtAction("GetPlants", new { id = plants.Id }, plants);
         }
 
-        // GET: Plants/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // DELETE: api/PlantOverviews/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlant(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var plant = await _context.Plants
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var plant = await _context.Plants.FindAsync(id);
             if (plant == null)
             {
                 return NotFound();
             }
 
-            return View(plant);
-        }
-
-        // POST: Plants/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var plant = await _context.Plants.FindAsync(id);
-            if (plant != null)
-            {
-                _context.Plants.Remove(plant);
-            }
-
+            _context.Plants.Remove(plant);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
 
         private bool PlantExists(int id)
         {
-            return _context.Plants.Any(e => e.Id == id);
+            return _context.PlantOverviews.Any(e => e.Id == id);
         }
     }
 }

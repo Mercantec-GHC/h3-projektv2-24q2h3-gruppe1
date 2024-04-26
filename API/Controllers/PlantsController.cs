@@ -23,16 +23,14 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/PlantOverviews
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Plant>>> GetPlants()
         {
             return await _context.Plants.ToListAsync();
         }
 
-        // GET: api/PlantOverviews/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Plant>> GetPlantOverview(int id)
+        public async Task<ActionResult<Plant>> GetPlant(int id)
         {
             var plant = await _context.Plants.FindAsync(id);
 
@@ -44,17 +42,16 @@ namespace API.Controllers
             return plant;
         }
 
-        // PUT: api/PlantOverviews/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlantOverview(int id, Plant plantOverview)
+        public async Task<IActionResult> PutPlant(int id, Plant plant)
         {
-            if (id != plantOverview.Id)
+            if (id != plant.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(plantOverview).State = EntityState.Modified;
+            _context.Entry(plant).State = EntityState.Modified;
 
             try
             {
@@ -75,8 +72,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/PlantOverviews
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPost]
         public async Task<ActionResult<Plant>> PostPlant(Plant plants)
         {
@@ -86,7 +82,6 @@ namespace API.Controllers
             return CreatedAtAction("GetPlants", new { id = plants.Id }, plants);
         }
 
-        // DELETE: api/PlantOverviews/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlant(int id)
         {

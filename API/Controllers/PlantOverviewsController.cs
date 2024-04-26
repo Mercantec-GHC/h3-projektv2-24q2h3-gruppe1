@@ -27,14 +27,14 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlantOverview>>> GetPlants()
         {
-            return await _context.Plants.ToListAsync();
+            return await _context.PlantOverviews.ToListAsync();
         }
 
         // GET: api/PlantOverviews/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PlantOverview>> GetPlantOverview(int id)
         {
-            var plantOverview = await _context.Plants.FindAsync(id);
+            var plantOverview = await _context.PlantOverviews.FindAsync(id);
 
             if (plantOverview == null)
             {
@@ -80,7 +80,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<PlantOverview>> PostPlantOverview(PlantOverview plantOverview)
         {
-            _context.Plants.Add(plantOverview);
+            _context.PlantOverviews.Add(plantOverview);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPlantOverview", new { id = plantOverview.Id }, plantOverview);
@@ -90,13 +90,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlantOverview(int id)
         {
-            var plantOverview = await _context.Plants.FindAsync(id);
+            var plantOverview = await _context.PlantOverviews.FindAsync(id);
             if (plantOverview == null)
             {
                 return NotFound();
             }
 
-            _context.Plants.Remove(plantOverview);
+            _context.PlantOverviews.Remove(plantOverview);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -104,7 +104,7 @@ namespace API.Controllers
 
         private bool PlantOverviewExists(int id)
         {
-            return _context.Plants.Any(e => e.Id == id);
+            return _context.PlantOverviews.Any(e => e.Id == id);
         }
     }
 }

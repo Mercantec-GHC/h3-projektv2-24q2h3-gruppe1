@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
-
 
 namespace API.Controllers
 {
@@ -19,7 +22,7 @@ namespace API.Controllers
         // GET: Plants
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Plant.ToListAsync());
+            return View(await _context.Plants.ToListAsync());
         }
 
         // GET: Plants/Details/5
@@ -30,7 +33,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var plant = await _context.Plant
+            var plant = await _context.Plants
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plant == null)
             {
@@ -70,7 +73,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var plant = await _context.Plant.FindAsync(id);
+            var plant = await _context.Plants.FindAsync(id);
             if (plant == null)
             {
                 return NotFound();
@@ -121,7 +124,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            var plant = await _context.Plant
+            var plant = await _context.Plants
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plant == null)
             {
@@ -136,10 +139,10 @@ namespace API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var plant = await _context.Plant.FindAsync(id);
+            var plant = await _context.Plants.FindAsync(id);
             if (plant != null)
             {
-                _context.Plant.Remove(plant);
+                _context.Plants.Remove(plant);
             }
 
             await _context.SaveChangesAsync();
@@ -148,7 +151,7 @@ namespace API.Controllers
 
         private bool PlantExists(int id)
         {
-            return _context.Plant.Any(e => e.Id == id);
+            return _context.Plants.Any(e => e.Id == id);
         }
     }
 }

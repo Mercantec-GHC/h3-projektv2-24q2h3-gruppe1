@@ -207,7 +207,10 @@ void sendPostRequest(int moisturePercentage, const char* sensorName, const char*
 
     int statusCode = client.responseStatusCode();
     String response = client.responseBody();
-
+//makes a json object
+    DynamicJsonDocument doc(1024);
+    float minWaterLevel = doc["minWaterLevel"];
+    float maxWaterLevel = doc["maxWaterLevel"];
     Serial.print("HTTP Response Code: ");
     Serial.println(statusCode);
     Serial.print("Response Body: ");

@@ -1,6 +1,9 @@
 using API.Models;
+using BlazorApp.Services;
+using BlazorApp.Containers;
+using Microsoft.AspNetCore.Components;
 
-namespace BlazorApp.Components.Pages
+namespace BlazorApp.Pages
 {
     public partial class Login
     {
@@ -9,31 +12,24 @@ namespace BlazorApp.Components.Pages
 
         private async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
-                string email = userLogin.email;
-                string username = userLogin.username;
-                string password = userLogin.password;
+                string email = userLogin.Email;
+                string username = userLogin.Username;
+                string password = userLogin.Password;
 
                 UserService UserService = new UserService();
-                User validCustomer = await UserService.GetCustomerEmailAsync(email, password);
+                User validUserEmail = await UserService.GetUserEmailAsync(email, password);
+                //User validUserUsername = await UserService.GetUserUsernameAsync(username, password);
 
-                if (validCustomer != null)
+                if (validUserEmail != null)
                 {
-                    AccountSession.CustomerSession = validCustomer;
+                    AccountSession.UserSession = validUserEmail;
                     NavigationManager.NavigateTo("/");
                 }
                 else
                 {
-                    AdminService adminService = new AdminService();
-                    Admin validAdmin = await adminService.GetAdminEmailAsync(email, password);
-                    if (validAdmin != null)
-                    {
-                        AccountSession.AdminSession = validAdmin;
-                        NavigationManager.NavigateTo("/");
-                    }
                     errorMessage = "Invalid credentials. Please check your username/ email and password.";
-                    StateHasChanged();
                 }
             }
             else
@@ -48,7 +44,7 @@ namespace BlazorApp.Components.Pages
         {
             try
             {
-                AccountSession.CustomerSession = null;
+                AccountSession.UserSession = null;
                 StateHasChanged();
             }
             catch (Exception ex)

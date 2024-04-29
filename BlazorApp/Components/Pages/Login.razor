@@ -3,9 +3,10 @@
 @using API;
 @using API.Models;
 @using Microsoft.AspNetCore.Components.Forms
-@inject NavigationManager NavigationManager
-@inject User user
-
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager;
+@using BlazorApp.Services;
+@using BlazorApp.Containers;
+@using BlazorApp.Pages;
 
 <PageTitle>Login</PageTitle>
 
@@ -25,59 +26,3 @@
         </div>
     </EditForm>
 </div>
-
-@code {
-    public User userLogin = new User();
-    public string errorMessage = "";
-
-    private async Task HandleLogin()
-    {
-        if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
-        {
-            string email = userLogin.email;
-            string username = userLogin.username;
-            string password = userLogin.password;
-
-            CustomerService customerService = new CustomerService();
-            User validCustomer = await customerService.GetCustomerEmailAsync(email, password);
-
-            if (validCustomer != null)
-            {
-                AccountSession.CustomerSession = validCustomer;
-                NavigationManager.NavigateTo("/");
-            }
-            else
-            {
-                AdminService adminService = new AdminService();
-                Admin validAdmin = await adminService.GetAdminEmailAsync(email, password);
-                if (validAdmin != null)
-                {
-                    AccountSession.AdminSession = validAdmin;
-                    NavigationManager.NavigateTo("/");
-                }
-                errorMessage = "Invalid credentials. Please check your username/ email and password.";
-                StateHasChanged();
-            }
-        }
-        else
-        {
-            // Handle empty input
-            errorMessage = "Please enter your username/ email and password.";
-            StateHasChanged();
-        }
-    }
-
-    public void Logout()
-    {
-        try
-        {
-            AccountSession.CustomerSession = null;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Exception: {ex.Message}");
-        }
-    }
-}
-

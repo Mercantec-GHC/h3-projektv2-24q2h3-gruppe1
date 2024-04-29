@@ -1,4 +1,6 @@
-﻿namespace BlazorApp.Containers
+using API.Models;
+
+namespace BlazorApp.Containers
 {
     public class AccountSession
     {

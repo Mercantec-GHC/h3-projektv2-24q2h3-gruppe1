@@ -16,4 +16,8 @@
     <Content Include="Components\Pages\Login.razor.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\API\API.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -26,7 +26,7 @@
             <div class="w-50">
                 <p>Man</p>
                 <label class="switch">
-                    <input type="checkbox" checked="@IsManualChecked" @onchange="() => Toggle('b')">
+                    <input type="checkbox" checked="@IsManualChecked" @onchange="() => Toggle('m')">
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -40,16 +40,7 @@
     private bool IsManualChecked = false;
 
     private void Toggle(char switchName)
-    {
-        // if (switchName == 'a' && !IsManualChecked)
-        // {
-        //     IsAutoChecked = true; // Prevent turning off if manual is already off
-        // }
-        // else if (switchName == 'b' && !IsAutoChecked)
-        // {
-        //     IsManualChecked = true; // Prevent turning off if auto is already off
-        // }
-        
+    {        
         if (!IsManualChecked && !IsAutoChecked)
         {
             IsAutoChecked = true;

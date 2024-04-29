@@ -1,17 +1,19 @@
 @page "/login"
-@using System.Threading.Tasks
 @using API;
 @using API.Models;
-@using Microsoft.AspNetCore.Components.Forms
-@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager;
+@using BlazorApp.Pages;
 @using BlazorApp.Services;
 @using BlazorApp.Containers;
-@using BlazorApp.Pages;
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components.Forms
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager;
 
 <PageTitle>Login</PageTitle>
 
 <div class="container">
+
     <h2>Login</h2>
+    
     <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
         <div>
             <label for="uname">Username or email:</label><br>
@@ -25,4 +27,5 @@
             <input type="submit" value="Login">
         </div>
     </EditForm>
+
 </div>

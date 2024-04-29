@@ -14,13 +14,30 @@ namespace BlazorApp.Pages
         {
             if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
-                string email = userLogin.Email;
                 string username = userLogin.Username;
                 string password = userLogin.Password;
 
                 UserService UserService = new UserService();
+                User validUserUsername = await UserService.GetUserUsernameAsync(username, password);
+
+                if (validUserUsername != null)
+                {
+                    AccountSession.UserSession = validUserUsername;
+                    NavigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    errorMessage = "Invalid credentials. Please check your username/ email and password.";
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            {
+                string email = userLogin.Email;
+                string password = userLogin.Password;
+
+                UserService UserService = new UserService();
                 User validUserEmail = await UserService.GetUserEmailAsync(email, password);
-                //User validUserUsername = await UserService.GetUserUsernameAsync(username, password);
 
                 if (validUserEmail != null)
                 {
@@ -32,11 +49,11 @@ namespace BlazorApp.Pages
                     errorMessage = "Invalid credentials. Please check your username/ email and password.";
                 }
             }
+
             else
             {
                 // Handle empty input
-                errorMessage = "Please enter your username/ email and password.";
-                StateHasChanged();
+                errorMessage = "Please enter your username / email and password.";
             }
         }
 
@@ -45,7 +62,6 @@ namespace BlazorApp.Pages
             try
             {
                 AccountSession.UserSession = null;
-                StateHasChanged();
             }
             catch (Exception ex)
             {

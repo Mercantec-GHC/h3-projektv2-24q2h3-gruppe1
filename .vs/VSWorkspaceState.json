@@ -2,7 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\API",
-    "\\API\\Models"
+    "\\API\\Models",
+    "\\BlazorApp",
+    "\\BlazorApp\\Components",
+    "\\BlazorApp\\Components\\Pages"
   ],
+  "SelectedNode": "\\BlazorApp\\Components\\Pages\\Login.razor.cs",
   "PreviewInSolutionExplorer": false
 }

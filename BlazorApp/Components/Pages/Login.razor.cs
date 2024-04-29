@@ -2,7 +2,6 @@ using API.Models;
 using BlazorApp.Services;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
-
 namespace BlazorApp.Pages
 {
     public partial class Login

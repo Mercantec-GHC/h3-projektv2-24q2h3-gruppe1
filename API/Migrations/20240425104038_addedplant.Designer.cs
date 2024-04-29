@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240425104038_addedplant")]
+    partial class addedplant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Plants");
+                    b.ToTable("Plant");
                 });
 
             modelBuilder.Entity("API.Models.PlantOverview", b =>
@@ -71,17 +74,16 @@ namespace API.Migrations
                     b.Property<int>("MoistureLevel")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PlantNameId")
-                        .HasColumnType("integer");
+                    b.Property<string>("PlantName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlantNameId");
-
-                    b.ToTable("PlantOverviews");
+                    b.ToTable("Plants");
                 });
 
             modelBuilder.Entity("API.Models.PlantSensor", b =>
@@ -95,7 +97,7 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Plant_idId")
+                    b.Property<int>("PlantOverview_idId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Sensor_idId")
@@ -109,7 +111,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Plant_idId");
+                    b.HasIndex("PlantOverview_idId");
 
                     b.HasIndex("Sensor_idId");
 
@@ -152,42 +154,27 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("API.Models.PlantOverview", b =>
-                {
-                    b.HasOne("API.Models.Plant", "PlantName")
-                        .WithMany()
-                        .HasForeignKey("PlantNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlantName");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("API.Models.PlantSensor", b =>
                 {
-                    b.HasOne("API.Models.Plant", "Plant_id")
+                    b.HasOne("API.Models.PlantOverview", "PlantOverview_id")
                         .WithMany()
-                        .HasForeignKey("Plant_idId")
+                        .HasForeignKey("PlantOverview_idId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -203,7 +190,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Plant_id");
+                    b.Navigation("PlantOverview_id");
 
                     b.Navigation("Sensor_id");
 

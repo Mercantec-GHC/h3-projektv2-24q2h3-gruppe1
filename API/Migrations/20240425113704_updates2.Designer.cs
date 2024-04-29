@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240425113704_updates2")]
+    partial class updates2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Plants");
+                    b.ToTable("Plant");
                 });
 
             modelBuilder.Entity("API.Models.PlantOverview", b =>
@@ -81,7 +84,7 @@ namespace API.Migrations
 
                     b.HasIndex("PlantNameId");
 
-                    b.ToTable("PlantOverviews");
+                    b.ToTable("Plants");
                 });
 
             modelBuilder.Entity("API.Models.PlantSensor", b =>
@@ -169,7 +172,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("API.Models.PlantOverview", b =>

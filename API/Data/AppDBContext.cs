@@ -17,9 +17,10 @@ namespace API.Data
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         }
 
-        public DbSet<PlantOverview> Plants { get; set; }
+        public DbSet<API.Models.PlantOverview> PlantOverviews { get; set; }
         public DbSet<API.Models.PlantSensor> PlantSensor { get; set; } = default!;
         public DbSet<API.Models.Sensor> Sensor { get; set; } = default!;
-        public DbSet<API.Models.User> User { get; set; } = default!;
+        public DbSet<API.Models.User> Users { get; set; } = default!;
+        public DbSet<API.Models.Plant> Plants { get; set; } = default!;
     }
 }

@@ -1,7 +1,83 @@
 @page "/login"
+@using System.Threading.Tasks
+@using API;
+@using API.Models;
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavigationManager
+@inject User user
+
 
 <PageTitle>Login</PageTitle>
 
-<h1>Login</h1>
+<div class="container">
+    <h2>Login</h2>
+    <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
+        <div>
+            <label for="uname">Username or email:</label><br>
+            <InputText id="uname" @bind-Value="userLogin.username" placeholder="Username or email" required />
+        </div>
+        <div>
+            <label for="pass">Password:</label><br>
+            <InputText id="pass" @bind-Value="userLogin.password" type="password" placeholder="Password" required />
+        </div>
+        <div>
+            <input type="submit" value="Login">
+        </div>
+    </EditForm>
+</div>
 
-<h1>Login here before its to late</h1>
+@code {
+    public User userLogin = new User();
+    public string errorMessage = "";
+
+    private async Task HandleLogin()
+    {
+        if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
+        {
+            string email = userLogin.email;
+            string username = userLogin.username;
+            string password = userLogin.password;
+
+            CustomerService customerService = new CustomerService();
+            User validCustomer = await customerService.GetCustomerEmailAsync(email, password);
+
+            if (validCustomer != null)
+            {
+                AccountSession.CustomerSession = validCustomer;
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                AdminService adminService = new AdminService();
+                Admin validAdmin = await adminService.GetAdminEmailAsync(email, password);
+                if (validAdmin != null)
+                {
+                    AccountSession.AdminSession = validAdmin;
+                    NavigationManager.NavigateTo("/");
+                }
+                errorMessage = "Invalid credentials. Please check your username/ email and password.";
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            // Handle empty input
+            errorMessage = "Please enter your username/ email and password.";
+            StateHasChanged();
+        }
+    }
+
+    public void Logout()
+    {
+        try
+        {
+            AccountSession.CustomerSession = null;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+}
+

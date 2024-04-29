@@ -2,19 +2,15 @@
 
 <PageTitle>Create Plant</PageTitle>
 
-<h1>Create Plant</h1>
-
-<h1>Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
+<div class="container">
+    <h2>Create plant</h2>
+    <form action="/">
+        <label for="pname">Plante navn:</label><br>
+        <input type="text" id="pname" name="pname"><br><br>
+        <label for="min">Min moisture in %:</label><br>
+        <input type="text" id="min" name="min"><br><br>
+        <label for="max">Max moisture in %:</label><br>
+        <input type="text" id="max" name="max"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>

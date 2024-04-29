@@ -2,7 +2,6 @@ using API.Models;
 using BlazorApp.Services;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
-
 namespace BlazorApp.Pages
 {
     public partial class Login
@@ -36,7 +35,6 @@ namespace BlazorApp.Pages
             {
                 // Handle empty input
                 errorMessage = "Please enter your username/ email and password.";
-                StateHasChanged();
             }
         }
 
@@ -45,7 +43,6 @@ namespace BlazorApp.Pages
             try
             {
                 AccountSession.UserSession = null;
-                StateHasChanged();
             }
             catch (Exception ex)
             {

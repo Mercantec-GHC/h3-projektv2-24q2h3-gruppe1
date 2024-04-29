@@ -16,7 +16,7 @@
     <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
         <div>
             <label for="uname">Username or email:</label><br>
-            <InputText id="uname" @bind-Value="userLogin.Username" placeholder="Username or email" required />
+            <InputText id="uname" @bind-Value="userLogin.Email" placeholder="Username or email" required />
         </div>
         <div>
             <label for="pass">Password:</label><br>
@@ -25,6 +25,9 @@
         <div>
             <input type="submit" value="Login">
         </div>
+
+        <p class="error-message" id="login-error">@errorMessage</p>
+
     </EditForm>
 </div>
 }

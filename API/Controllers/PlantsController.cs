@@ -76,10 +76,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Plant>> PostPlant(Plant plants)
         {
-            _context.Plants.Add(plants);
-            await _context.SaveChangesAsync();
             plants.UpdatedAt = DateTime.UtcNow;
             plants.CreatedAt = DateTime.UtcNow;
+            _context.Plants.Add(plants);
+            await _context.SaveChangesAsync();
+      
 
             return CreatedAtAction("GetPlants", new { id = plants.Id }, plants);
         }

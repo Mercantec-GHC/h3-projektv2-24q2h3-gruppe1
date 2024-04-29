@@ -78,6 +78,8 @@ namespace API.Controllers
         {
             _context.Plants.Add(plants);
             await _context.SaveChangesAsync();
+            plants.UpdatedAt = DateTime.UtcNow;
+            plants.CreatedAt = DateTime.UtcNow;
 
             return CreatedAtAction("GetPlants", new { id = plants.Id }, plants);
         }

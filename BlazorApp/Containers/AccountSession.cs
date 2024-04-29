@@ -4,6 +4,6 @@ namespace BlazorApp.Containers
 {
     public class AccountSession
     {
-        public static User UserSession { get; set; }
+        public static User? UserSession { get; set; }
     }
 }

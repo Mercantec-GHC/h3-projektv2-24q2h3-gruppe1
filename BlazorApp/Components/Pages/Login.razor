@@ -16,14 +16,16 @@
     
     <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
         <div>
-            <label for="uname">Username or email:</label><br>
-            <InputText id="uname" @bind-Value="(userLogin.Username != null ? userLogin.Username : userLogin.Email)" placeholder="Username or email" required />
+            <label for="uname">Username:</label><br>
+            <InputText id="uname" @bind-Value="userLogin.Username" placeholder="Username" required />
 
         </div>
+
         <div>
             <label for="pass">Password:</label><br>
             <InputText id="pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required />
         </div>
+
         <div>
             <input type="submit" value="Login">
         </div>

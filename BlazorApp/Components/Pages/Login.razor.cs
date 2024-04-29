@@ -11,7 +11,7 @@ namespace BlazorApp.Pages
 
         private async Task HandleLogin()
         {
-            if ((!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email)) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
                 string email = userLogin.Email;
                 string username = userLogin.Username;

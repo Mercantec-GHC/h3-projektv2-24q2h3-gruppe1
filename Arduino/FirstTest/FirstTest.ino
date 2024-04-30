@@ -213,3 +213,13 @@ void sendPostRequest(int moisturePercentage, const char* sensorName, const char*
     Serial.print("Response Body: ");
     Serial.println(response);
 }
+void sendGetRequest() {
+    Serial.println(statusCode);
+    Serial.print("Response: ");
+    Serial.println(response);
+//makes a json object
+    DynamicJsonDocument doc(1024);
+    float minWaterLevel = doc["minWaterLevel"];
+    float maxWaterLevel = doc["maxWaterLevel"];
+    delay(10000);
+}

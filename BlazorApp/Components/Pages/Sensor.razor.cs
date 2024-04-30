@@ -10,7 +10,6 @@ namespace BlazorApp.Components.Pages
     public partial class Sensor
     {
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/") };
-
         public List<Plant>? plants;
         public async Task GetListOfPlants()
         {

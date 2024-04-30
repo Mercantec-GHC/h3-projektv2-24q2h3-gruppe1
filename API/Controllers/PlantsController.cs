@@ -76,6 +76,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Plant>> PostPlant(Plant plants)
         {
+            // is not inf
             plants.UpdatedAt = DateTime.UtcNow;
             plants.CreatedAt = DateTime.UtcNow;
             _context.Plants.Add(plants);

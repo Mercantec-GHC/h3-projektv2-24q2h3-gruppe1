@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
+using System.Numerics;
 
 namespace API.Controllers
 {
@@ -78,6 +79,9 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<PlantSensor>> PostPlantSensor(PlantSensor plantSensor)
         {
+            // is not inf
+            plantSensor.UpdatedAt = DateTime.UtcNow;
+            plantSensor.CreatedAt = DateTime.UtcNow;
             _context.PlantSensor.Add(plantSensor);
             await _context.SaveChangesAsync();  
 

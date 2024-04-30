@@ -1,16 +1,19 @@
 @page "/signup"
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 
 <PageTitle>Signup</PageTitle>
 
-<div class="container">
-    <h2>Signup</h2>
-    <form action="/">
-        <label for="uname">Username:</label><br>
-        <input type="text" id="uname" name="uname"><br><br>
-        <label for="pass">Password:</label><br>
-        <input type="password" id="pass" name="pass"><br><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
-        <input type="submit" value="Submit">
-    </form>
-</div>
+<EditForm Model="@userSignup" OnValidSubmit="@HandleSignUp">
+    <div class="container">
+        <h2>Signup</h2>
+        <form action="/">
+            <label for="uname">Username:</label><br>
+            <InputText required type="text" id="uname" class="form-control" placeholder="Username" @bind-Value="userSignup.Username" /><br><br>
+            <label for="pass">Password:</label><br>
+            <InputText required type="password" id="pass" class="form-control" placeholder="Password" @bind-Value="userSignup.Password" /><br><br>
+            <label for="email">Email:</label><br>
+            <InputText required type="email" id="email" class="form-control" placeholder="Email" @bind-Value="userSignup.Email" /><br><br>
+            <input type="submit" value="Submit" onclick="@HandleSignUp">
+        </form>
+    </div>
+</EditForm>

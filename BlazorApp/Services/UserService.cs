@@ -37,7 +37,42 @@ namespace BlazorApp.Services
         {
             HttpClient UserClient = new HttpClient();
 
-            UserApi = $"https://localhost:7036/api/Users/{email}/{password}";
+            UserApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/{email}/{password}";
+
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            User User = new User();
+
+            string jsonData = "";
+
+            try
+            {
+                response = await UserClient.GetAsync(UserApi);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+                jsonData = await response.Content.ReadAsStringAsync();
+                User = JsonConvert.DeserializeObject<User>(jsonData);
+                if (User != null)
+                {
+                    return User;
+                }
+            }
+
+            catch (Exception)
+            {
+                return null;
+            }
+
+            return null;
+        }
+
+        public async Task<User> GetUserUsernameAsync(string username, string password)
+        {
+            HttpClient UserClient = new HttpClient();
+
+            UserApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/{username}/{password}"; // Change the API string to match our API
 
             HttpResponseMessage response = new HttpResponseMessage();
 

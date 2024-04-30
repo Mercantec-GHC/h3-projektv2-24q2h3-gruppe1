@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 // Planted createdTime = createdTime DateTime.UtcNow
 
@@ -80,6 +81,9 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<PlantOverview>> PostPlantOverview(PlantOverview plantOverview)
         {
+               // is not inf
+            plantOverview.UpdatedAt = DateTime.UtcNow;
+            plantOverview.CreatedAt = DateTime.UtcNow;
             _context.PlantOverviews.Add(plantOverview);
             await _context.SaveChangesAsync();
 

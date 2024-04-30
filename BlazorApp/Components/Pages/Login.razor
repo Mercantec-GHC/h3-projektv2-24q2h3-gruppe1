@@ -1,28 +1,37 @@
 @page "/login"
-@using System.Threading.Tasks
 @using API;
 @using API.Models;
-@using Microsoft.AspNetCore.Components.Forms
-@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager;
+@using BlazorApp.Pages;
 @using BlazorApp.Services;
 @using BlazorApp.Containers;
-@using BlazorApp.Pages;
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components.Forms
+@namespace BlazorApp.Pages
 
 <PageTitle>Login</PageTitle>
 
 <div class="container">
+
     <h2>Login</h2>
+    
     <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
         <div>
-            <label for="uname">Username or email:</label><br>
-            <InputText id="uname" @bind-Value="userLogin.username" placeholder="Username or email" required />
+            <label for="uname">Username:</label><br>
+            <InputText id="uname" @bind-Value="userLogin.Username" placeholder="Username" required />
+
         </div>
+
         <div>
             <label for="pass">Password:</label><br>
-            <InputText id="pass" @bind-Value="userLogin.password" type="password" placeholder="Password" required />
+            <InputText id="pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required />
         </div>
+
         <div>
             <input type="submit" value="Login">
         </div>
+
+        <p class="error-message" id="login-error">@errorMessage</p>
+
     </EditForm>
+
 </div>

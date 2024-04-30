@@ -1,12 +1,75 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\chso.skp\\blog\\h3-projektv2-24q2h3-gruppe1\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Migrations\\20240430074151_plantupd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:API\\Migrations\\20240430074151_plantupd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\plant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\blazorapp\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|solutionrelative:blazorapp\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20240430074151_plantupd.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Migrations\\20240430074151_plantupd.cs",
+              "RelativeDocumentMoniker": "API\\Migrations\\20240430074151_plantupd.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Migrations\\20240430074151_plantupd.cs",
+              "RelativeToolTip": "API\\Migrations\\20240430074151_plantupd.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T07:41:51.237Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Plant.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\Plant.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Plant.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\Plant.cs",
+              "RelativeToolTip": "API\\Models\\Plant.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-30T07:38:46.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Login.razor",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Login.razor",
+              "RelativeDocumentMoniker": "BlazorApp\\Components\\Pages\\Login.razor",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Login.razor",
+              "RelativeToolTip": "BlazorApp\\Components\\Pages\\Login.razor",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-04-30T05:52:16.371Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

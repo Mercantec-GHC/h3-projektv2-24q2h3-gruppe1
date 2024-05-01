@@ -2,45 +2,59 @@ using API.Models;
 using BlazorApp.Services;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+
 namespace BlazorApp.Pages
 {
-    public partial class Login
+    public partial class Login : ComponentBase
     {
-        public User userLogin = new User();
+        // Top level variables
+        public string connectionString;
         public string errorMessage = "";
+        public User userLogin = new User();
+        public HttpClient client = new HttpClient();
 
         private async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.UserInfo) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
-                string email = userLogin.Email;
-                string username = userLogin.Username;
+                // Variables
+                string email = "";
+                string username = "";
                 string password = userLogin.Password;
+                connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+                // Use HttpClient to send a GET request to your Swagger API
+                var response = await client.GetAsync("api/Users");
+
+                if (userLogin.UserInfo.Contains("@"))
+                {
+                    email = userLogin.UserInfo;
+                }
+                else
+                {
+                    username = userLogin.UserInfo;
+                }
 
                 UserService UserService = new UserService();
-                User validUserUsername = await UserService.GetUserUsernameAsync(username, password);
-                User validUserEmail = await UserService.GetUserEmailAsync(email, password);
+                User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
 
-                if (validUserUsername != null)
+                if (validUserInfo != null)
                 {
-                    AccountSession.UserSession = validUserUsername;
-                }
-                
-                else if (validUserEmail != null)
-                {
-                    AccountSession.UserSession = validUserEmail;
+                    AccountSession.UserSession = validUserInfo;
+                    NavigationManager.NavigateTo("/home");
                 }
             
                 else
                 {
-                    errorMessage = "Invalid credentials. Please check your username / email and password.";
+                    errorMessage = "Invalid credentials. Please check your username and password.";
                 }
             }
 
             else
             {
                 // Handle empty input
-                errorMessage = "Please enter your username / email and password.";
+                errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
             }
         }
 

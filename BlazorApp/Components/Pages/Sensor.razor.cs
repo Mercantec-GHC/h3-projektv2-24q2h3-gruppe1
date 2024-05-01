@@ -11,7 +11,7 @@ namespace BlazorApp.Components.Pages
     {
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/") };
         public List<Plant>? plants;
-        public List<Plant>? plantlist;
+
         public async Task GetListOfPlants()
         {
             try
@@ -25,8 +25,5 @@ namespace BlazorApp.Components.Pages
                 Console.WriteLine($"Error fetching plants: {ex.Message}");
             }
         }
-
-
-        string abe = "a0";
     }
 }

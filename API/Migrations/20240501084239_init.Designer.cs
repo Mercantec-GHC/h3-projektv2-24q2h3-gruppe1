@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240425103348_updatedTables2")]
-    partial class updatedTables2
+    [Migration("20240501084239_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,38 @@ namespace API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("API.Models.Plant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("MaxWaterLevel")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinWaterLevel")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PlantName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plants");
+                });
 
             modelBuilder.Entity("API.Models.PlantOverview", b =>
                 {
@@ -45,16 +77,18 @@ namespace API.Migrations
                     b.Property<int>("MoistureLevel")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PlantName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("PlantNameId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("sensorId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Plants");
+                    b.ToTable("PlantOverviews");
                 });
 
             modelBuilder.Entity("API.Models.PlantSensor", b =>
@@ -68,7 +102,7 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("PlantOverview_idId")
+                    b.Property<int>("Plant_idId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Sensor_idId")
@@ -82,7 +116,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlantOverview_idId");
+                    b.HasIndex("Plant_idId");
 
                     b.HasIndex("Sensor_idId");
 
@@ -125,27 +159,31 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("password")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("username")
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("API.Models.PlantSensor", b =>
                 {
-                    b.HasOne("API.Models.PlantOverview", "PlantOverview_id")
+                    b.HasOne("API.Models.Plant", "Plant_id")
                         .WithMany()
-                        .HasForeignKey("PlantOverview_idId")
+                        .HasForeignKey("Plant_idId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -161,7 +199,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PlantOverview_id");
+                    b.Navigation("Plant_id");
 
                     b.Navigation("Sensor_id");
 

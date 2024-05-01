@@ -6,6 +6,9 @@
 @using BlazorApp.Containers;
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Forms
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
 @namespace BlazorApp.Pages
 
 <PageTitle>Login</PageTitle>
@@ -15,10 +18,10 @@
     <h2>Login</h2>
     
     <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
+        
         <div>
             <label for="uname">Username:</label><br>
-            <InputText id="uname" @bind-Value="userLogin.Username" placeholder="Username" required />
-
+            <InputText id="uname" @bind-Value="userLogin.UserInfo" placeholder="Username" required />
         </div>
 
         <div>
@@ -27,7 +30,7 @@
         </div>
 
         <div>
-            <input type="submit" value="Login">
+            <input type="submit" value="Login" onclick="@HandleLogin">
         </div>
 
         <p class="error-message" id="login-error">@errorMessage</p>

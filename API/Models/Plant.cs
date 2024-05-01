@@ -5,6 +5,6 @@
         public string PlantName { get; set; }
         public int MinWaterLevel { get; set; }
         public int MaxWaterLevel { get; set; }
-        public User  UserId {  get; set; }
+        public int  UserId {  get; set; }
     }
 }

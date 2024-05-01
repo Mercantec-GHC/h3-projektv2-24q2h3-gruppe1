@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240430074151_plantupd")]
-    partial class plantupd
+    [Migration("20240501084406_upd")]
+    partial class upd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,9 +83,10 @@ namespace API.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                    b.Property<int>("sensorId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("PlantNameId");
+                    b.HasKey("Id");
 
                     b.ToTable("PlantOverviews");
                 });
@@ -176,17 +177,6 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("API.Models.PlantOverview", b =>
-                {
-                    b.HasOne("API.Models.Plant", "PlantName")
-                        .WithMany()
-                        .HasForeignKey("PlantNameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlantName");
                 });
 
             modelBuilder.Entity("API.Models.PlantSensor", b =>

@@ -2,11 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
-    public class PlantOverview : Common
+    public class PlantOverview :Common
     {
-        public Plant PlantName { get; set; }
+        public int PlantNameId { get; set; }
         public int MoistureLevel { get; set; }
         public int MinWaterLevel { get; set; }
         public int MaxWaterLevel { get; set; }
-    }
+		public int sensorId { get; set; }
+
+	}
 }

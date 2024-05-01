@@ -101,11 +101,11 @@ void loop() {
         displayMoisture();
     }
 
-    if (currentMillis - lastPostTime >= postInterval) {
-        lastPostTime = currentMillis;
-        sendPostRequest(percentageHumididySensor, "s1", "sol");
-        sendPostRequest(percentageHumididySensor2, "s2", "sne");
-    }
+    // if (currentMillis - lastPostTime >= postInterval) {
+    //     lastPostTime = currentMillis;
+    //     sendPostRequest(percentageHumididySensor, "s1", "sol");
+    //     sendPostRequest(percentageHumididySensor2, "s2", "sne");
+    // }
 
     delay(10); // Short delay for button responsiveness
 }
@@ -129,6 +129,9 @@ void displayMoisture() {
         carrier.display.setCursor(20, 100); // Change y coordinate for second line
         carrier.display.print("Moisture 2: ");
         carrier.display.println(percentageHumididySensor2);
+        carrier.display.setCursor(50, 180); // Set position to start writing text
+        carrier.display.setTextSize(2); // Set text size
+        carrier.display.print(modePrint);
     }
 }
 
@@ -188,35 +191,38 @@ void connectToWiFi() {
 
 // -------------------------------------------------------------- //
 
-void sendPostRequest(int moisturePercentage, const char* sensorName, const char* plantName) {
-    DynamicJsonDocument doc(1024);
-    doc["moistureLevel"] = moisturePercentage;
-    doc["SensorName"] = sensorName;
-    doc["PlantName"] = plantName;
+// void sendPostRequest(int moisturePercentage, const char* sensorName, const char* plantName) {
+//     DynamicJsonDocument doc(1024);
+//     doc["moistureLevel"] = moisturePercentage;
+//     doc["SensorName"] = sensorName;
+//     doc["PlantName"] = plantName;
 
-    String payload;
-    serializeJson(doc, payload);
+//     String payload;
+//     serializeJson(doc, payload);
 
-    Serial.println("Sending POST request");
-    client.beginRequest();
-    client.post(endpoint);
-    client.sendHeader("Content-Type", "application/json");
-    client.sendHeader("Content-Length", payload.length());
-    client.endRequest();
-    client.print(payload);
+//     Serial.println("Sending POST request");
+//     client.beginRequest();
+//     client.post(endpoint);
+//     client.sendHeader("Content-Type", "application/json");
+//     client.sendHeader("Content-Length", payload.length());
+//     client.endRequest();
+//     client.print(payload);
 
+//     int statusCode = client.responseStatusCode();
+//     String response = client.responseBody();
+// //makes a json object
+//     float minWaterLevel = doc["minWaterLevel"];
+//     float maxWaterLevel = doc["maxWaterLevel"];
+//     Serial.print("HTTP Response Code: ");
+//     Serial.println(statusCode);
+//     Serial.print("Response Body: ");
+//     Serial.println(response);
+// }
+
+void sendGetRequest() {
     int statusCode = client.responseStatusCode();
     String response = client.responseBody();
-//makes a json object
-    DynamicJsonDocument doc(1024);
-    float minWaterLevel = doc["minWaterLevel"];
-    float maxWaterLevel = doc["maxWaterLevel"];
-    Serial.print("HTTP Response Code: ");
-    Serial.println(statusCode);
-    Serial.print("Response Body: ");
-    Serial.println(response);
-}
-void sendGetRequest() {
+
     Serial.println(statusCode);
     Serial.print("Response: ");
     Serial.println(response);

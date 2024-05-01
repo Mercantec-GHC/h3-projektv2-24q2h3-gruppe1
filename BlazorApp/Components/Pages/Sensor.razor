@@ -1,34 +1,78 @@
 @page "/sensor"
+@namespace BlazorApp.Components.Pages
+@using API.Models;
+@using BlazorApp.Containers
+@using System.Net.Http.Json
+@using System
 
 <PageTitle>Sensor</PageTitle>
 
 <h1>Sensor</h1>
 <div class="d-flex h-auto">
-    <div class="w-50 p-3" style="background-color: salmon;">
-        <h3>Sensor 1 - change name</h3>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown button
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                
-            </ul>
-        </div>
-    </div>
-    <div class="w-50 p-3" style="background-color: darkgoldenrod;">
-        <h3>Sensor 2 - change name</h3>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown button
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-        </div>
-    </div>
+	<div class="w-50 p-3" style="background-color: salmon;">
+		<h3>Sensor 1 - can change sensor name</h3>
+		<p>selected plant: @selectedPlant1</p>
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<text>Choose Plant</text>
+			</button>
+			<ul class="dropdown-menu">
+				@if (plants != null)
+				{
+					@foreach (var plant in plants)
+					{
+						<li><button class="dropdown-item" @onclick="() => SelectPlant1(plant)">@plant.PlantName</button></li>
+					}
+				}
+				else
+				{
+					<li><span class="dropdown-item">Loading...</span></li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="w-50 p-3" style="background-color: darkgoldenrod;">
+		<h3>Sensor 2 - can change sensor name</h3>
+		<p>selected plant: @selectedPlant2</p>
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			  <text>Choose Plant</text>
+			</button>
+			<ul class="dropdown-menu">
+				@if (plants != null)
+				{
+					@foreach (var plant in plants)
+					{
+						<li><button class="dropdown-item" @onclick="() => SelectPlant2(plant)">@plant.PlantName</button></li>
+					}
+				}
+				else
+				{
+					<li><span class="dropdown-item">Loading...</span></li>
+				}
+			</ul>
+		</div>
+	</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 
+@code {
+	private string selectedPlant1 = "";
+	private string selectedPlant2 = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		await GetListOfPlants(); // This method should populate the 'plants' list
+	}
+
+	private void SelectPlant1(Plant plant)
+	{
+		selectedPlant1 = plant.PlantName;
+	}
+
+	private void SelectPlant2(Plant plant)
+	{
+		selectedPlant2 = plant.PlantName;
+	}
+}

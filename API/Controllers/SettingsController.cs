@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+
+// Planted createdTime = createdTime DateTime.UtcNow
 
 namespace API.Controllers
 {
-    public class SettingsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class SettingsController : ControllerBase
     {
         private readonly AppDBContext _context;
 
@@ -19,134 +24,86 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: Settings
-        public async Task<IActionResult> Index()
+        // GET: api/PlantOverviews
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Setting>>> GetSettings()
         {
-            return View(await _context.Setting.ToListAsync());
+            return await _context.Setting.ToListAsync();
         }
 
-        // GET: Settings/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/PlantOverviews/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Setting>> GetPlantOverview(int id)
         {
-            if (id == null)
+            var settings = await _context.Setting.FindAsync(id);
+
+            if (settings == null)
             {
                 return NotFound();
             }
 
-            var setting = await _context.Setting
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (setting == null)
+            return settings;
+        }
+
+        // PUT: api/PlantOverviews/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPlantOverview(int id, Setting settings)
+        {
+            if (id != settings.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(setting);
-        }
+            _context.Entry(settings).State = EntityState.Modified;
 
-        // GET: Settings/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Settings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt")] Setting setting)
-        {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(setting);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(setting);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SettingExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Settings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var setting = await _context.Setting.FindAsync(id);
-            if (setting == null)
-            {
-                return NotFound();
-            }
-            return View(setting);
-        }
-
-        // POST: Settings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/PlantOverviews
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt")] Setting setting)
+        public async Task<ActionResult<Setting>> PostSettings(Setting settings)
         {
-            if (id != setting.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(setting);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SettingExists(setting.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(setting);
-        }
-
-        // GET: Settings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var setting = await _context.Setting
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (setting == null)
-            {
-                return NotFound();
-            }
-
-            return View(setting);
-        }
-
-        // POST: Settings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var setting = await _context.Setting.FindAsync(id);
-            if (setting != null)
-            {
-                _context.Setting.Remove(setting);
-            }
-
+            // is not inf
+            settings.UpdatedAt = DateTime.UtcNow;
+            settings.CreatedAt = DateTime.UtcNow;
+            _context.Setting.Add(settings);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return CreatedAtAction("GetPlantOverview", new { id = settings.Id }, settings);
+        }
+
+        // DELETE: api/PlantOverviews/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSetting(int id)
+        {
+            var settings = await _context.Setting.FindAsync(id);
+            if (settings == null)
+            {
+                return NotFound();
+            }
+
+            _context.Setting.Remove(settings);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         private bool SettingExists(int id)

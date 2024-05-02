@@ -12,32 +12,32 @@ namespace BlazorApp.Pages
         public string connectionString;
         public string errorMessage = "";
         public User userLogin = new User();
-        public HttpClient client = new HttpClient();
+        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
 
         private async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.UserInfo) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
                 // Variables
                 string email = "";
-                string username = "";
+                string username = userLogin.Username;
                 string password = userLogin.Password;
-                connectionString = Configuration.GetConnectionString("DefaultConnection");
 
                 // Use HttpClient to send a GET request to your Swagger API
-                var response = await client.GetAsync("api/Users");
+                var response = await client.GetAsync("api/Users/{username}/{password}");
 
-                if (userLogin.UserInfo.Contains("@"))
-                {
-                    email = userLogin.UserInfo;
-                }
-                else
-                {
-                    username = userLogin.UserInfo;
-                }
+                //if (userLogin.UserInfo.Contains("@"))
+                //{
+                //    email = userLogin.UserInfo;
+                //}
+                //else
+                //{
+                //    username = userLogin.UserInfo;
+                //}
 
                 UserService UserService = new UserService();
-                User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
+                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
+                User validUserInfo = await UserService.GetUserUserInfoAsync(username, password);
 
                 if (validUserInfo != null)
                 {

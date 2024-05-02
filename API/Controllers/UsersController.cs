@@ -30,6 +30,48 @@ namespace API.Controllers
         }
 
         // GET: api/Users/5
+        [HttpGet("username={username}")]
+        public async Task<ActionResult<User>> GetUser(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
+        // GET: api/Users/password/Password3
+        [HttpGet("password={password}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersByPassword(string password)
+        {
+            var users = await _context.Users.Where(u => u.Password == password).ToListAsync();
+
+            if (users == null || !users.Any())
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+
+        // GET: api/Users/email/{email}
+        [HttpGet("email={email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
+        // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {

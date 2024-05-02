@@ -2,13 +2,14 @@ using static System.Net.WebRequestMethods;
 using API.Models;
 using Newtonsoft.Json;
 using System.Text;
+using System.Drawing.Printing;
 
 namespace BlazorApp.Services
 {
     public class UserService
     {
         //remember to change the call method to the specified CRUD operation you want to use
-        string UserApi = "https://localhost:7036/api/Users";
+        string UserApi = "https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/";
 
         public async Task<bool> PostUserAsync(User User)
         {
@@ -33,39 +34,59 @@ namespace BlazorApp.Services
             }
         }
 
-        public async Task<User> GetUserUserInfoAsync(string username, string email, string password)
+        public async Task<User> GetUserUserInfoAsync(string username, string password)
         {
-            HttpClient UserClient = new HttpClient();
-
-            UserApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/{username}/{email}/{password}"; // Change the API string to match our API
-
-            HttpResponseMessage response = new HttpResponseMessage();
-
-            User User = new User();
-
-            string jsonData = "";
-
             try
             {
-                response = await UserClient.GetAsync(UserApi);
-                if (!response.IsSuccessStatusCode)
+                // Create HttpClient instance (preferably reuse HttpClient instance)
+                using (HttpClient userClient = new HttpClient())
                 {
-                    return null;
-                }
-                jsonData = await response.Content.ReadAsStringAsync();
-                User = JsonConvert.DeserializeObject<User>(jsonData);
-                if (User != null)
-                {
-                    return User;
+                    // Construct the API URL (avoid passing sensitive information in URL)
+                    string userApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/username/{username}";
+
+                    // Make HTTP GET request
+                    HttpResponseMessage response = await userClient.GetAsync(userApi);
+
+                    // Check if request was successful
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Read response content
+                        string jsonData = await response.Content.ReadAsStringAsync();
+
+                        // Deserialize JSON to User object
+                        User user = JsonConvert.DeserializeObject<User>(jsonData);
+
+                        // Validate user's password here if necessary
+                        if (user != null && user.Password == password)
+                        {
+                            return user;
+                        }
+                    }
+                    else
+                    {
+                        // Log unsuccessful response status code
+                        Console.WriteLine($"HTTP request failed with status code: {response.StatusCode}");
+                    }
                 }
             }
-
-            catch (Exception)
+            catch (HttpRequestException ex)
             {
-                return null;
+                // Log HTTP request exception
+                Console.WriteLine($"HTTP request exception: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                // Log JSON deserialization exception
+                Console.WriteLine($"JSON deserialization exception: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log other exceptions
+                Console.WriteLine($"Unexpected exception: {ex.Message}");
             }
 
             return null;
         }
+
     }
 }

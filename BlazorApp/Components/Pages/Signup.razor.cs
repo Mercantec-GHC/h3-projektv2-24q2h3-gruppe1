@@ -47,8 +47,6 @@ namespace BlazorApp.Components.Pages
                     NavigationManager.NavigateTo("/signup");
                 }
             }
-
-            string abc = "";
         }
 
         //static string PasswordPolicyCheck(string password)

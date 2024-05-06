@@ -43,48 +43,6 @@ namespace API.Controllers
             return user == null || user.Count() != 1 ? NotFound() : user.First();
         }
 
-        // GET: api/Users/username
-        [HttpGet("{username}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUserByUsername(string username)
-        {
-            var users = await _context.Users.Where(u => u.Username == username).ToListAsync();
-
-            if (users == null || !users.Any())
-            {
-                return NotFound();
-            }
-
-            return users;
-        }
-
-        // GET: api/Users/password
-        [HttpGet("{password}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersByPassword(string password)
-        {
-            var users = await _context.Users.Where(u => u.Password == password).ToListAsync();
-
-            if (users == null || !users.Any())
-            {
-                return NotFound();
-            }
-
-            return users;
-        }
-
-        // GET: api/Users/email
-        [HttpGet("{email}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersByEmail(string email)
-        {
-            var users = await _context.Users.Where(u => u.Email == email).ToListAsync();
-
-            if (users == null || !users.Any())
-            {
-                return NotFound();
-            }
-
-            return users;
-        }
-
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

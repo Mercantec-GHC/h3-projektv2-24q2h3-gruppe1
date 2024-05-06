@@ -49,3 +49,4 @@ packages/
 appsettings.json
 obj/
 bin/
+appsettings

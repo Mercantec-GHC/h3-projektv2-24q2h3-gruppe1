@@ -61,9 +61,9 @@ namespace BlazorApp.Services
                         {
                             return user;
                         }
-                        else if (user.Email == email && user.Password == password)
-                        {
-                        }
+                        //else if (user.Email == email && user.Password == password)
+                        //{
+                        //}
                     }
                     else
                     {

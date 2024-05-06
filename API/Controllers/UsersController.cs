@@ -30,19 +30,19 @@ namespace API.Controllers
         }
 
         // GET: api/Users/username/password
-        [HttpGet("{username}/{password}")]
-        public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String password)
+        [HttpPost("login")]
+        public async Task<ActionResult<User>> GetUserByEmailPassword(Login login)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.Where(item => item.Username == username && item.Password == password).ToListAsync();
+            var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();
         }
-
+       
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

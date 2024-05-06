@@ -11,7 +11,7 @@ namespace BlazorApp.Components.Pages
         private bool IsAutoChecked = true;
         private bool IsManualChecked = false;
         public List<Setting>? settingList;
-
+   
         //make get request
         public async Task GetListOfSettings()
         {

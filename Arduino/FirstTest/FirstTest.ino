@@ -14,6 +14,7 @@ char pass[] = "Merc1234";
 
 const int serverPort = 443; // Use port 443 for HTTPS
 const char* endpoint = "/api/PlantOverviews";
+const char* endpoint2 = "/api/Settings";
 const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-sqve.onrender.com";
 
 WiFiSSLClient wifi;
@@ -50,8 +51,8 @@ void setup() {
     carrier.display.setRotation(2); // Adjust rotation to your setup
     Serial.begin(9600); // Initialize serial communication for debugging
 
-    myServo1.attach(8); // Attaching the motor to pin 8
-    myServo2.attach(9); // Attaching the motor to pin 9
+    // myServo1.attach(8); // Attaching the motor to pin 8
+    // myServo2.attach(9); // Attaching the motor to pin 9
 
     connectToWiFi();
     Serial.println("Setup complete");
@@ -106,7 +107,7 @@ void loop() {
     //     sendPostRequest(percentageHumididySensor, "s1", "sol");
     //     sendPostRequest(percentageHumididySensor2, "s2", "sne");
     // }
-
+     sendPostRequest2(autoMode);
     delay(10); // Short delay for button responsiveness
 }
 
@@ -231,4 +232,28 @@ void sendGetRequest() {
     float minWaterLevel = doc["minWaterLevel"];
     float maxWaterLevel = doc["maxWaterLevel"];
     delay(10000);
+}
+
+void sendPostRequest2(bool mode) {
+    DynamicJsonDocument doc(1024);
+    doc["AutoMode"] = mode;
+ 
+    String payload;
+    serializeJson(doc, payload);
+
+    Serial.println("Sending POST request");
+    client.beginRequest();
+    client.put(endpoint2);
+    client.sendHeader("Content-Type", "application/json");
+    client.sendHeader("Content-Length", payload.length());
+    client.endRequest();
+    client.print(payload);
+
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+
+    Serial.print("HTTP Response Code: ");
+    Serial.println(statusCode);
+    Serial.print("Response Body: ");
+    Serial.println(response);
 }

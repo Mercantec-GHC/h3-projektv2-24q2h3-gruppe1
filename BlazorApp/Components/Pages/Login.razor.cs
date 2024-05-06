@@ -20,8 +20,8 @@ namespace BlazorApp.Pages
             {
                 //Variables
                 string email = "";
-                string username = "Mads";
-                string password = "Password3";
+                string username = userLogin.Username;
+                string password = userLogin.Password;
 
 
                 //UserService userService = new UserService();

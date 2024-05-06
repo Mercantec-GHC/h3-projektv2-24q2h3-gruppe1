@@ -31,7 +31,7 @@ namespace API.Controllers
 
         // GET: api/Users/username/password
         [HttpGet("{username}/{password}")]
-        public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String password)
+        public async Task<ActionResult<User>> GetUserByEmailPassword(string username, string password)
         {
             if (_context.Users == null)
             {
@@ -42,7 +42,7 @@ namespace API.Controllers
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();
         }
-
+       
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

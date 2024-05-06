@@ -3,6 +3,7 @@ using System.Text;
 using BlazorApp.Services;
 using BlazorApp.Containers;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorApp.Components.Pages
 {
@@ -19,42 +20,41 @@ namespace BlazorApp.Components.Pages
         {
             if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
-                //Variables
+                // Variables
                 string email = "";
-                string username = "Mads";
-                string password = "Password3";
+                string username = "";
+                string password = "";
 
+                // Assuming UserService has a method like GetUserAsync for fetching user info
+                UserService userService = new UserService(); // Instantiate your UserService
+                User validUserInfo = await userService.GetUserUserInfoAsync(username, email, password);
 
-                UserService userService = new UserService();
-                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
-
-                if (userLogin.UserInfo.Contains("@"))
+                if (userLogin.Username.Contains("@"))
                 {
-                    email = userLogin.UserInfo;
+                    email = userLogin.Username;
                 }
                 else
                 {
-                    username = userLogin.UserInfo;
+                    username = userLogin.Username;
                 }
 
-                if (userLogin.Username != null)
+                if (validUserInfo != null)
                 {
-                    AccountSession.UserSession = userLogin;
-                    NavigationManager.NavigateTo("/home");
+                    // Navigate to the home page after successful login
+                    NavigationManager.NavigateTo("/");
                 }
-
                 else
                 {
                     errorMessage = "Invalid credentials. Please check your username and password.";
                 }
             }
-
             else
             {
                 // Handle empty input
                 errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
             }
         }
+
 
         public void Logout()
         {
@@ -198,6 +198,22 @@ namespace BlazorApp.Components.Pages
             else
             {
                 errorMessage = "Email is accepted!";
+            }
+        }
+
+        private bool IsAutoChecked = true;
+        private bool IsManualChecked = false;
+
+        private void Toggle(char switchName)
+        {
+            if (!IsManualChecked && !IsAutoChecked)
+            {
+                IsAutoChecked = true;
+            }
+            else
+            {
+                IsAutoChecked = !IsAutoChecked;
+                IsManualChecked = !IsManualChecked;
             }
         }
     }

@@ -7,6 +7,6 @@
     "\\BlazorApp\\Components",
     "\\BlazorApp\\Components\\Pages"
   ],
-  "SelectedNode": "\\BlazorApp\\Components\\Pages\\Login.razor.cs",
+  "SelectedNode": "\\BlazorApp\\Components\\Pages\\Home.razor",
   "PreviewInSolutionExplorer": false
 }

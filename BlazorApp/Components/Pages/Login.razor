@@ -2,7 +2,6 @@
 @using API;
 @using API.Models;
 @using BlazorApp.Pages;
-@using BlazorApp.Services;
 @using BlazorApp.Containers;
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Forms
@@ -13,28 +12,24 @@
 
 <PageTitle>Login</PageTitle>
 
+<EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
+
 <div class="container">
 
     <h2>Login</h2>
     
-    <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
-        
-        <div>
-            <label for="uname">Username:</label><br>
-            <InputText id="uname" @bind-Value="userLogin.Username" placeholder="Username" required />
-        </div>
+         <label for="uname">Username:</label><br>
+        <InputText id="uname" @bind-Value="userLogin.Username" placeholder="Username" required /><br><br>
+
+         <label for="pass">Password:</label><br>
+        <InputText id="pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required /><br><br>
 
         <div>
-            <label for="pass">Password:</label><br>
-            <InputText id="pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required />
-        </div>
-
-        <div>
-            <input type="submit" value="Login" onclick="@HandleLogin">
+            <input type="submit" value="Login">
         </div>
 
         <p class="error-message" id="login-error">@errorMessage</p>
 
-    </EditForm>
+    </div>
 
-</div>
+</EditForm>

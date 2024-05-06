@@ -2,7 +2,6 @@ using API.Models;
 using BlazorApp.Services;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace BlazorApp.Pages
 {
@@ -16,15 +15,16 @@ namespace BlazorApp.Pages
 
         private async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
-                // Variables
+                //Variables
                 string email = "";
-                string username = userLogin.Username;
-                string password = userLogin.Password;
+                string username = "Mads";
+                string password = "Password3";
 
-                // Use HttpClient to send a GET request to your Swagger API
-                var response = await client.GetAsync("api/Users/{username}/{password}");
+
+                UserService userService = new UserService();
+                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
 
                 //if (userLogin.UserInfo.Contains("@"))
                 //{
@@ -35,20 +35,16 @@ namespace BlazorApp.Pages
                 //    username = userLogin.UserInfo;
                 //}
 
-                UserService UserService = new UserService();
-                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
-                User validUserInfo = await UserService.GetUserUserInfoAsync(username, password);
+                //if (validUserInfo != null)
+                //{
+                //    AccountSession.UserSession = validUserInfo;
+                //    NavigationManager.NavigateTo("/home");
+                //}
 
-                if (validUserInfo != null)
-                {
-                    AccountSession.UserSession = validUserInfo;
-                    NavigationManager.NavigateTo("/home");
-                }
-            
-                else
-                {
-                    errorMessage = "Invalid credentials. Please check your username and password.";
-                }
+                //else
+                //{
+                //    errorMessage = "Invalid credentials. Please check your username and password.";
+                //}
             }
 
             else

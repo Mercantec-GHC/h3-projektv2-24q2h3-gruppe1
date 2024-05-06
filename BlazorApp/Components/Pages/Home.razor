@@ -1,11 +1,129 @@
 @page "/"
-@using Syncfusion.Blazor.Charts
-@using Syncfusion.Blazor.Charts.Chart.Internal
+@using API;
+@using API.Models;
+@using BlazorApp.Pages;
+@using BlazorApp.Containers;
+@using System.Threading.Tasks;
+@using Syncfusion.Blazor.Charts;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Syncfusion.Blazor.Charts.Chart.Internal;
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
 
 <PageTitle>Home</PageTitle>
 
 <h1>Home</h1>
 
-<h1>Hello, world!</h1>
+<!-- Sign Up Modal -->
+<button type="button" class="btn btn-primary" id="myBtnSignup">Sign up</button>
 
-Welcome to your new app.
+<div id="myModalSignup" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">
+            <h5 class="modal-title">Sign up</h5>
+        </div>
+        <!-- EditForm for sign up -->
+        <EditForm Model="@userSignup" OnValidSubmit="HashPassword">
+            <div class="modal-body">
+                <!-- Input fields for sign up -->
+                <label for="uname">Username:</label><br>
+                <div class="form-group">
+                    <InputText id="uname" @bind-Value="userSignup.Username" placeholder="Username" required /><br><br>
+                </div>
+
+                <label for="pass">Password:</label><br>
+                <div class="form-group">
+                    <InputText id="pass" @bind-Value="userSignup.Password" type="password" placeholder="Password" required /><br><br>
+                </div>
+
+                <label for="email">Email</label>
+                <div class="form-group">
+                    <InputText id="email" @bind-Value="userSignup.Email" type="email" placeholder="Email" required /><br><br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Buttons for sign up -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<button type="button" class="btn btn-primary" id="myBtnLogin">Login</button>
+
+<div id="myModalLogin" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">
+            <h5 class="modal-title">Login</h5>
+        </div>
+        <!-- EditForm for login -->
+        <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
+            <div class="modal-body">
+                <!-- Input fields for login -->
+                <label for="login-uname">Username:</label><br>
+                <div class="form-group">
+                    <InputText id="login-uname" @bind-Value="userLogin.Username" placeholder="Username" required /><br><br>
+                </div>
+
+                <label for="login-pass">Password:</label><br>
+                <div class="form-group">
+                    <InputText id="login-pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required /><br><br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Buttons for login -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<script>
+    // Get the modals
+    var modalSignup = document.getElementById("myModalSignup");
+    var modalLogin = document.getElementById("myModalLogin");
+
+    // Get the buttons that open the modals
+    var btnSignup = document.getElementById("myBtnSignup");
+    var btnLogin = document.getElementById("myBtnLogin");
+
+    // Get the <span> elements that close the modals
+    var spanSignup = document.getElementsByClassName("close")[0];
+    var spanLogin = document.getElementsByClassName("close")[1];
+
+    // When the user clicks on the buttons, open the modals
+    btnSignup.onclick = function () {
+        modalSignup.style.display = "block";
+    }
+
+    btnLogin.onclick = function () {
+        modalLogin.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modals
+    spanSignup.onclick = function () {
+        modalSignup.style.display = "none";
+    }
+
+    spanLogin.onclick = function () {
+        modalLogin.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modals, close them
+    window.onclick = function (event) {
+        if (event.target == modalSignup) {
+            modalSignup.style.display = "none";
+        }
+        if (event.target == modalLogin) {
+            modalLogin.style.display = "none";
+        }
+    }
+</script>

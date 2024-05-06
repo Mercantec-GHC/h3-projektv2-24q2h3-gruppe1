@@ -9,20 +9,14 @@
     <div class="container">
         <h2>Signup</h2>
             
-            <div>
                 <label for="uname">Username:</label><br>
-                <InputText required type="text" id="uname" class="form-control" placeholder="Username" @bind-Value="userSignup.Username" /><br><br>
-			</div>
+                <InputText required type="text" id="uname" placeholder="Username" @bind-Value="userSignup.Username" /><br><br>
 
-            <div>
                 <label for="pass">Password:</label><br>
-                <InputText required type="password" id="pass" class="form-control" placeholder="Password" @bind-Value="userSignup.Password" /><br><br>
-			</div>
+                <InputText required type="password" id="pass" placeholder="Password" @bind-Value="userSignup.Password" /><br><br>
 
-            <div>
                 <label for="email">Email:</label><br>
-                <InputText required type="email" id="email" class="form-control" placeholder="Email" @bind-Value="userSignup.Email" /><br><br>
-			</div>
+                <InputText required type="email" id="email" placeholder="Email" @bind-Value="userSignup.Email" /><br><br>
 
             <div>
                 <input type="submit" value="Submit">

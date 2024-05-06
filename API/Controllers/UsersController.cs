@@ -29,22 +29,38 @@ namespace API.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
-        [HttpGet("username={username}")]
-        public async Task<ActionResult<User>> GetUser(string username)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        //// GET: api/Users/username/password
+        //[HttpGet("{username}/{email}/{password}")]
+        //public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String email, String password)
+        //{
+        //    if (_context.Users == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (user == null)
+        //    var user = await _context.Users.Where(item => item.Email == email && item.Password == password).ToListAsync();
+        //    var user2 = await _context.Users.Where(item => item.Username == username && item.Password == password).ToListAsync();
+
+        //    return user == null || user.Count() != 1 ? NotFound() : user.First();
+        //    return user2 == null || user2.Count() != 1 ? NotFound() : user2.First();
+        //}
+
+        // GET: api/Users/username
+        [HttpGet("{username}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUserByUsername(string username)
+        {
+            var users = await _context.Users.Where(u => u.Username == username).ToListAsync();
+
+            if (users == null || !users.Any())
             {
                 return NotFound();
             }
 
-            return user;
+            return users;
         }
 
-        // GET: api/Users/password/Password3
-        [HttpGet("password={password}")]
+        // GET: api/Users/password
+        [HttpGet("{password}")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersByPassword(string password)
         {
             var users = await _context.Users.Where(u => u.Password == password).ToListAsync();
@@ -57,18 +73,18 @@ namespace API.Controllers
             return users;
         }
 
-        // GET: api/Users/email/{email}
-        [HttpGet("email={email}")]
-        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        // GET: api/Users/email
+        [HttpGet("{email}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersByEmail(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var users = await _context.Users.Where(u => u.Email == email).ToListAsync();
 
-            if (user == null)
+            if (users == null || !users.Any())
             {
                 return NotFound();
             }
 
-            return user;
+            return users;
         }
 
         // GET: api/Users/5

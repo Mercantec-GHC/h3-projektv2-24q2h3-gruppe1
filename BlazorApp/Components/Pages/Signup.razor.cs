@@ -1,8 +1,8 @@
 using API.Models;
-using Microsoft.AspNetCore.Components;
 using System.Security.Cryptography;
 using System.Text;
 namespace BlazorApp.Components.Pages
+
 {
     public partial class Signup
     {
@@ -35,112 +35,111 @@ namespace BlazorApp.Components.Pages
                 string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("api/Users", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // Registration successful
-                    NavigationManager.NavigateTo("/login");
-                }
-                else
-                {
-                    // Registration failed
-                    NavigationManager.NavigateTo("/signup");
-                }
             }
         }
 
-        static string PasswordPolicyCheck(string password)
+        private void PasswordPolicyCheck(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
-                return "Password cannot be empty or contain only whitespace!";
+                errorMessage = "Password cannot be empty or contain only whitespace!";
             }
 
             if (password.Length < 10)
             {
-                return "Password must be at least 16 characters!";
+                errorMessage = "Password must be at least 16 characters!";
             }
 
             if (!password.Any(char.IsUpper))
             {
-                return "Password must contain uppercase letters!";
+                errorMessage = "Password must contain uppercase letters!";
             }
 
             if (!password.Any(char.IsLower))
             {
-                return "Password must contain lowercase letters!";
+                errorMessage = "Password must contain lowercase letters!";
             }
 
             if (!password.Any(char.IsDigit))
             {
-                return "Password must contain numbers!";
+                errorMessage = "Password must contain numbers!";
             }
 
             if (!password.Any(c => char.IsSymbol(c) || char.IsPunctuation(c)))
             {
-                return "Password must contain special characters!";
+                errorMessage = "Password must contain special characters!";
             }
 
-            return "Password is accepted!";
+            else
+            {
+                errorMessage = "Password is accepted!";
+            }
         }
 
-        static string UsernamePolicyCheck(string username)
+        private void UsernamePolicyCheck(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
-                return "Username cannot be empty or contain only whitespace!";
+                errorMessage = "Username cannot be empty or contain only whitespace!";
             }
 
             if (username.Length < 8)
             {
-                return "Username must be at least 8 characters!";
+                errorMessage = "Username must be at least 8 characters!";
             }
 
             if (!username.All(char.IsLetterOrDigit))
             {
-                return "Only letters and digits are allowed in the username!";
+                errorMessage = "Only letters and digits are allowed in the username!";
             }
 
             if (!username.Any(char.IsUpper))
             {
-                return "Username must contain uppercase letters!";
+                errorMessage = "Username must contain uppercase letters!";
             }
 
             if (!username.Any(char.IsLower))
             {
-                return "Username must contain lowercase letters!";
+                errorMessage = "Username must contain lowercase letters!";
             }
 
             if (!username.Any(char.IsDigit))
             {
-                return "Username must contain numbers!";
+                errorMessage = "Username must contain numbers!";
             }
+            
             if (username.Any(char.IsSymbol))
             {
-                return "Username cant contain special characters";
+                errorMessage = "Username cant contain special characters";
             }
 
-            return "Username is accepted!";
+            else
+            {
+                errorMessage = "Username is accepted!";
+            }
         }
 
-        static string EmailPolicyCheck(string email)
+        private void EmailPolicyCheck(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                return "Email cannot be empty or contain only whitespace!";
+                errorMessage = "Email cannot be empty or contain only whitespace!";
             }
 
             if (!email.All(char.IsLetterOrDigit))
             {
-                return "Only letters and digits are allowed in the email!";
+                errorMessage = "Only letters and digits are allowed in the email!";
             }
 
             if (!email.Contains("@"))
             {
-                return "Email is invalid";
+                errorMessage = "Email is invalid";
             }
 
-            return "Username is accepted!";
+            else
+            {
+                errorMessage = "Email is accepted!";
+            }
         }
     }
 }

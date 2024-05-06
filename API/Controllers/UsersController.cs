@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,21 +29,19 @@ namespace API.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        //// GET: api/Users/username/password
-        //[HttpGet("{username}/{email}/{password}")]
-        //public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String email, String password)
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: api/Users/username/password
+        [HttpGet("{username}/{password}")]
+        public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String password)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
 
-        //    var user = await _context.Users.Where(item => item.Email == email && item.Password == password).ToListAsync();
-        //    var user2 = await _context.Users.Where(item => item.Username == username && item.Password == password).ToListAsync();
+            var user = await _context.Users.Where(item => item.Username == username && item.Password == password).ToListAsync();
 
-        //    return user == null || user.Count() != 1 ? NotFound() : user.First();
-        //    return user2 == null || user2.Count() != 1 ? NotFound() : user2.First();
-        //}
+            return user == null || user.Count() != 1 ? NotFound() : user.First();
+        }
 
         // GET: api/Users/username
         [HttpGet("{username}")]

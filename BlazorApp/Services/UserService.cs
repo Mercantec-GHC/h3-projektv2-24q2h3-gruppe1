@@ -9,7 +9,7 @@ namespace BlazorApp.Services
     public class UserService
     {
         //remember to change the call method to the specified CRUD operation you want to use
-        string UserApi = "https://localhost:7036/api/Users";
+        string UserApi = "https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users";
 
         public async Task<bool> PostUserAsync(User User)
         {
@@ -34,7 +34,7 @@ namespace BlazorApp.Services
             }
         }
 
-        public async Task<User> GetUserUserInfoAsync(string username, string email, string password)
+        public async Task<User> GetUserUserInfoAsync(string username, string password)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace BlazorApp.Services
                 using (HttpClient userClient = new HttpClient())
                 {
                     // Construct the API URL (avoid passing sensitive information in URL)
-                    string userApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/{username}";
+                    string userApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/{username}/{password}";
 
                     // Make HTTP GET request
                     HttpResponseMessage response = await userClient.GetAsync(userApi);

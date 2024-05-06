@@ -1,5 +1,5 @@
 @page "/settings"
-
+@using API.Models;
 <PageTitle>Settings</PageTitle>
 
 <h1>Settings</h1>
@@ -19,14 +19,14 @@
             <div class="w-50">
                 <p>Auto</p>
                 <label class="switch">
-                    <input type="checkbox" checked="@IsAutoChecked" @onchange="() => Toggle('a')">
+                    <input type="checkbox" checked="@IsAutoChecked" @* @bind-value="modesate" *@ @onchange="() => Toggle('a')">
                     <span class="slider round"></span>
                 </label>
             </div>
             <div class="w-50">
                 <p>Man</p>
                 <label class="switch">
-                    <input type="checkbox" checked="@IsManualChecked" @onchange="() => Toggle('m')">
+                    <input type="checkbox" checked="@IsManualChecked" @* @bind-value="modesate" *@ @onchange="() => Toggle('m')">
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -35,4 +35,14 @@
     </form>
 </div>
 
-
+@code{
+    bool modesate;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetListOfSettings(); 
+    }
+    private void Selectedmode(Setting settings)
+    {
+        modesate = settings.AutoMode;
+    }
+}

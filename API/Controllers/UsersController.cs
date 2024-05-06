@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,64 +29,20 @@ namespace API.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        //// GET: api/Users/username/password
-        //[HttpGet("{username}/{email}/{password}")]
-        //public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String email, String password)
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await _context.Users.Where(item => item.Email == email && item.Password == password).ToListAsync();
-        //    var user2 = await _context.Users.Where(item => item.Username == username && item.Password == password).ToListAsync();
-
-        //    return user == null || user.Count() != 1 ? NotFound() : user.First();
-        //    return user2 == null || user2.Count() != 1 ? NotFound() : user2.First();
-        //}
-
-        // GET: api/Users/username
-        [HttpGet("{username}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUserByUsername(string username)
+        // GET: api/Users/username/password
+        [HttpPost("login")]
+        public async Task<ActionResult<User>> GetUserByEmailPassword(Login login)
         {
-            var users = await _context.Users.Where(u => u.Username == username).ToListAsync();
-
-            if (users == null || !users.Any())
+            if (_context.Users == null)
             {
                 return NotFound();
             }
 
-            return users;
+            var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
+
+            return user == null || user.Count() != 1 ? NotFound() : user.First();
         }
-
-        // GET: api/Users/password
-        [HttpGet("{password}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersByPassword(string password)
-        {
-            var users = await _context.Users.Where(u => u.Password == password).ToListAsync();
-
-            if (users == null || !users.Any())
-            {
-                return NotFound();
-            }
-
-            return users;
-        }
-
-        // GET: api/Users/email
-        [HttpGet("{email}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsersByEmail(string email)
-        {
-            var users = await _context.Users.Where(u => u.Email == email).ToListAsync();
-
-            if (users == null || !users.Any())
-            {
-                return NotFound();
-            }
-
-            return users;
-        }
-
+       
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

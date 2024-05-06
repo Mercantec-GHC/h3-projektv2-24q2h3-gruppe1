@@ -2,6 +2,7 @@ using API.Models;
 using BlazorApp.Services;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
+using System.Text;
 
 namespace BlazorApp.Pages
 {
@@ -19,24 +20,25 @@ namespace BlazorApp.Pages
             {
                 //Variables
                 string email = "";
-                string username = "Mads";
-                string password = "Password3";
+                string username = userLogin.Username;
+                string password = userLogin.Password;
 
 
-                UserService userService = new UserService();
-                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, email, password);
+                //UserService userService = new UserService();
+                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, password);
 
-                //if (userLogin.UserInfo.Contains("@"))
-                //{
-                //    email = userLogin.UserInfo;
-                //}
-                //else
-                //{
-                //    username = userLogin.UserInfo;
-                //}
+                if (userLogin.UserInfo.Contains("@"))
+                {
+                    email = userLogin.UserInfo;
+                }
+                else
+                {
+                    username = userLogin.UserInfo;
+                }
 
                 //if (validUserInfo != null)
                 //{
+                //    postDefaultSettings();
                 //    AccountSession.UserSession = validUserInfo;
                 //    NavigationManager.NavigateTo("/home");
                 //}
@@ -65,6 +67,17 @@ namespace BlazorApp.Pages
             {
                 Console.WriteLine($"Exception: {ex.Message}");
             }
+        }
+
+        async Task postDefaultSettings()
+        {
+            try
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userLogin.Id);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/settings", content);
+            }
+            catch (Exception ex) { }
         }
     }
 }

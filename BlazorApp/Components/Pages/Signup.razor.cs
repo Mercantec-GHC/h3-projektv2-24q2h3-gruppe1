@@ -38,7 +38,6 @@ namespace BlazorApp.Components.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    postDefaultSettings();
                     // Registration successful
                     NavigationManager.NavigateTo("/login");
                 }
@@ -152,17 +151,6 @@ namespace BlazorApp.Components.Pages
             {
                 errorMessage = "Email is accepted!";
             }
-        }
-
-        async Task postDefaultSettings()
-        {
-            try
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(userSignup.Id);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/settings", content);
-            }
-            catch (Exception ex) { }
         }
     }
 }

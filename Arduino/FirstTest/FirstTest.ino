@@ -43,6 +43,9 @@ int moistureValue2 = analogRead(moisturePin2);
 int percentageHumididySensor;
 int percentageHumididySensor2;
 
+// SQL update statement
+String httpRequestData = "query=UPDATE Settings SET AutoMode=" + String(autoMode) + " WHERE userId=0";
+
 // -------------------------------------------------------------- //
 
 void setup() {
@@ -51,8 +54,8 @@ void setup() {
     carrier.display.setRotation(2); // Adjust rotation to your setup
     Serial.begin(9600); // Initialize serial communication for debugging
 
-    myServo1.attach(8); // Attaching the motor to pin 8
-    myServo2.attach(9); // Attaching the motor to pin 9
+    // myServo1.attach(8); // Attaching the motor to pin 8
+    // myServo2.attach(9); // Attaching the motor to pin 9
 
     connectToWiFi();
     Serial.println("Setup complete");
@@ -237,22 +240,22 @@ void sendGetRequest() {
 }
 
 void sendPostSettingRequest(bool mode) {
-    DynamicJsonDocument doc(1024);
-    doc["Mode"] = mode;
-
+  DynamicJsonDocument doc(1024);
+    doc["AutoMode"] = mode;
+ 
     String payload;
     serializeJson(doc, payload);
-
+ 
     Serial.println("Sending POST request");
-    client.beginRequest();
-    client.post(settingEndpoint);
-    client.sendHeader("Content-Type", "application/json");
-    client.sendHeader("Content-Length", payload.length());
-    client.endRequest();
-    client.print(payload);
 
+    // Make a HTTP request:
+    client.beginRequest();
+    client.put("/api/settings", "application/json", payload);
+    client.endRequest();
+ 
     int statusCode = client.responseStatusCode();
     String response = client.responseBody();
+ 
     Serial.print("HTTP Response Code: ");
     Serial.println(statusCode);
     Serial.print("Response Body: ");

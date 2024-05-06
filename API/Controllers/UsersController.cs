@@ -30,7 +30,7 @@ namespace API.Controllers
         }
 
         // GET: api/Users/username/password
-        [HttpGet("{username}/{password}")]
+        [HttpGet("{Username}/{Password}")]
         public async Task<ActionResult<User>> GetUserByEmailPassword(String username, String password)
         {
             if (_context.Users == null)

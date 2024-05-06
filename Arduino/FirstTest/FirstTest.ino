@@ -14,6 +14,7 @@ char pass[] = "Merc1234";
 
 const int serverPort = 443; // Use port 443 for HTTPS
 const char* endpoint = "/api/PlantOverviews";
+const char* settingEndpoint = "/api/Settings";
 const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-sqve.onrender.com";
 
 WiFiSSLClient wifi;
@@ -42,6 +43,9 @@ int moistureValue2 = analogRead(moisturePin2);
 int percentageHumididySensor;
 int percentageHumididySensor2;
 
+// SQL update statement
+String httpRequestData = "query=UPDATE Settings SET AutoMode=" + String(autoMode) + " WHERE userId=0";
+
 // -------------------------------------------------------------- //
 
 void setup() {
@@ -50,8 +54,8 @@ void setup() {
     carrier.display.setRotation(2); // Adjust rotation to your setup
     Serial.begin(9600); // Initialize serial communication for debugging
 
-    myServo1.attach(8); // Attaching the motor to pin 8
-    myServo2.attach(9); // Attaching the motor to pin 9
+    // myServo1.attach(8); // Attaching the motor to pin 8
+    // myServo2.attach(9); // Attaching the motor to pin 9
 
     connectToWiFi();
     Serial.println("Setup complete");
@@ -106,6 +110,8 @@ void loop() {
     //     sendPostRequest(percentageHumididySensor, "s1", "sol");
     //     sendPostRequest(percentageHumididySensor2, "s2", "sne");
     // }
+
+    sendPostSettingRequest(autoMode);
 
     delay(10); // Short delay for button responsiveness
 }
@@ -231,4 +237,27 @@ void sendGetRequest() {
     float minWaterLevel = doc["minWaterLevel"];
     float maxWaterLevel = doc["maxWaterLevel"];
     delay(10000);
+}
+
+void sendPostSettingRequest(bool mode) {
+  DynamicJsonDocument doc(1024);
+    doc["AutoMode"] = mode;
+ 
+    String payload;
+    serializeJson(doc, payload);
+ 
+    Serial.println("Sending POST request");
+
+    // Make a HTTP request:
+    client.beginRequest();
+    client.put("/api/settings", "application/json", payload);
+    client.endRequest();
+ 
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+ 
+    Serial.print("HTTP Response Code: ");
+    Serial.println(statusCode);
+    Serial.print("Response Body: ");
+    Serial.println(response);
 }

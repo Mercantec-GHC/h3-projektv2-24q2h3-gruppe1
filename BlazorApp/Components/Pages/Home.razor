@@ -9,6 +9,7 @@
 @using Syncfusion.Blazor.Charts.Chart.Internal;
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@namespace BlazorApp.Components.Pages
 
 
 <PageTitle>Home</PageTitle>
@@ -26,7 +27,7 @@
             <h5 class="modal-title">Sign up</h5>
         </div>
         <!-- EditForm for sign up -->
-        <EditForm Model="@userSignup" OnValidSubmit="HashPassword">
+        <EditForm Model="@userSignup" OnValidSubmit="@HashPassword">
             <div class="modal-body">
                 <!-- Input fields for sign up -->
                 <label for="uname">Username:</label><br>

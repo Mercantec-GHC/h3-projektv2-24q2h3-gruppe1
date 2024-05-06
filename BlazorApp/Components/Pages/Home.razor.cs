@@ -87,13 +87,24 @@ namespace BlazorApp.Components.Pages
                 Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
 
                 byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
+  
                 // Assuming you might want to update the password with the hash
                 userSignup.Password = Convert.ToBase64String(hashedBytes);
 
                 string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("api/Users", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Registration successful
+                    NavigationManager.NavigateTo("/login");
+                }
+                else
+                {
+                    // Registration failed
+                    NavigationManager.NavigateTo("/signup");
+                }
             }
         }
 

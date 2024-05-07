@@ -1,12 +1,11 @@
 @page "/signup"
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
-
 <PageTitle>Signup</PageTitle>
 
     
-<EditForm Model="@userSignup" OnValidSubmit="@HashPassword">
-        
-    <div class="container">
+@* <EditForm Model="@userSignup" @* OnValidSubmit="@HashPassword" *@>
+         
+@*     <div class="container">
         <h2>Signup</h2>
             
                 <label for="uname">Username:</label><br>
@@ -23,7 +22,7 @@
 			</div>
 
             <p class="error-message" id="login-error">@errorMessage</p>
-    </div>
+    </div> *@
     
-</EditForm>
-
+@* </EditForm>
+ *@

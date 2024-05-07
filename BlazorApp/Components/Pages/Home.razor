@@ -7,8 +7,11 @@
 @using Syncfusion.Blazor.Charts;
 @using Microsoft.AspNetCore.Components.Forms;
 @using Syncfusion.Blazor.Charts.Chart.Internal;
+
+@inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@namespace BlazorApp.Components.Pages
 
 
 <PageTitle>Home</PageTitle>
@@ -19,15 +22,21 @@
 <button type="button" class="btn btn-primary" id="myBtnSignup">Sign up</button>
 
 <div id="myModalSignup" class="modal">
+    
     <!-- Modal content -->
     <div class="modal-content">
+        
         <span class="close">&times;</span>
+        
         <div class="modal-header">
             <h5 class="modal-title">Sign up</h5>
         </div>
+        
         <!-- EditForm for sign up -->
-        <EditForm Model="@userSignup" OnValidSubmit="HashPassword">
+        <EditForm Model="@userSignup">
+            
             <div class="modal-body">
+            
                 <!-- Input fields for sign up -->
                 <label for="uname">Username:</label><br>
                 <div class="form-group">
@@ -43,13 +52,16 @@
                 <div class="form-group">
                     <InputText id="email" @bind-Value="userSignup.Email" type="email" placeholder="Email" required /><br><br>
                 </div>
+            
             </div>
+        
             <div class="modal-footer">
                 <!-- Buttons for sign up -->
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </div>
+
         </EditForm>
+
     </div>
 </div>
 
@@ -57,15 +69,20 @@
 <button type="button" class="btn btn-primary" id="myBtnLogin">Login</button>
 
 <div id="myModalLogin" class="modal">
+    
     <!-- Modal content -->
     <div class="modal-content">
+        
         <span class="close">&times;</span>
+        
         <div class="modal-header">
             <h5 class="modal-title">Login</h5>
         </div>
+        
         <!-- EditForm for login -->
         <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
             <div class="modal-body">
+            
                 <!-- Input fields for login -->
                 <label for="login-uname">Username:</label><br>
                 <div class="form-group">
@@ -76,13 +93,16 @@
                 <div class="form-group">
                     <InputText id="login-pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required /><br><br>
                 </div>
+            
             </div>
+        
             <div class="modal-footer">
                 <!-- Buttons for login -->
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
+
         </EditForm>
+
     </div>
 </div>
 
@@ -90,14 +110,48 @@
     // Get the modals
     var modalSignup = document.getElementById("myModalSignup");
     var modalLogin = document.getElementById("myModalLogin");
+    var modalEditProfile = document.getElementById("myModalEditProfile");
+    var modalAddPlant = document.getElementById("myModalAddPlant");
+    var modalEditPlant = document.getElementById("myModalEditPlant");
+    var modalSetupSensor = document.getElementById("myModalSetupSensor");
 
     // Get the buttons that open the modals
     var btnSignup = document.getElementById("myBtnSignup");
     var btnLogin = document.getElementById("myBtnLogin");
+    var btnEditProfile = document.getElementById("myBtnEditProfile");
+    var btnAddPlant = document.getElementById("myBtnAddPlant");
+    var btnEditPlant = document.getElementById("myBtnEditPlant");
+    var btnSetupSensor = document.getElementById("myBtnSetupSensor");
 
     // Get the <span> elements that close the modals
     var spanSignup = document.getElementsByClassName("close")[0];
     var spanLogin = document.getElementsByClassName("close")[1];
+    var spanEditProfile = document.getElementsByClassName("close")[2];
+    var spanAddPlant = document.getElementsByClassName("close")[3];
+    var spanEditPlant = document.getElementsByClassName("close")[4];
+    var spanSetupSensor = document.getElementsByClassName("close")[5];
+
+    // Function to show the sensor modal
+    function ShowSensorModal() {
+        var modal = document.getElementById("myModalSetupSensor");
+        modal.style.display = "block";
+    }
+
+    // Function to close the sensor modal
+    function CloseSensorModal() {
+        var modal = document.getElementById("myModalSetupSensor");
+        modal.style.display = "none";
+    }
+
+    // Function to select plant for Sensor 1
+    function SelectPlant1(plant) {
+        selectedPlant1 = plant.PlantName;
+    }
+
+    // Function to select plant for Sensor 2
+    function SelectPlant2(plant) {
+        selectedPlant2 = plant.PlantName;
+    }
 
     // When the user clicks on the buttons, open the modals
     btnSignup.onclick = function () {
@@ -108,6 +162,21 @@
         modalLogin.style.display = "block";
     }
 
+    btnEditProfile.onclick = function () {
+        modalEditProfile.style.display = "block";
+    }
+
+    btnAddPlant.onclick = function () {
+        modalAddPlant.style.display = "block";
+    }
+
+    btnEditPlant.onclick = function () {
+        modalEditPlant.style.display = "block";
+    }
+
+    // Show sensor modal when the user clicks on setup sensor button
+    btnSetupSensor.onclick = ShowSensorModal;
+
     // When the user clicks on <span> (x), close the modals
     spanSignup.onclick = function () {
         modalSignup.style.display = "none";
@@ -117,6 +186,21 @@
         modalLogin.style.display = "none";
     }
 
+    spanEditProfile.onclick = function () {
+        modalEditProfile.style.display = "none";
+    }
+
+    spanAddPlant.onclick = function () {
+        modalAddPlant.style.display = "none";
+    }
+
+    spanEditPlant.onclick = function () {
+        modalEditPlant.style.display = "none";
+    }
+
+    // Close sensor modal when the user clicks on close button (x)
+    spanSetupSensor.onclick = CloseSensorModal;
+
     // When the user clicks anywhere outside of the modals, close them
     window.onclick = function (event) {
         if (event.target == modalSignup) {
@@ -124,6 +208,18 @@
         }
         if (event.target == modalLogin) {
             modalLogin.style.display = "none";
+        }
+        if (event.target == modalEditProfile) {
+            modalEditProfile.style.display = "none";
+        }
+        if (event.target == modalAddPlant) {
+            modalAddPlant.style.display = "none";
+        }
+        if (event.target == modalEditPlant) {
+            modalEditPlant.style.display = "none";
+        }
+        if (event.target == modalSetupSensor) {
+            modalSetupSensor.style.display = "none";
         }
     }
 </script>

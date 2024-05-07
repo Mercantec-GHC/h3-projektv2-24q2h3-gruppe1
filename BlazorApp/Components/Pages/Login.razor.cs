@@ -20,21 +20,21 @@ namespace BlazorApp.Pages
             {
                 //Variables
                 string email = "";
-                string username = "Mads";
-                string password = "Password3";
+                string username = userLogin.Username;
+                string password = userLogin.Password;
 
 
                 //UserService userService = new UserService();
                 //User validUserInfo = await UserService.GetUserUserInfoAsync(username, password);
 
-                if (userLogin.UserInfo.Contains("@"))
-                {
-                    email = userLogin.UserInfo;
-                }
-                else
-                {
-                    username = userLogin.UserInfo;
-                }
+                //if (userLogin.UserInfo.Contains("@"))
+                //{
+                //    email = userLogin.UserInfo;
+                //}
+                //else
+                //{
+                //    username = userLogin.UserInfo;
+                //}
 
                 //if (validUserInfo != null)
                 //{

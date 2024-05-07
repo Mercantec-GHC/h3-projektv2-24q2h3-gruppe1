@@ -32,7 +32,7 @@
         </div>
         
         <!-- EditForm for sign up -->
-        <EditForm Model="@userSignup" OnValidSubmit="HashPassword">
+        <EditForm Model="@userSignup">
             
             <div class="modal-body">
             
@@ -56,7 +56,6 @@
         
             <div class="modal-footer">
                 <!-- Buttons for sign up -->
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </div>
 
@@ -98,138 +97,11 @@
         
             <div class="modal-footer">
                 <!-- Buttons for login -->
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
 
         </EditForm>
 
-    </div>
-</div>
-
-<!-- Edit Profile Modal -->
-<button type="button" class="btn btn-primary" id="myBtnEditProfile">Edit Profile</button>
-
-<div id="myModalEditProfile" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-
-        <span class="close">&times;</span>
-
-        <div class="modal-header">
-            <h2>Edit Profile</h2>
-        </div>
-
-        <!-- EditForm for editing profile -->
-        <EditForm Model="@userProfile" OnValidSubmit="SubmitProfile">
-            <div class="modal-body">
-
-                <label for="uname">Username:</label><br>
-                <div class="form-group">
-                    <InputText id="uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
-                </div>
-
-                <label for="pass">Password:</label><br>
-                <div class="form-group">
-                    <InputText id="pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
-                </div>
-
-                <label for="email">Email:</label><br>
-                <div class="form-group">
-                    <InputText id="email" @bind-Value="userProfile.Email" type="email" placeholder="Email" required /><br><br>
-                </div>
-
-                <!-- Toggle switches -->
-                <div>
-                    <label>Auto</label>
-                    <InputCheckbox @bind-Value="IsAutoChecked" />
-                </div>
-                <div>
-                    <label>Manual</label>
-                    <InputCheckbox @bind-Value="IsManualChecked" />
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-
-        </EditForm>
-
-        <!-- Display settings list -->
-        @if (settingList != null)
-        {
-            <div>
-                <h4>Settings List:</h4>
-                @foreach (var setting in settingList)
-                {
-                    <p>@setting.SettingName: @setting.Value</p>
-                }
-            </div>
-        }
-
-    </div>
-</div>
-
-<!-- Sensor Pop-up Modal Button -->
-<button type="button" class="btn btn-primary" id="myBtnSensor">Sensor Setup</button>
-
-<!-- Sensor Pop-up Modal -->
-<div id="myModalSensor" class="modal">
-    <div class="modal-content">
-        <span class="close" @onclick="CloseSensorModal">&times;</span>
-        <h3>Sensor Setup</h3>
-
-        <!-- Sensor 1 -->
-        <div class="w-100 p-3" style="background-color: salmon;">
-            <h3>Sensor 1 - can change sensor name</h3>
-            <p>Selected plant: @selectedPlant1</p>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <text>Choose Plant</text>
-                </button>
-                <ul class="dropdown-menu">
-                    @if (plants != null)
-                    {
-                        @foreach (var plant in plants)
-                        {
-                            <li><button class="dropdown-item" @onclick="() => SelectPlant1(plant)">@plant.PlantName</button></li>
-                        }
-                    }
-                    else
-                    {
-                        <li><span class="dropdown-item">Loading...</span></li>
-                    }
-                </ul>
-            </div>
-        </div>
-
-        <!-- Sensor 2 -->
-        <div class="w-100 p-3" style="background-color: darkgoldenrod;">
-            <h3>Sensor 2 - can change sensor name</h3>
-            <p>Selected plant: @selectedPlant2</p>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <text>Choose Plant</text>
-                </button>
-                <ul class="dropdown-menu">
-                    @if (plants != null)
-                    {
-                        @foreach (var plant in plants)
-                        {
-                            <li><button class="dropdown-item" @onclick="() => SelectPlant2(plant)">@plant.PlantName</button></li>
-                        }
-                    }
-                    else
-                    {
-                        <li><span class="dropdown-item">Loading...</span></li>
-                    }
-                </ul>
-            </div>
-        </div>
     </div>
 </div>
 

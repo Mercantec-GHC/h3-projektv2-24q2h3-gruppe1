@@ -1,4 +1,5 @@
 using API.Models;
+using Microsoft.AspNetCore.Components;
 using System.Security.Cryptography;
 using System.Text;
 namespace BlazorApp.Components.Pages
@@ -36,16 +37,16 @@ namespace BlazorApp.Components.Pages
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("api/Users", content);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // Registration successful
-                    NavigationManager.NavigateTo("/login");
-                }
-                else
-                {
-                    // Registration failed
-                    NavigationManager.NavigateTo("/signup");
-                }
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    // Registration successful
+                //    NavigationManager.NavigateTo("/login");
+                //}
+                //else
+                //{
+                //    // Registration failed
+                //    NavigationManager.NavigateTo("/signup");
+                //}
             }
         }
 

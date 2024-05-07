@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Syncfusion.Blazor.Charts.Chart.Internal;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace API.Controllers
 {
@@ -37,7 +41,28 @@ namespace API.Controllers
             {
                 return NotFound();
             }
+       
+                // Generate a random salt
+                byte[] salt = new byte[16];
+                using (var rng = new RNGCryptoServiceProvider())
+                {
+                    rng.GetBytes(salt);
+                }
 
+                using (var sha256 = new SHA256Managed())
+                {
+                    byte[] passwordBytes = Encoding.UTF8.GetBytes(login.password);
+                    byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+
+                    Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                    Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+
+                    byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+
+                    // Assuming you might want to update the password with the hash
+                    login.password = Convert.ToBase64String(hashedBytes);
+                }
+            
             var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();
@@ -93,7 +118,27 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-               // is not inf
+            // Generate a random salt
+            byte[] salt = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
+
+            using (var sha256 = new SHA256Managed())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+
+                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+
+                // Assuming you might want to update the password with the hash
+                user.Password = Convert.ToBase64String(hashedBytes);
+            }
+            // is not inf
             user.UpdatedAt = DateTime.UtcNow;
             user.CreatedAt = DateTime.UtcNow;
             _context.Users.Add(user);

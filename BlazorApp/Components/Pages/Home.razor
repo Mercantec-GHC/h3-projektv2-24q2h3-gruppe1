@@ -10,6 +10,7 @@
 
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@namespace BlazorApp.Components.Pages
 
 
 <PageTitle>Home</PageTitle>
@@ -31,8 +32,8 @@
         </div>
 
         <!-- EditForm for sign up -->
-        <EditForm Model="@userSignup" OnValidSubmit="HashPassword">
-
+        <EditForm Model="@userSignup">
+            
             <div class="modal-body">
 
                 <!-- Input fields for sign up -->

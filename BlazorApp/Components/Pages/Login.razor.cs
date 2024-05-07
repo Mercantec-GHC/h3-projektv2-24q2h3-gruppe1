@@ -25,14 +25,14 @@ namespace BlazorApp.Pages
 
                 User validUserInfo = await UserService.GetUserInfoAsync(username, password);
 
-                if (userLogin.UserInfo.Contains("@"))
-                {
-                    email = userLogin.UserInfo;
-                }
-                else
-                {
-                    username = userLogin.UserInfo;
-                }
+                //if (userLogin.UserInfo.Contains("@"))
+                //{
+                //    email = userLogin.UserInfo;
+                //}
+                //else
+                //{
+                //    username = userLogin.UserInfo;
+                //}
 
                 //if (validUserInfo != null)
                 //{

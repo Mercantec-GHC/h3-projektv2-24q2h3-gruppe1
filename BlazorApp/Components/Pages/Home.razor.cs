@@ -1,4 +1,4 @@
-﻿using API.Models;
+using API.Models;
 using System.Text;
 using BlazorApp.Services;
 using BlazorApp.Containers;
@@ -27,7 +27,7 @@ namespace BlazorApp.Components.Pages
 
         public async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
                 // Variables
                 string email = "";

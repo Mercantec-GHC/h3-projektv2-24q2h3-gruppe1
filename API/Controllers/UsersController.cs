@@ -20,12 +20,12 @@ namespace API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDBContext _context;
-
+  
         public UsersController(AppDBContext context)
         {
             _context = context;
         }
-
+  
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()

@@ -12,22 +12,30 @@ namespace BlazorApp.Components.Pages
         // Top level variables
         public string connectionString;
         public string errorMessage = "";
+        
+        public List<Plant>? plants;
+        public List<Setting>? settingList;
+
         public User userLogin = new User();
         public User userSignup = new User();
-        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
+        public User userProfile = new User();
 
-        private async Task HandleLogin()
+        public bool IsAutoChecked = true;
+        public bool IsManualChecked = false;
+        
+        public HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
+
+        public async Task HandleLogin()
         {
             if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
                 // Variables
                 string email = "";
-                string username = "";
-                string password = "";
+                string username = userLogin.Username;
+                string password = userLogin.Password;
 
                 // Assuming UserService has a method like GetUserAsync for fetching user info
-                UserService userService = new UserService(); // Instantiate your UserService
-                User validUserInfo = await userService.GetUserUserInfoAsync(username, email, password);
+                User validUserInfo = await UserService.GetUserInfoAsync(username, password);
 
                 if (userLogin.Username.Contains("@"))
                 {
@@ -55,21 +63,26 @@ namespace BlazorApp.Components.Pages
             }
         }
 
+        public async Task HandleEditProfile()
+        {
+            
+        }
 
-        public void Logout()
+        public async Task GetListOfPlants()
         {
             try
             {
-                AccountSession.UserSession = null;
-            }
+                plants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
 
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                // Log or handle the exception
+                Console.WriteLine($"Error fetching plants: {ex.Message}");
             }
         }
-
-        async Task HashPassword()
+        
+        public async Task HashPassword()
         {
             // Generate a random salt
             byte[] salt = new byte[16];
@@ -96,46 +109,72 @@ namespace BlazorApp.Components.Pages
                 var response = await client.PostAsync("api/Users", content);
             }
         }
-
-        private void PasswordPolicyCheck(string password)
+        
+        public async Task GetListOfSettings()
         {
-            if (string.IsNullOrWhiteSpace(password))
+            try
             {
-                errorMessage = "Password cannot be empty or contain only whitespace!";
+                settingList = await client.GetFromJsonAsync<List<Setting>>("api/Settings");
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine($"Error fetching Settings: {ex.Message}");
+            }
+        }
+
+        public void Toggle(char switchName)
+        {
+            if (!IsManualChecked && !IsAutoChecked)
+            {
+                IsAutoChecked = true;
+                // setting.AutoMode = true;
+            }
+            else
+            {
+                IsAutoChecked = !IsAutoChecked;
+                IsManualChecked = !IsManualChecked;
+                //setting.AutoMode = false;
+            }
+        }
+        
+        public void Logout()
+        {
+            try
+            {
+                AccountSession.UserSession = null;
             }
 
-            if (password.Length < 10)
+            catch (Exception ex)
             {
-                errorMessage = "Password must be at least 16 characters!";
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        public void EmailPolicyCheck(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                errorMessage = "Email cannot be empty or contain only whitespace!";
             }
 
-            if (!password.Any(char.IsUpper))
+            if (!email.All(char.IsLetterOrDigit))
             {
-                errorMessage = "Password must contain uppercase letters!";
+                errorMessage = "Only letters and digits are allowed in the email!";
             }
 
-            if (!password.Any(char.IsLower))
+            if (!email.Contains("@"))
             {
-                errorMessage = "Password must contain lowercase letters!";
-            }
-
-            if (!password.Any(char.IsDigit))
-            {
-                errorMessage = "Password must contain numbers!";
-            }
-
-            if (!password.Any(c => char.IsSymbol(c) || char.IsPunctuation(c)))
-            {
-                errorMessage = "Password must contain special characters!";
+                errorMessage = "Email is invalid";
             }
 
             else
             {
-                errorMessage = "Password is accepted!";
+                errorMessage = "Email is accepted!";
             }
         }
 
-        private void UsernamePolicyCheck(string username)
+        public void UsernamePolicyCheck(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -178,43 +217,43 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        private void EmailPolicyCheck(string email)
+        public void PasswordPolicyCheck(string password)
         {
-            if (string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(password))
             {
-                errorMessage = "Email cannot be empty or contain only whitespace!";
+                errorMessage = "Password cannot be empty or contain only whitespace!";
             }
 
-            if (!email.All(char.IsLetterOrDigit))
+            if (password.Length < 10)
             {
-                errorMessage = "Only letters and digits are allowed in the email!";
+                errorMessage = "Password must be at least 16 characters!";
             }
 
-            if (!email.Contains("@"))
+            if (!password.Any(char.IsUpper))
             {
-                errorMessage = "Email is invalid";
+                errorMessage = "Password must contain uppercase letters!";
+            }
+
+            if (!password.Any(char.IsLower))
+            {
+                errorMessage = "Password must contain lowercase letters!";
+            }
+
+            if (!password.Any(char.IsDigit))
+            {
+                errorMessage = "Password must contain numbers!";
+            }
+
+            if (!password.Any(c => char.IsSymbol(c) || char.IsPunctuation(c)))
+            {
+                errorMessage = "Password must contain special characters!";
             }
 
             else
             {
-                errorMessage = "Email is accepted!";
+                errorMessage = "Password is accepted!";
             }
         }
 
-        private bool IsAutoChecked = true;
-        private bool IsManualChecked = false;
-
-        private void Toggle(char switchName)
-        {
-            if (!IsManualChecked && !IsAutoChecked)
-            {
-                IsAutoChecked = true;
-            }
-            else
-            {
-                IsAutoChecked = !IsAutoChecked;
-                IsManualChecked = !IsManualChecked;
-            }
-        }
     }
 }

@@ -16,16 +16,14 @@ namespace BlazorApp.Pages
 
         private async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) || !string.IsNullOrWhiteSpace(userLogin.Email) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
                 //Variables
                 string email = "";
                 string username = userLogin.Username;
                 string password = userLogin.Password;
 
-
-                //UserService userService = new UserService();
-                //User validUserInfo = await UserService.GetUserUserInfoAsync(username, password);
+                User validUserInfo = await UserService.GetUserInfoAsync(username, password);
 
                 if (userLogin.UserInfo.Contains("@"))
                 {

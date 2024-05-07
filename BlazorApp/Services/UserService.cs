@@ -34,7 +34,7 @@ namespace BlazorApp.Services
             }
         }
 
-        public async Task<User> GetUserUserInfoAsync(string username, string password)
+        public static async Task<User> GetUserInfoAsync(string username, string password)
         {
             try
             {

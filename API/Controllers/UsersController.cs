@@ -31,7 +31,7 @@ namespace API.Controllers
 
         // GET: api/Users/username/password
         [HttpPost("login")]
-        public async Task<ActionResult<User>> GetUserByEmailPassword(Login login)
+        public async Task<ActionResult<User>> GetUserByEmailPassword(Models.Login login)
         {
             if (_context.Users == null)
             {

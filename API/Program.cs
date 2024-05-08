@@ -20,11 +20,6 @@ namespace API
             IConfiguration Configuration = builder.Configuration;
             string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("DefaultConnection");
 
-            builder.Services.AddSingleton(new 
-            {
-                ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("DefaultConnection"),
-            });
-
             builder.Services.AddDbContext<AppDBContext>(options =>
             options.UseNpgsql(connectionString));
 

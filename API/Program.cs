@@ -18,10 +18,16 @@ namespace API
             builder.Services.AddSwaggerGen();
 
             IConfiguration Configuration = builder.Configuration;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("DefaultConnection");
+            string connectionString = Configuration.GetConnectionString("DefaultConnection"); 
+              string connectionString2 = Environment.GetEnvironmentVariable("DefaultConnection");
+
+            //builder.Services.AddDbContext<AppDBContext>(options =>
+            //options.UseNpgsql(connectionString));
 
             builder.Services.AddDbContext<AppDBContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql(connectionString2));
+
+            Console.WriteLine(connectionString2);
 
             var app = builder.Build();
 

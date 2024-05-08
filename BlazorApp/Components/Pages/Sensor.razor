@@ -8,14 +8,19 @@
 <PageTitle>Sensor</PageTitle>
 
 <h1>Sensor</h1>
+
 <div class="d-flex h-auto">
+
 	<div class="w-50 p-3" style="background-color: salmon;">
 		<h3>Sensor 1 - can change sensor name</h3>
 		<p>selected plant: @selectedPlant1</p>
+
 		<div class="dropdown">
+
 			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				<text>Choose Plant</text>
 			</button>
+
 			<ul class="dropdown-menu">
 				@if (plants != null)
 				{
@@ -29,15 +34,20 @@
 					<li><span class="dropdown-item">Loading...</span></li>
 				}
 			</ul>
+
 		</div>
 	</div>
+
 	<div class="w-50 p-3" style="background-color: darkgoldenrod;">
 		<h3>Sensor 2 - can change sensor name</h3>
 		<p>selected plant: @selectedPlant2</p>
+		
 		<div class="dropdown">
+		
 			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			  <text>Choose Plant</text>
 			</button>
+			
 			<ul class="dropdown-menu">
 				@if (plants != null)
 				{
@@ -51,6 +61,7 @@
 					<li><span class="dropdown-item">Loading...</span></li>
 				}
 			</ul>
+		
 		</div>
 	</div>
 </div>

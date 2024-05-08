@@ -19,7 +19,7 @@ namespace API
 
             IConfiguration Configuration = builder.Configuration;
             string connectionString = Configuration.GetConnectionString("DefaultConnection"); 
-              string connectionString2 = Environment.GetEnvironmentVariable("DefaultConnection");
+            string connectionString2 = Environment.GetEnvironmentVariable("DefaultConnection");
 
             //builder.Services.AddDbContext<AppDBContext>(options =>
             //options.UseNpgsql(connectionString));
@@ -27,7 +27,9 @@ namespace API
             builder.Services.AddDbContext<AppDBContext>(options =>
             options.UseNpgsql(connectionString2));
 
-            Console.WriteLine(connectionString2);
+            Console.WriteLine("det her er render " +connectionString2);
+
+            Console.WriteLine("den her er den lokal " + connectionString);
 
             var app = builder.Build();
 

@@ -20,12 +20,12 @@ namespace API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDBContext _context;
-
+  
         public UsersController(AppDBContext context)
         {
             _context = context;
         }
-
+  
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
@@ -35,7 +35,7 @@ namespace API.Controllers
 
         // GET: api/Users/username/password
         [HttpPost("login")]
-        public async Task<ActionResult<User>> GetUserByEmailPassword(Login login)
+        public async Task<ActionResult<User>> GetUserByEmailPassword(Models.Login login)
         {
             if (_context.Users == null)
             {

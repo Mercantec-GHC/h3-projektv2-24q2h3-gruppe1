@@ -27,11 +27,9 @@ String modePrint = "";
 bool autoUpdate = false;     // Flag to control automatic update
 const int moisturePin = A6;  // Change this if needed
 const int moisturePin2 = A5; // Change this if needed
-const long interval = 10000; // Interval at which to update (10 seconds)
+const long interval = 60000; // Interval at which to update (10 seconds)
 bool showNotification = false;
-unsigned long lastPostTime = 0;
 unsigned long previousMillis = 0; // Store last update time
-const unsigned long postInterval = 10000; // 10 seconds between posts
 
 // Read moisture sensor values
 const int wet = 0; // Value for wet sensor
@@ -64,11 +62,46 @@ void setup() {
 // -------------------------------------------------------------- //
 
 void loop() {
-    carrier.Buttons.update();
+    handleButtons();
 
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
     percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
 
+    if ((moistureValue < 1000 || moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
+        notification();
+        showNotification = true; // Set the flag after showing notification
+    }
+    else if ((moistureValue < 1000 && moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
+        notification();
+        showNotification = true; // Set the flag after showing notification
+    }
+    else if ((moistureValue < 1000 || moistureValue2 < 1000) && showNotification) {
+        showNotification = false; // Set the flag after showing notification
+    }
+
+    unsigned long currentMillis = millis();
+    if (autoUpdate && displayOn && currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis; // Save the last update time
+        displayMoisture();
+        sendPutSettingRequest(autoMode);
+        sendPostRequest(percentageHumididySensor, "s1", "sol");
+        sendPostRequest(percentageHumididySensor2, "s2", "sne");
+    }
+
+    // if (currentMillis - lastPostTime >= postInterval) {
+    //     lastPostTime = currentMillis;
+    //    
+    // }
+
+   
+
+    delay(10); // Short delay for button responsiveness
+}
+
+// -------------------------------------------------------------- //
+
+void handleButtons() {
+    carrier.Buttons.update();
     if (carrier.Buttons.onTouchDown(TOUCH0)) {
         displayOn = false;
         autoUpdate = false; // Stop automatic updates
@@ -76,7 +109,7 @@ void loop() {
         delay(50);
     } else if (carrier.Buttons.onTouchDown(TOUCH1)) {
         displayOn = true; // Ensure display is on
-        autoUpdate = !autoUpdate; // Toggle auto-update state
+        autoUpdate = true; // Toggle auto-update state
         displayMoisture(); // Display immediately when button is pressed
         delay(50);
     } else if (carrier.Buttons.onTouchDown(TOUCH2)) {
@@ -86,34 +119,6 @@ void loop() {
         showNotification = false;
         delay(50);
     }
-
-    if ((moistureValue < 1000 || moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
-        notification();
-        showNotification = true; // Set the flag after showing notification
-    }
-    if ((moistureValue < 1000 && moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
-        notification();
-        showNotification = true; // Set the flag after showing notification
-    }
-    if ((moistureValue < 1000 || moistureValue2 < 1000) && showNotification) {
-        showNotification = false; // Set the flag after showing notification
-    }
-
-    unsigned long currentMillis = millis();
-    if (autoUpdate && displayOn && currentMillis - previousMillis >= interval) {
-        previousMillis = currentMillis; // Save the last update time
-        displayMoisture();
-    }
-
-    // if (currentMillis - lastPostTime >= postInterval) {
-    //     lastPostTime = currentMillis;
-    //     sendPostRequest(percentageHumididySensor, "s1", "sol");
-    //     sendPostRequest(percentageHumididySensor2, "s2", "sne");
-    // }
-
-    sendPostSettingRequest(autoMode);
-
-    delay(10); // Short delay for button responsiveness
 }
 
 // -------------------------------------------------------------- //
@@ -139,6 +144,7 @@ void displayMoisture() {
         carrier.display.setTextSize(2); // Set text size
         carrier.display.print(modePrint);
     }
+    delay(10);
 }
 
 // -------------------------------------------------------------- //
@@ -180,6 +186,7 @@ void notification() {
     else if(moistureValue2 < 1000) {
         carrier.display.print("Plant 2 is dying!");
     }
+    delay(10);
 }
 
 // -------------------------------------------------------------- //
@@ -197,33 +204,34 @@ void connectToWiFi() {
 
 // -------------------------------------------------------------- //
 
-// void sendPostRequest(int moisturePercentage, const char* sensorName, const char* plantName) {
-//     DynamicJsonDocument doc(1024);
-//     doc["moistureLevel"] = moisturePercentage;
-//     doc["SensorName"] = sensorName;
-//     doc["PlantName"] = plantName;
+void sendPostRequest(int moisturePercentage, const char* sensorName, const char* plantName) {
+    DynamicJsonDocument doc(1024);
+    doc["moistureLevel"] = moisturePercentage;
+    doc["SensorName"] = sensorName;
+    doc["PlantName"] = plantName;
 
-//     String payload;
-//     serializeJson(doc, payload);
+    String payload;
+    serializeJson(doc, payload);
 
-//     Serial.println("Sending POST request");
-//     client.beginRequest();
-//     client.post(endpoint);
-//     client.sendHeader("Content-Type", "application/json");
-//     client.sendHeader("Content-Length", payload.length());
-//     client.endRequest();
-//     client.print(payload);
+    Serial.println("Sending POST request");
+    client.beginRequest();
+    client.post(endpoint);
+    client.sendHeader("Content-Type", "application/json");
+    client.sendHeader("Content-Length", payload.length());
+    client.endRequest();
+    client.print(payload);
 
-//     int statusCode = client.responseStatusCode();
-//     String response = client.responseBody();
-// //makes a json object
-//     float minWaterLevel = doc["minWaterLevel"];
-//     float maxWaterLevel = doc["maxWaterLevel"];
-//     Serial.print("HTTP Response Code: ");
-//     Serial.println(statusCode);
-//     Serial.print("Response Body: ");
-//     Serial.println(response);
-// }
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+//makes a json object
+    float minWaterLevel = doc["minWaterLevel"];
+    float maxWaterLevel = doc["maxWaterLevel"];
+    Serial.print("HTTP Response Code: ");
+    Serial.println(statusCode);
+    Serial.print("Response Body: ");
+    Serial.println(response);
+    delay(10);
+}
 
 void sendGetRequest() {
     int statusCode = client.responseStatusCode();
@@ -239,14 +247,14 @@ void sendGetRequest() {
     delay(10000);
 }
 
-void sendPostSettingRequest(bool mode) {
+void sendPutSettingRequest(bool mode) {
   DynamicJsonDocument doc(1024);
     doc["AutoMode"] = mode;
  
     String payload;
     serializeJson(doc, payload);
  
-    Serial.println("Sending POST request");
+    Serial.println("Sending PUT request");
 
     // Make a HTTP request:
     client.beginRequest();
@@ -260,4 +268,5 @@ void sendPostSettingRequest(bool mode) {
     Serial.println(statusCode);
     Serial.print("Response Body: ");
     Serial.println(response);
+    delay(10);
 }

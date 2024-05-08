@@ -17,19 +17,11 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            IConfiguration Configuration = builder.Configuration;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection"); 
-            string connectionString2 = Environment.GetEnvironmentVariable("DefaultConnection");
-
-            //builder.Services.AddDbContext<AppDBContext>(options =>
-            //options.UseNpgsql(connectionString));
+           
 
             builder.Services.AddDbContext<AppDBContext>(options =>
-            options.UseNpgsql(connectionString2));
+            options.UseNpgsql());
 
-            Console.WriteLine("det her er render " +connectionString2);
-
-            Console.WriteLine("den her er den lokal " + connectionString);
 
             var app = builder.Build();
 

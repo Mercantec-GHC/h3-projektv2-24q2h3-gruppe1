@@ -132,9 +132,12 @@ namespace API.Controllers
             {
                 rng.GetBytes(salt);
             }
-
+   
             using (var sha256 = new SHA256Managed())
             {
+                
+                salt = user.Salt;
+                //salt = user.Salt;
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 

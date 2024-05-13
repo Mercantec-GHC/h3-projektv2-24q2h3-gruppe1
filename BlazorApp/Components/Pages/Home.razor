@@ -33,7 +33,7 @@
         </div>
         
         <!-- EditForm for sign up -->
-        <EditForm Model="@userSignup">
+        <EditForm Model="@userSignup" OnValidSubmit="signup">
             
             <div class="modal-body">
             
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <InputText id="uname" @bind-Value="userSignup.Username" placeholder="Username" required /><br><br>
                 </div>
-
+       
                 <label for="pass">Password:</label><br>
                 <div class="form-group">
                     <InputText id="pass" @bind-Value="userSignup.Password" type="password" placeholder="Password" required /><br><br>
@@ -52,12 +52,11 @@
                 <div class="form-group">
                     <InputText id="email" @bind-Value="userSignup.Email" type="email" placeholder="Email" required /><br><br>
                 </div>
-            
             </div>
         
             <div class="modal-footer">
                 <!-- Buttons for sign up -->
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <input type="submit" value="submit" class="btn btn-primary">
             </div>
 
         </EditForm>

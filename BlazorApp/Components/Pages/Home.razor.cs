@@ -68,7 +68,7 @@ namespace BlazorApp.Components.Pages
 
         async Task Handlesignup()
         {
-            string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+            var json = System.Text.Json.JsonSerializer.Serialize(userSignup);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync("api/Users", content);
 

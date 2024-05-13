@@ -30,6 +30,10 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
@@ -117,15 +121,22 @@ namespace API.Controllers
         [HttpPost("User")]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'User'  is null.");
+            }
             // Generate a random salt
             byte[] salt = new byte[16];
             using (var rng = new RNGCryptoServiceProvider())
             {
                 rng.GetBytes(salt);
             }
-
+   
             using (var sha256 = new SHA256Managed())
             {
+                
+                salt = user.Salt;
+                //salt = user.Salt;
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 

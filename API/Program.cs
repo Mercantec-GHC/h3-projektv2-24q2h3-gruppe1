@@ -17,11 +17,11 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            IConfiguration Configuration = builder.Configuration;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("DefaultConnection");
+           
 
             builder.Services.AddDbContext<AppDBContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql());
+
 
             var app = builder.Build();
 

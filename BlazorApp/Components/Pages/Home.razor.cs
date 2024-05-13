@@ -34,27 +34,27 @@ namespace BlazorApp.Components.Pages
                 string username = userLogin.Username;
                 string password = userLogin.Password;
 
-                // Assuming UserService has a method like GetUserAsync for fetching user info
-                User validUserInfo = await UserService.GetUserInfoAsync(username, password);
+                //// Assuming UserService has a method like GetUserAsync for fetching user info
+                //User validUserInfo = await UserService.GetUserInfoAsync(username, password);
 
-                if (userLogin.Username.Contains("@"))
-                {
-                    email = userLogin.Username;
-                }
-                else
-                {
-                    username = userLogin.Username;
-                }
+                //if (userLogin.Username.Contains("@"))
+                //{
+                //    email = userLogin.Username;
+                //}
+                //else
+                //{
+                //    username = userLogin.Username;
+                //}
 
-                if (validUserInfo != null)
-                {
-                    // Navigate to the home page after successful login
-                    NavigationManager.NavigateTo("/");
-                }
-                else
-                {
-                    errorMessage = "Invalid credentials. Please check your username and password.";
-                }
+                //if (validUserInfo != null)
+                //{
+                //    // Navigate to the home page after successful login
+                //    NavigationManager.NavigateTo("/");
+                //}
+                //else
+                //{
+                //    errorMessage = "Invalid credentials. Please check your username and password.";
+                //}
             }
             else
             {
@@ -82,32 +82,11 @@ namespace BlazorApp.Components.Pages
             }
         }
         
-        public async Task HashPassword()
+        public async Task signup()
         {
-            // Generate a random salt
-            byte[] salt = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(salt);
-            }
-
-            using (var sha256 = new SHA256Managed())
-            {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(userSignup.Password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
-
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
-
-                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
-                // Assuming you might want to update the password with the hash
-                userSignup.Password = Convert.ToBase64String(hashedBytes);
-
-                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users", content);
-            }
+            string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("api/Users", content);
         }
         
         public async Task GetListOfSettings()

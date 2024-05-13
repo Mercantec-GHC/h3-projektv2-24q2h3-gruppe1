@@ -18,35 +18,22 @@ namespace BlazorApp.Pages
         {
             if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
             {
-                //Variables
-                string email = "";
-                string username = userLogin.Username;
-                string password = userLogin.Password;
 
-                User validUserInfo = await UserService.GetUserInfoAsync(username, password);
+                User validUserInfo = await UserService.GetUserInfoAsync(userLogin.Username, userLogin.Password);
 
-                //if (userLogin.UserInfo.Contains("@"))
-                //{
-                //    email = userLogin.UserInfo;
-                //}
-                //else
-                //{
-                //    username = userLogin.UserInfo;
-                //}
-
-                //if (validUserInfo != null)
-                //{
-                //    postDefaultSettings();
-                //    AccountSession.UserSession = validUserInfo;
-                //    NavigationManager.NavigateTo("/home");
-                //}
-
-                //else
-                //{
-                //    errorMessage = "Invalid credentials. Please check your username and password.";
-                //}
+                if (validUserInfo != null)
+                {
+                    // User authenticated successfully
+                    postDefaultSettings();
+                    AccountSession.UserSession = validUserInfo;
+                    NavigationManager.NavigateTo("/home");
+                }
+                else
+                {
+                    // Authentication failed
+                    errorMessage = "Invalid credentials. Please check your username and password.";
+                }
             }
-
             else
             {
                 // Handle empty input
@@ -60,12 +47,12 @@ namespace BlazorApp.Pages
             {
                 AccountSession.UserSession = null;
             }
-            
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
+
 
         async Task postDefaultSettings()
         {

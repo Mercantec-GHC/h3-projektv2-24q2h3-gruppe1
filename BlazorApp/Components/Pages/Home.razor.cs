@@ -26,7 +26,7 @@ namespace BlazorApp.Components.Pages
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
         
-        public HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
+        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
 
         public async Task HandleLogin()
         {
@@ -66,9 +66,9 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        async Task Handlesignup()
+        async Task HandleSignup()
         {
-            var json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+            string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync("api/Users", content);
 

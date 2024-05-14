@@ -45,21 +45,29 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-       
-                using (var sha256 = new SHA256Managed())
-                {
-                    byte[] passwordBytes = Encoding.UTF8.GetBytes(login.password);
-                    byte[] saltedPassword = new byte[passwordBytes.Length + user1.Salt.Length];
+            // Generate a random salt
+            byte[] salt = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
 
-                    Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                    Buffer.BlockCopy(user1.Salt.ToArray(), 0, saltedPassword, passwordBytes.Length, user1.Salt.Length);
+            using (var sha256 = new SHA256Managed())
+            {
 
-                    byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+                user1.Salt = salt.ToString();
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(user1.Password);
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
-                    // Assuming you might want to update the password with the hash
-                    login.password = Convert.ToBase64String(hashedBytes);
-                }
-            
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+
+                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+
+                // Assuming you might want to update the password with the hash
+                user1.Password = Convert.ToBase64String(hashedBytes);
+            }
+
             var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();

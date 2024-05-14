@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\blazorapp\\components\\pages\\home.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|solutionrelative:blazorapp\\components\\pages\\home.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\blazorapp\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|solutionrelative:blazorapp\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\blazorapp\\components\\pages\\home.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|solutionrelative:blazorapp\\components\\pages\\home.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\blazorapp\\components\\pages\\sensor.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{78CFC2EC-E9E5-48A2-9ADA-AF98F8E39CB5}|BlazorApp\\BlazorApp.csproj|solutionrelative:blazorapp\\components\\pages\\sensor.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|c:\\users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\api\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D3E50EA-50B2-4808-A72E-22C0505505F4}|API\\API.csproj|solutionrelative:api\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,54 +42,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Data\\AppDBContext.cs",
-              "RelativeDocumentMoniker": "API\\Data\\AppDBContext.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Data\\AppDBContext.cs",
-              "RelativeToolTip": "API\\Data\\AppDBContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAACYAAAA",
+              "DocumentIndex": 5,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\Login.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Login.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\Login.cs",
+              "RelativeToolTip": "API\\Models\\Login.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T11:43:20.007Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Dockerfile",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Dockerfile",
-              "RelativeDocumentMoniker": "API\\Dockerfile",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Dockerfile",
-              "RelativeToolTip": "API\\Dockerfile",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-08T11:15:45.788Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Program.cs",
-              "RelativeDocumentMoniker": "API\\Program.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Program.cs",
-              "RelativeToolTip": "API\\Program.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAgwCkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T07:29:36.702Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Home.razor.cs",
-              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Home.razor.cs",
-              "RelativeDocumentMoniker": "BlazorApp\\Components\\Pages\\Home.razor.cs",
-              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Home.razor.cs",
-              "RelativeToolTip": "BlazorApp\\Components\\Pages\\Home.razor.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAgwC8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T10:31:15.62Z",
+              "WhenOpened": "2024-05-14T08:47:14.235Z",
               "EditorCaption": ""
             },
             {
@@ -96,9 +61,61 @@
               "RelativeDocumentMoniker": "BlazorApp\\Components\\Pages\\Home.razor",
               "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Home.razor",
               "RelativeToolTip": "BlazorApp\\Components\\Pages\\Home.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "ViewState": "AQIAAJcAAAAAAAAAAAAUwKsAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-05-08T10:31:12.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Sensor.razor",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Sensor.razor",
+              "RelativeDocumentMoniker": "BlazorApp\\Components\\Pages\\Sensor.razor",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Sensor.razor",
+              "RelativeToolTip": "BlazorApp\\Components\\Pages\\Sensor.razor",
+              "ViewState": "AQIAADgAAAAAAAAAAAAswAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-14T06:56:08.089Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Home.razor.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Home.razor.cs",
+              "RelativeDocumentMoniker": "BlazorApp\\Components\\Pages\\Home.razor.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\BlazorApp\\Components\\Pages\\Home.razor.cs",
+              "RelativeToolTip": "BlazorApp\\Components\\Pages\\Home.razor.cs",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAYwDAAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T10:31:15.62Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
+              "RelativeDocumentMoniker": "API\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Models\\User.cs",
+              "RelativeToolTip": "API\\Models\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T06:16:29.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\kasp728h\\source\\repos\\h3-projektv2-24q2h3-gruppe1\\API\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "API\\Controllers\\UsersController.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAIcAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T12:15:17.571Z",
               "EditorCaption": ""
             }
           ]

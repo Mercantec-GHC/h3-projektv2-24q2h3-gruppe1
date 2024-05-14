@@ -87,6 +87,11 @@ namespace BlazorApp.Components.Pages
             string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync("api/Users", content);
+            if (response.IsSuccessStatusCode)
+            {
+                // Registration successful
+                NavigationManager.NavigateTo("/login");
+            }
         }
         
         public async Task GetListOfSettings()

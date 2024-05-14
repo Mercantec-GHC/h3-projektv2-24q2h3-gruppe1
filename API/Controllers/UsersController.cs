@@ -135,7 +135,7 @@ namespace API.Controllers
             using (var sha256 = new SHA256Managed())
             {
 
-                user.Salt = salt;
+                user.Salt = salt.ToString();
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 

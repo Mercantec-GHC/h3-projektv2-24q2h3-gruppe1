@@ -198,7 +198,6 @@ namespace API.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Salt")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("UpdatedAt")

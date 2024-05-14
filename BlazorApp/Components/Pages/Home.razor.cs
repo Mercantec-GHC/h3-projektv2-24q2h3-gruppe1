@@ -16,7 +16,7 @@ namespace BlazorApp.Components.Pages
         public List<Plant>? plants;
         public List<Setting>? settingList;
 
-        public User userLogin = new User();
+        public Login userLogin = new ();
         public User userSignup = new User();
         public User userProfile = new User();
 
@@ -30,35 +30,17 @@ namespace BlazorApp.Components.Pages
 
         public async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
             {
-                // Variables
-                string email = "";
-                string username = userLogin.Username;
-                string password = userLogin.Password;
+                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users", content);
 
-
-
-              //  User validUserInfo = await UserService.GetUserInfoAsync(username, password);
-
-                //if (userLogin.Username.Contains("@"))
-                //{
-                //    email = userLogin.Username;
-                //}
-                //else
-                //{
-                //    username = userLogin.Username;
-                //}
-
-                //if (validUserInfo != null)
-                //{
-                //    // Navigate to the home page after successful login
-                //    NavigationManager.NavigateTo("/");
-                //}
-                //else
-                //{
-                //    errorMessage = "Invalid credentials. Please check your username and password.";
-                //}
+                if (response.IsSuccessStatusCode)
+                {
+                    // Registration successful
+                    NavigationManager.NavigateTo("/login");
+                }
             }
             else
             {

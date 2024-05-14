@@ -91,27 +91,9 @@ namespace BlazorApp.Components.Pages
         // Login user 
         public async Task HandleLogin()
         {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
             {
-                // Get the user information from the API
-                User validUserInfo = await UserService.GetUserAsync(userLogin.Username, userLogin.Password);
 
-                if (validUserInfo != null)
-                {
-                    // User authenticated successfully
-                    // Navigate to the home page after successful login
-                    NavigationManager.NavigateTo("/");
-                }
-                else
-                {
-                    // Authentication failed
-                    errorMessage = "Invalid credentials. Please check your username and password.";
-                }
-            }
-            else
-            {
-                // Handle empty input
-                errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
             }
         }
 
@@ -120,7 +102,6 @@ namespace BlazorApp.Components.Pages
         {
             if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
             {
-                User validUserInfo = await UserService.GetUserAsync(newUsername, newPassword); // Add the new variables
 
                 if (userProfile.Username.Contains("@"))
                 {
@@ -144,17 +125,7 @@ namespace BlazorApp.Components.Pages
                     errorMessage = "Invalid credentials. Please make sure you have a different password";
                 }
 
-                // --------------------------------------- //
-
-                if (validUserInfo != null)
-                {
-                    // Navigate to the home page after successful login
-                    NavigationManager.NavigateTo("/");
-                }
-                else
-                {
-                    errorMessage = "Invalid credentials. Please check your username and password.";
-                }
+         
             }
             else
             {

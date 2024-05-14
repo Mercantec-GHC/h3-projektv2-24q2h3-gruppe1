@@ -34,61 +34,40 @@ namespace BlazorApp.Services
             }
         }
 
-        public static async Task<User> GetUserInfoAsync(string username, string password)
+        string userApi = "https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users";
+
+        // Method to retrieve user data from the API
+        public async Task<User> GetUserAsync(string username, string password)
         {
+            HttpClient client = new HttpClient();
+
             try
             {
-                // Create HttpClient instance (preferably reuse HttpClient instance)
-                using (HttpClient userClient = new HttpClient())
+                // Construct the API endpoint with username and password parameters
+                string apiEndpoint = $"{userApi}/login";
+
+                // Send GET request to the API
+                HttpResponseMessage response = await client.GetAsync(apiEndpoint);
+
+                // Check if request was successful
+                if (response.IsSuccessStatusCode)
                 {
-                    // Construct the API URL (avoid passing sensitive information in URL)
-                    string userApi = $"https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com/api/Users/{username}/{password}";
-
-                    // Make HTTP GET request
-                    HttpResponseMessage response = await userClient.GetAsync(userApi);
-
-                    // Check if request was successful
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Read response content
-                        string jsonData = await response.Content.ReadAsStringAsync();
-
-                        // Deserialize JSON to User object
-                        User user = JsonConvert.DeserializeObject<User>(jsonData);
-
-                        // Validate user's password here if necessary
-                        if (user.Username == username && user.Password == password)
-                        {
-                            return user;
-                        }
-                        //else if (user.Email == email && user.Password == password)
-                        //{
-                        //}
-                    }
-                    else
-                    {
-                        // Log unsuccessful response status code
-                        Console.WriteLine($"HTTP request failed with status code: {response.StatusCode}");
-                    }
+                    // Read and deserialize the response content
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    User user = JsonConvert.DeserializeObject<User>(jsonResponse);
+                    return user;
+                }
+                else
+                {
+                    // Request failed, return null or handle error as needed
+                    return null;
                 }
             }
-            catch (HttpRequestException ex)
+            catch (Exception)
             {
-                // Log HTTP request exception
-                Console.WriteLine($"HTTP request exception: {ex.Message}");
+                // Exception occurred, return null or handle error as needed
+                return null;
             }
-            catch (JsonException ex)
-            {
-                // Log JSON deserialization exception
-                Console.WriteLine($"JSON deserialization exception: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                // Log other exceptions
-                Console.WriteLine($"Unexpected exception: {ex.Message}");
-            }
-
-            return null;
         }
     }
 }

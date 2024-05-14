@@ -17,315 +17,326 @@
 
 <h1>Home</h1>
 
-<!---------------------------------- Sign up ---------------------------------->
-<tr>
-<!-- Trigger/Open The Modal -->
-<button id="myBtnSignup" class="btn btn-primary">Sign up</button>
+<div class="d-flex">
 
-<!-- The Modal -->
-<div id="myModalSignup" class="modal">
+    <!---------------------------------- Sign up ---------------------------------->
+    <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
+        <!-- The Modal -->
+        <div id="myModalSignup" class="modal">
 
-        <div class="modal-header">
-            <h5 class="modal-title">Sign up</h5>
-        </div>
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" on>&times;</span>
 
-        <!-- EditForm for sign up -->
-            <EditForm Model="@userSignup" OnValidSubmit="Handlesignup">
-            
-            <div class="modal-body">
-
-                <!-- Input fields for sign up -->
-                <label for="uname">Username:</label><br>
-                <div class="form-group">
-                    <InputText id="uname" @bind-Value="userSignup.Username" placeholder="Username" required /><br><br>
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign up</h5>
                 </div>
 
-                <label for="pass">Password:</label><br>
-                <div class="form-group">
-                    <InputText id="pass" @bind-Value="userSignup.Password" type="password" placeholder="Password" required /><br><br>
-                </div>
+                <!-- EditForm for sign up -->
+                <EditForm Model="@userSignup">
 
-                <label for="email">Email</label>
-                <div class="form-group">
-                    <InputText id="email" @bind-Value="userSignup.Email" type="email" placeholder="Email" required /><br><br>
-                </div>
+                    <div class="modal-body">
 
-            </div>
+                        <!-- Input fields for sign up -->
+                        <label for="uname">Username:</label><br>
+                        <div class="form-group">
+                            <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
+                        </div>
 
-            <div class="modal-footer">
-                <!-- Buttons for sign up -->
-                <input type="submit" class="btn btn-primary" value="Signup">
-            </div>
+                        <label for="pass">Password:</label><br>
+                        <div class="form-group">
+                            <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
+                        </div>
 
-        </EditForm>
-    </div>
-</div>
-</tr>
+                        <label for="email">Email</label>
+                        <div class="form-group">
+                            <InputText id="email" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
+                        </div>
 
-<!----------------------------------- Login ----------------------------------->
-<tr>
-<!-- Trigger/Open The Modal -->
-<button class="btn btn-primary" id="myBtnLogin">Login</button>
-
-<!-- The Modal -->
-<div id="myModalLogin" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-
-        <div class="modal-header">
-            <h5 class="modal-title">Login</h5>
-        </div>
-
-        <!-- EditForm for login -->
-        <EditForm Model="@userLogin" OnValidSubmit="HandleLogin">
-            <div class="modal-body">
-
-                <!-- Input fields for login -->
-                <label for="login-uname">Username:</label><br>
-                <div class="form-group">
-                    <InputText id="login-uname" @bind-Value="userLogin.username" placeholder="Username" required /><br><br>
-                </div>
-
-                <label for="login-pass">Password:</label><br>
-                <div class="form-group">
-                    <InputText id="login-pass" @bind-Value="userLogin.password" type="password" placeholder="Password" required /><br><br>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <!-- Buttons for login -->
-                <button type="submit" class="btn btn-primary" onclick="loginUser()">Login</button>
-            </div>
-
-        </EditForm>
-    </div>
-</div>
-</tr>
-
-<!-------------------------------- Edit Profile ------------------------------->
-<tr>
-<!-- Trigger/Open The Modal -->
-<button class="btn btn-primary" id="myBtnEditProfile">Edit Profile</button>
-
-<!-- The Modal -->
-<div id="myModalEditProfile" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-
-        <div class="modal-header">
-            <h5 class="modal-title">Edit Profile</h5>
-        </div>
-
-        <!-- EditForm for login -->
-        <EditForm Model="@userProfile" OnValidSubmit="HandleEditProfile">
-            <div class="modal-body">
-
-                <!-- Input fields for login -->
-                <label for="login-uname">Username:</label><br>
-                <div class="form-group">
-                    <InputText id="login-uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
-                </div>
-
-                <label for="login-pass">Password:</label><br>
-                <div class="form-group">
-                    <InputText id="login-pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <!-- Buttons for login -->
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-
-        </EditForm>
-    </div>
-</div>
-</tr>
-
-<!-------------------------------- Create Plant ------------------------------->
-<tr>
-<!-- Trigger/Open The Modal -->
-<button class="btn btn-primary" id="myBtnCreatePlant">Create Plant</button>
-
-<!-- The Modal -->
-<div id="myModalCreatePlant" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-
-        <div class="modal-header">
-            <h5 class="modal-title">Create Plant</h5>
-        </div>
-
-            <!-- EditForm for login -->
-            <EditForm Model="@plantProfile" OnValidSubmit="HandleCreatePlant">
-                <div class="modal-body">
-
-                    <!-- Input fields for login -->
-                    <label for="plantName">Plant Name:</label><br>
-                    <div class="form-group">
-                        <InputText id="plantName" @bind-Value="plantProfile.PlantName" placeholder="Plant Name" required /><br><br>
                     </div>
 
-                    <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
-                    <div class="form-group">
-                        <InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
+                    <div class="modal-footer">
+                        <!-- Buttons for sign up -->
+                        <button type="submit" class="btn btn-primary" @onclick="HandleSignUp">Sign Up</button>
                     </div>
 
-                    <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
-                    <div class="form-group">
-                        <InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
+                    <p class="error-message" id="login-error">@errorMessage</p>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+    <!----------------------------------- Login ----------------------------------->
+    <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnLogin" class="btn btn-primary buttons">Login</button>
+
+        <!-- The Modal -->
+        <div id="myModalLogin" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                </div>
+
+                <!-- EditForm for login -->
+                <EditForm Model="@userLogin">
+                    <div class="modal-body">
+
+                        <!-- Input fields for login -->
+                        <label for="login-uname">Username:</label><br>
+                        <div class="form-group">
+                            <InputText id="login-uname" @bind-Value="userLogin.Username" placeholder="Username" required /><br><br>
+                        </div>
+
+                        <label for="login-pass">Password:</label><br>
+                        <div class="form-group">
+                            <InputText id="login-pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required /><br><br>
+                        </div>
+
                     </div>
+
+                    <div class="modal-footer">
+                        <!-- Buttons for login -->
+                        <button type="submit" class="btn btn-primary" @onclick="HandleLogin">Login</button>
+                    </div>
+
+                    <p class="error-message" id="login-error">@errorMessage</p>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------- Edit Profile ------------------------------->
+    <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnEditProfile" class="btn btn-primary buttons">Edit Profile</button>
+
+        <!-- The Modal -->
+        <div id="myModalEditProfile" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                </div>
+
+                <!-- EditForm for login -->
+                <EditForm Model="@userProfile">
+                    <div class="modal-body">
+
+                        <!-- Input fields for login -->
+                        <label for="login-uname">Username:</label><br>
+                        <div class="form-group">
+                            <InputText id="login-uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
+                        </div>
+
+                        <label for="login-pass">Password:</label><br>
+                        <div class="form-group">
+                            <InputText id="login-pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <!-- Buttons for login -->
+                        <button type="submit" class="btn btn-primary" @onclick="HandleEditProfile">Save Changes</button>
+                    </div>
+
+                    <p class="error-message" id="login-error">@errorMessage</p>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------- Create Plant ------------------------------->
+    <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnCreatePlant" class="btn btn-primary buttons">Create Plant</button>
+
+        <!-- The Modal -->
+        <div id="myModalCreatePlant" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Plant</h5>
+                </div>
+
+                <!-- EditForm for login -->
+                <EditForm Model="@plantProfile">
+                    <div class="modal-body">
+
+                        <!-- Input fields for login -->
+                        <label for="plantName">Plant Name:</label><br>
+                        <div class="form-group">
+                            <InputText id="plantName" @bind-Value="plantProfile.PlantName" placeholder="Plant Name" required /><br><br>
+                        </div>
+
+                        <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
+                        <div class="form-group">
+                            <InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
+                        </div>
+
+                        <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
+                        <div class="form-group">
+                            <InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <!-- Buttons for login -->
+                        <button type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
+                    </div>
+
+                    <p class="error-message" id="login-error">@errorMessage</p>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------- Edit Plant -------------------------------->
+    <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnEditPlant" class="btn btn-primary buttons">Edit Plant</button>
+
+        <!-- The Modal -->
+        <div id="myModalEditPlant" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Plant</h5>
+                </div>
+
+                <!-- EditForm for login -->
+                <EditForm Model="@plantProfile">
+                    <div class="modal-body">
+
+                        <!-- Input fields for login -->
+                        <label for="plantName">Plant Name:</label><br>
+                        <div class="form-group">
+                            <InputText id="plantName" @bind-Value="plantProfile.PlantName" placeholder="Plant Name" required /><br><br>
+                        </div>
+
+                        <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
+                        <div class="form-group">
+                            <InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
+                        </div>
+
+                        <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
+                        <div class="form-group">
+                            <InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <!-- Buttons for login -->
+                        <button type="submit" class="btn btn-primary" @onclick="HandleEditPlant">Save Changes</button>
+                    </div>
+
+                    <p class="error-message" id="login-error">@errorMessage</p>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------- Setup Sensor ------------------------------->
+    <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnSetupSensor" class="btn btn-primary buttons">Setup Sensor</button>
+
+        <!-- The Modal -->
+        <div id="myModalSetupSensor" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Setup Sensor</h5>
+                </div>
+
+                <h3>Sensor 1 - can change sensor name</h3>
+                <p>selected plant: @selectedPlant1</p>
+
+                <div class="dropdown">
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <text>Choose Plant</text>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        @if (plants != null)
+                        {
+                            @foreach (var plant in plants)
+                            {
+                                <li><button class="dropdown-item" @onclick="() => SelectPlant1(plant)">@plant.PlantName</button></li>
+                            }
+                        }
+                        else
+                        {
+                            <li><span class="dropdown-item">Loading...</span></li>
+                        }
+                    </ul>
+
+                </div>
+
+                <h3>Sensor 2 - can change sensor name</h3>
+                <p>selected plant: @selectedPlant2</p>
+
+                <div class="dropdown">
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <text>Choose Plant</text>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        @if (plants != null)
+                        {
+                            @foreach (var plant in plants)
+                            {
+                                <li><button class="dropdown-item" @onclick="() => SelectPlant2(plant)">@plant.PlantName</button></li>
+                            }
+                        }
+                        else
+                        {
+                            <li><span class="dropdown-item">Loading...</span></li>
+                        }
+                    </ul>
 
                 </div>
 
                 <div class="modal-footer">
                     <!-- Buttons for login -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" @onclick="SetupSensor">Save Changes</button>
                 </div>
-
-            </EditForm>
-
-    </div>
-</div>
-</tr>
-
-<!--------------------------------- Edit Plant -------------------------------->
-<tr>
-<!-- Trigger/Open The Modal -->
-<button class="btn btn-primary" id="myBtnEditPlant">Edit Plant</button>
-
-<!-- The Modal -->
-<div id="myModalEditPlant" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-
-            <div class="modal-header">
-                <h5 class="modal-title">Create Plant</h5>
             </div>
-
-            <!-- EditForm for login -->
-            <EditForm Model="@plantProfile" OnValidSubmit="HandleEditPlant">
-                <div class="modal-body">
-
-                    <!-- Input fields for login -->
-                    <label for="plantName">Plant Name:</label><br>
-                    <div class="form-group">
-                        <InputText id="plantName" @bind-Value="plantProfile.PlantName" placeholder="Plant Name" required /><br><br>
-                    </div>
-
-                    <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
-                    <div class="form-group">
-                        <InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
-                    </div>
-
-                    <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
-                    <div class="form-group">
-                        <InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <!-- Buttons for login -->
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-
-            </EditForm>
-
-        </div>
-</div>
-</tr>
-
-<!-------------------------------- Setup Sensor -------------------------------->
-<tr>
-<!-- Trigger/Open The Modal -->
-<button class="btn btn-primary" id="myBtnSetupSensor">Setup Sensor</button>
-
-<!-- The Modal -->
-<div id="myModalSetupSensor" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-
-        <div class="modal-header">
-            <h5 class="modal-title">Setup Sensor</h5>
         </div>
 
-            <h3>Sensor 1 - can change sensor name</h3>
-            <p>selected plant: @selectedPlant1</p>
-
-            <div class="dropdown">
-
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <text>Choose Plant</text>
-                </button>
-
-                <ul class="dropdown-menu">
-                    @if (plants != null)
-                    {
-                        @foreach (var plant in plants)
-                        {
-                            <li><button class="dropdown-item" @onclick="() => SelectPlant1(plant)">@plant.PlantName</button></li>
-                        }
-                    }
-                    else
-                    {
-                        <li><span class="dropdown-item">Loading...</span></li>
-                    }
-                </ul>
-
-            </div>
-
-            <h3>Sensor 2 - can change sensor name</h3>
-            <p>selected plant: @selectedPlant2</p>
-
-            <div class="dropdown">
-
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <text>Choose Plant</text>
-                </button>
-
-                <ul class="dropdown-menu">
-                    @if (plants != null)
-                    {
-                        @foreach (var plant in plants)
-                        {
-                            <li><button class="dropdown-item" @onclick="() => SelectPlant2(plant)">@plant.PlantName</button></li>
-                        }
-                    }
-                    else
-                    {
-                        <li><span class="dropdown-item">Loading...</span></li>
-                    }
-                </ul>
-
-            </div>
-
-            <div class="modal-footer">
-                <!-- Buttons for login -->
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     </div>
+
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</tr>
-
 
 <!-------------------------------- Modal Script ------------------------------->
 <script>
@@ -342,6 +353,7 @@
     buttons.forEach(function (button, index) {
         button.addEventListener('click', function () {
             modals[index].style.display = "block";
+            errorMessage = "";
         });
     });
 
@@ -349,14 +361,18 @@
     spans.forEach(function (span, index) {
         span.addEventListener('click', function () {
             modals[index].style.display = "none";
+            errorMessage = "";
         });
     });
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) { modals.forEach(function (modal) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }});
+    window.onclick = function (event) {
+        modals.forEach(function (modal) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                errorMessage = "";
+            }
+        });
     }
 
     function loginUser() {
@@ -366,23 +382,23 @@
 
 <!--------------------------------- Plant Code -------------------------------->
 <tr>
-@code {
-    private string selectedPlant1 = "";
-    private string selectedPlant2 = "";
+    @code {
+        private string selectedPlant1 = "";
+        private string selectedPlant2 = "";
 
-    protected override async Task OnInitializedAsync()
-    {
-        await GetListOfPlants(); // This method should populate the 'plants' list
-    }
+        protected override async Task OnInitializedAsync()
+        {
+            await GetListOfPlants(); // This method should populate the 'plants' list
+        }
 
-    private void SelectPlant1(Plant plant)
-    {
-        selectedPlant1 = plant.PlantName;
-    }
+        private void SelectPlant1(Plant plant)
+        {
+            selectedPlant1 = plant.PlantName;
+        }
 
-    private void SelectPlant2(Plant plant)
-    {
-        selectedPlant2 = plant.PlantName;
+        private void SelectPlant2(Plant plant)
+        {
+            selectedPlant2 = plant.PlantName;
+        }
     }
-}
 </tr>

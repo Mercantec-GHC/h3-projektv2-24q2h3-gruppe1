@@ -39,27 +39,20 @@ namespace API.Controllers
 
         // GET: api/Users/username/password
         [HttpPost("login")]
-        public async Task<ActionResult<User>> GetUserByEmailPassword(Models.Login login)
+        public async Task<ActionResult<User>> GetUserByEmailPassword(Models.Login login , User user1)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
        
-                // Generate a random salt
-                byte[] salt = new byte[16];
-                using (var rng = new RNGCryptoServiceProvider())
-                {
-                    rng.GetBytes(salt);
-                }
-
                 using (var sha256 = new SHA256Managed())
                 {
                     byte[] passwordBytes = Encoding.UTF8.GetBytes(login.password);
-                    byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+                    byte[] saltedPassword = new byte[passwordBytes.Length + user1.Salt.Length];
 
                     Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                    Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+                    Buffer.BlockCopy(user1.Salt.ToArray(), 0, saltedPassword, passwordBytes.Length, user1.Salt.Length);
 
                     byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 

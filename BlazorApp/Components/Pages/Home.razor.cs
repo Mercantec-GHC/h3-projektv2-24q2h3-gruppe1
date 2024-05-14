@@ -13,7 +13,7 @@ namespace BlazorApp.Components.Pages
     {
         // Top level variables
         string connectionString;
-        
+
         string message = "";
         string errorMessage = "";
 
@@ -31,7 +31,7 @@ namespace BlazorApp.Components.Pages
         public List<Plant>? plants;
         public List<Setting>? settingList;
 
-        public Login userLogin = new ();
+        public Login userLogin = new();
         public User userSignup = new User();
         public User userProfile = new User();
 
@@ -39,7 +39,7 @@ namespace BlazorApp.Components.Pages
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
-        
+
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
 
         // Signup user
@@ -71,21 +71,21 @@ namespace BlazorApp.Components.Pages
             }
             else
             {
-                    string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync("api/Users", content);
+                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users", content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        message = "Registration succesfull";
-                    }
-                    else
-                    {
-                        // Registration failed, navigate to signup page
-                        errorMessage = "Registration failed. Please try again.";
-                    }
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Registration succesfull";
+                }
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Registration failed. Please try again.";
                 }
             }
+        }
 
 
         // Login user 
@@ -95,7 +95,7 @@ namespace BlazorApp.Components.Pages
             {
                 string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users", content);
+                var response = await client.PostAsync("api/Users/login", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -119,7 +119,7 @@ namespace BlazorApp.Components.Pages
                 {
                     newEmail = userProfile.Email;
                 }
-                
+
                 else
                 {
                     newUsername = userProfile.Username;
@@ -137,7 +137,7 @@ namespace BlazorApp.Components.Pages
                     errorMessage = "Invalid credentials. Please make sure you have a different password";
                 }
 
-         
+
             }
             else
             {
@@ -167,7 +167,8 @@ namespace BlazorApp.Components.Pages
                 errorMessage = "invalid input try again";
             }
 
-            if(MinWaterLevel < 0 || MinWaterLevel > 100){
+            if (MinWaterLevel < 0 || MinWaterLevel > 100)
+            {
                 errorMessage = "invalid input try again";
             }
 
@@ -214,7 +215,7 @@ namespace BlazorApp.Components.Pages
                 message = "Plant created";
             }
         }
-        
+
         // --------------------------- //
 
         // Get the list of plants for drop down menu

@@ -82,7 +82,7 @@ namespace BlazorApp.Components.Pages
             }
         }
         
-        public async Task signup()
+        public async Task HandleSignup()
         {
             string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

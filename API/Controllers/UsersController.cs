@@ -137,7 +137,6 @@ namespace API.Controllers
             {
 
                 user.Salt = salt;
-                //salt = user.Salt;
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 

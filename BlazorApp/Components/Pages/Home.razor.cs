@@ -93,7 +93,19 @@ namespace BlazorApp.Components.Pages
         {
             if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
             {
+                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users", content);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Registration succesfull";
+                }
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Registration failed. Please try again.";
+                }
             }
         }
 

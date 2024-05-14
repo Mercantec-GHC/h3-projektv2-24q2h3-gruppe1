@@ -62,7 +62,7 @@ namespace API.Controllers
                 // Assuming you might want to update the password with the hash
                 login.password = Convert.ToBase64String(hashedBytes);
             }
-
+  
             var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();
@@ -127,11 +127,13 @@ namespace API.Controllers
             {
                 rng.GetBytes(salt);
             }
-   
+
+
             using (var sha256 = new SHA256Managed())
             {
 
                 user.Salt = salt.ToString();
+                //salt = user.Salt;
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
@@ -151,7 +153,6 @@ namespace API.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
-
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)

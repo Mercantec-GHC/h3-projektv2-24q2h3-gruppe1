@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- EditForm for sign up -->
-                <EditForm Model="@userSignup">
+                <EditForm Model="@userSignup" >
 
                     <div class="modal-body">
 
@@ -60,7 +60,7 @@
 
                     <div class="modal-footer">
                         <!-- Buttons for sign up -->
-                        <button type="submit" class="btn btn-primary" @onclick="HandleSignUp">Sign Up</button>
+                        <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
                     </div>
 
                     <p class="error-message" id="login-error">@errorMessage</p>

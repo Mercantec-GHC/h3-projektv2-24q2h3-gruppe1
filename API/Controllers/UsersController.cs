@@ -118,7 +118,7 @@ namespace API.Controllers
         }
 
         // POST: api/Users
-        [HttpPost("User")]
+        [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
             if (_context.Users == null)

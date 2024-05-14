@@ -37,120 +37,16 @@ namespace BlazorApp.Components.Pages
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("api/Users", content);
 
-                //if (response.IsSuccessStatusCode)
-                //{
-                //    // Registration successful
-                //    NavigationManager.NavigateTo("/login");
-                //}
-                //else
-                //{
-                //    // Registration failed
-                //    NavigationManager.NavigateTo("/signup");
-                //}
-            }
-        }
-
-        private void PasswordPolicyCheck(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                errorMessage = "Password cannot be empty or contain only whitespace!";
-            }
-
-            if (password.Length < 10)
-            {
-                errorMessage = "Password must be at least 16 characters!";
-            }
-
-            if (!password.Any(char.IsUpper))
-            {
-                errorMessage = "Password must contain uppercase letters!";
-            }
-
-            if (!password.Any(char.IsLower))
-            {
-                errorMessage = "Password must contain lowercase letters!";
-            }
-
-            if (!password.Any(char.IsDigit))
-            {
-                errorMessage = "Password must contain numbers!";
-            }
-
-            if (!password.Any(c => char.IsSymbol(c) || char.IsPunctuation(c)))
-            {
-                errorMessage = "Password must contain special characters!";
-            }
-
-            else
-            {
-                errorMessage = "Password is accepted!";
-            }
-        }
-
-        private void UsernamePolicyCheck(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                errorMessage = "Username cannot be empty or contain only whitespace!";
-            }
-
-            if (username.Length < 8)
-            {
-                errorMessage = "Username must be at least 8 characters!";
-            }
-
-            if (!username.All(char.IsLetterOrDigit))
-            {
-                errorMessage = "Only letters and digits are allowed in the username!";
-            }
-
-            if (!username.Any(char.IsUpper))
-            {
-                errorMessage = "Username must contain uppercase letters!";
-            }
-
-            if (!username.Any(char.IsLower))
-            {
-                errorMessage = "Username must contain lowercase letters!";
-            }
-
-            if (!username.Any(char.IsDigit))
-            {
-                errorMessage = "Username must contain numbers!";
-            }
-            
-            if (username.Any(char.IsSymbol))
-            {
-                errorMessage = "Username cant contain special characters";
-            }
-
-            else
-            {
-                errorMessage = "Username is accepted!";
-            }
-        }
-
-        private void EmailPolicyCheck(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                errorMessage = "Email cannot be empty or contain only whitespace!";
-            }
-
-            if (!email.All(char.IsLetterOrDigit))
-            {
-                errorMessage = "Only letters and digits are allowed in the email!";
-            }
-
-            if (!email.Contains("@"))
-            {
-                errorMessage = "Email is invalid";
-            }
-
-            else
-            {
-                errorMessage = "Email is accepted!";
+                if (response.IsSuccessStatusCode)
+                {
+                    // Registration successful
+                    NavigationManager.NavigateTo("/login");
+                }
+                else
+                {
+                    // Registration failed
+                    NavigationManager.NavigateTo("/signup");
+                }
             }
         }
     }

@@ -14,7 +14,8 @@ namespace API.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            string connectionString = configuration.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("DefaultConnection");
+            optionsBuilder.UseNpgsql(connectionString);
         }
 
         public DbSet<API.Models.PlantOverview> PlantOverviews { get; set; }

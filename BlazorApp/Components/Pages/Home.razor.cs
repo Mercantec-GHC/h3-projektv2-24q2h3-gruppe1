@@ -40,7 +40,7 @@ namespace BlazorApp.Components.Pages
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
 
-        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
+        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
 
         // --------------------------- Users --------------------------- //
 

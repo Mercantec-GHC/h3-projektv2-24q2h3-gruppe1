@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
+using API.Utilities;
 
 namespace API.Controllers
 {
@@ -35,76 +36,49 @@ namespace API.Controllers
         [HttpPost("login")] // do not delete login text
         public async Task<ActionResult<User>> UserLogin(UserLoginRequest request)
         {
-            User userLogin = new User
+            var userFinder = await _context.Users.Where(item => item.Username == request.Username && item.Password == request.Password).ToListAsync();
+            
+            if (userFinder.Count == 0)
             {
-                Username = request.Username,
-                Password = request.Password
-            };
-
-
-            // Generate a random salt
-            string salt = userLogin.Salt;
-
-            using (var sha256 = new SHA256Managed())
-            {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(request.Password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
-
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                //  Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
-
-                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
-                // Assuming you might want to update the password with the hash
-                request.Password = Convert.ToBase64String(hashedBytes);
+                return BadRequest("Wrong username and or password");
             }
 
-            var userFinder = await _context.Users.Where(item => item.Username == request.Username && item.Password == request.Password).ToListAsync();
+            var userFromDatabase = userFinder[0];
 
-            return userFinder == null || userFinder.Count() != 1 ? NotFound() : userFinder.First();
+            var passwordIsSame = HashedPassword.FromHashAndSalt(userFromDatabase.Password, userFromDatabase.Salt).Compare(request.Password);
+
+            if(!passwordIsSame)
+            {
+                return BadRequest("Wrong username and or password");
+            }
+
+            throw new NotImplementedException("Login Auth");
         }
 
         // POST: api/Users
         [HttpPost]
         public async Task<ActionResult<User>> UserSignUp(UserSignUpRequest request)
         {
+            // TODO : Check if username or email is used
+            var hashedPassword = HashedPassword.FromPassword(request.Password);
+
+            Console.WriteLine(hashedPassword.Hash);
+
             User userSignUp = new User()
             {
                 Email = request.Email,
                 Username = request.Username,
-                Password = request.Password,
+                Password = hashedPassword.Hash,
+                Salt = hashedPassword.Salt,
 
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
-        };
-
-            // Generate a random salt
-            byte[] salt = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(salt);
-            }
-
-            using (var sha256 = new SHA256Managed())
-            {
-
-                userSignUp.Salt = Convert.ToBase64String(salt); 
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(userSignUp.Password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
-
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
-
-                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
-                // Assuming you might want to update the password with the hash
-                request.Password = Convert.ToBase64String(hashedBytes);
-            }
+            };
 
             _context.Users.Add(userSignUp);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = userSignUp.Id }, request);
+            return CreatedAtAction("GetUser", new { id = userSignUp.Id }, userSignUp);
         }
 
         // ----------------------- ID ------------------------- //

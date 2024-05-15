@@ -13,7 +13,7 @@ namespace BlazorApp.Components.Pages
     {
         // Top level variables
         string connectionString;
-        
+
         string message = "";
         string errorMessage = "";
 
@@ -31,16 +31,18 @@ namespace BlazorApp.Components.Pages
         public List<Plant>? plants;
         public List<Setting>? settingList;
 
-        public Login userLogin = new ();
-        public User userSignup = new User();
+        public UserLoginRequest userLogin = new UserLoginRequest();
+        public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
-
+        
         public Plant plantProfile = new Plant();
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
-        
-        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
+
+        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-sqve.onrender.com") };
+
+        // --------------------------- Users --------------------------- //
 
         // Signup user
         public async Task HandleSignUp()
@@ -69,31 +71,10 @@ namespace BlazorApp.Components.Pages
                     errorMessage = "Password credentials are invalid. Please try again.";
                 }
             }
+
             else
             {
-                    string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync("api/Users", content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        message = "Registration succesfull";
-                    }
-                    else
-                    {
-                        // Registration failed, navigate to signup page
-                        errorMessage = "Registration failed. Please try again.";
-                    }
-                }
-            }
-
-
-        // Login user 
-        public async Task HandleLogin()
-        {
-            if (!string.IsNullOrWhiteSpace(userLogin.username) && !string.IsNullOrWhiteSpace(userLogin.password))
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
+                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("api/Users", content);
 
@@ -101,6 +82,7 @@ namespace BlazorApp.Components.Pages
                 {
                     message = "Registration succesfull";
                 }
+                
                 else
                 {
                     // Registration failed, navigate to signup page
@@ -109,7 +91,29 @@ namespace BlazorApp.Components.Pages
             }
         }
 
+        // Login user 
+        public async Task HandleLogin()
+        {
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users/login", content);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Registration succesfull";
+                }
+
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Registration failed. Please try again.";
+                }
+            }
+        }
+
+        // Edit profile WIP (Work in progress)
         public async Task HandleEditProfile()
         {
             if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
@@ -119,13 +123,11 @@ namespace BlazorApp.Components.Pages
                 {
                     newEmail = userProfile.Email;
                 }
-                
+
                 else
                 {
                     newUsername = userProfile.Username;
                 }
-
-                // --------------------------------------- //
 
                 if (userProfile.Username != newEmail || userProfile.Username != newUsername)
                 {
@@ -136,19 +138,29 @@ namespace BlazorApp.Components.Pages
                 {
                     errorMessage = "Invalid credentials. Please make sure you have a different password";
                 }
-
-         
             }
             else
             {
-                // Handle empty input
-                errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
+                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users", content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Registration succesfull";
+                }
+
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
+                }
             }
         }
 
-
-        // Edit profile WIP (Work in progress)
-
+        // --------------------------- Plants --------------------------- //
+        
         // Create plant to database
         public async Task HandleCreatePlant()
         {
@@ -167,7 +179,8 @@ namespace BlazorApp.Components.Pages
                 errorMessage = "invalid input try again";
             }
 
-            if(MinWaterLevel < 0 || MinWaterLevel > 100){
+            if (MinWaterLevel < 0 || MinWaterLevel > 100)
+            {
                 errorMessage = "invalid input try again";
             }
 
@@ -214,7 +227,7 @@ namespace BlazorApp.Components.Pages
                 message = "Plant created";
             }
         }
-        
+
         // --------------------------- //
 
         // Get the list of plants for drop down menu
@@ -247,10 +260,14 @@ namespace BlazorApp.Components.Pages
             }
         }
 
+
+        // --------------------------- Sensor --------------------------- //
         public async Task SetupSensor()
         {
 
         }
+
+        // --------------------------- Misc ---------------------------
 
         // Logout of account
         public void Logout()
@@ -307,7 +324,6 @@ namespace BlazorApp.Components.Pages
                 message = "Email is accepted!";
             }
         }
-
 
         // This is a username policy for insuring that this isnt fx. @ so we can differenciate between mail and username 
         public string UsernamePolicyCheck(string username)

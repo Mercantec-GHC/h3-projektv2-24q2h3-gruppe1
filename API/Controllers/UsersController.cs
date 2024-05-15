@@ -62,7 +62,7 @@ namespace API.Controllers
                 // Assuming you might want to update the password with the hash
                 login.password = Convert.ToBase64String(hashedBytes);
             }
-
+  
             var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();
@@ -115,8 +115,9 @@ namespace API.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(UserSignUpRequest user)
         {
+            User users = new();
             if (_context.Users == null)
             {
                 return Problem("Entity set 'User'  is null.");
@@ -127,11 +128,12 @@ namespace API.Controllers
             {
                 rng.GetBytes(salt);
             }
-   
+
+           
             using (var sha256 = new SHA256Managed())
             {
 
-                user.Salt = salt.ToString();
+                users.Salt = salt.ToString();
                 byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
@@ -144,14 +146,13 @@ namespace API.Controllers
                 user.Password = Convert.ToBase64String(hashedBytes);
             }
             // is not inf
-            user.UpdatedAt = DateTime.UtcNow;
-            user.CreatedAt = DateTime.UtcNow;
-            _context.Users.Add(user);
+            users.UpdatedAt = DateTime.UtcNow;
+            users.CreatedAt = DateTime.UtcNow;
+            _context.Users.Add(users);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { id = users.Id }, user);
         }
-
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)

@@ -41,15 +41,14 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> GetUserByEmailPassword(UserLoginRequest login)
         {
-            User user = new();
-            user.Username = login.Username;
-            user.Password = login.Password;
+            User user1 = new();
+            user1.Username = login.Username;
+            user1.Password = login.Password;
 
             if (_context.Users == null)
             {
                 return NotFound();
             }
-            User user1 = new();
             // Generate a random salt
             string salt = user1.Salt;
          

@@ -1,9 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Syncfusion.Blazor.Charts.Chart.Internal;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace API.Controllers
 {
@@ -17,97 +25,50 @@ namespace API.Controllers
         {
             _context = context;
         }
-
-        // --------------------------------------------------- //
-
+  
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
-        // --------------------------------------------------- //
-
-        // Post: api/Users/login
-        [HttpPost]
-        public async Task<ActionResult<User>> UserLogin(UserLoginRequest userLoginRequest)
+        // GET: api/Users/username/password
+        [HttpPost("login")]
+        public async Task<ActionResult<User>> GetUserByEmailPassword(Models.Login login)
         {
-            User user = new User();
-
-            user.Username = userLoginRequest.Username;
-            user.Password = userLoginRequest.Password;
-
-            // Generate a random salt
-            byte[] salt = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
+            if (_context.Users == null)
             {
-                rng.GetBytes(salt);
+                return NotFound();
             }
-
+            User user1 = new();
+            // Generate a random salt
+            string salt = user1.Salt;
+         
             using (var sha256 = new SHA256Managed())
             {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(userLoginRequest.Password);
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(login.password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
                 Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+              //  Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
 
                 byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 
                 // Assuming you might want to update the password with the hash
-                userLoginRequest.Password = Convert.ToBase64String(hashedBytes);
+                login.password = Convert.ToBase64String(hashedBytes);
             }
-            
-            var userFinder = await _context.Users.Where(item => item.Username == userLoginRequest.Username && item.Password == userLoginRequest.Password).ToListAsync();
+  
+            var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
 
-            return user == null || userFinder.Count() != 1 ? NotFound() : userFinder.First();
+            return user == null || user.Count() != 1 ? NotFound() : user.First();
         }
 
-        // POST: api/Users
-        [HttpPost]
-        public async Task<ActionResult<User>> UserSignUp(UserSignUpRequest userSignUpRequest)
-        {
-            User user = new User();
-
-            // Generate a random salt
-            byte[] salt = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(salt);
-            }
-
-
-            using (var sha256 = new SHA256Managed())
-            {
-                user.Username = userSignUpRequest.Username;
-                user.Password = userSignUpRequest.Password;
-
-                user.Salt = salt.ToString();
-                //salt = user.Salt;
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
-                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
-
-                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
-                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
-
-                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
-
-                // Assuming you might want to update the password with the hash
-                userSignUpRequest.Password = Convert.ToBase64String(hashedBytes);
-            }
-            // is not inf
-            user.UpdatedAt = DateTime.UtcNow;
-            user.CreatedAt = DateTime.UtcNow;
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        // --------------------------------------------------- //
-
-        // GET: api/Users/id
+        // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -121,7 +82,8 @@ namespace API.Controllers
             return user;
         }
 
-        // PUT: api/Users/id
+        // PUT: api/Users/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -150,8 +112,48 @@ namespace API.Controllers
 
             return NoContent();
         }
-        
-        // DELETE: api/Users/id
+
+        // POST: api/Users
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(UserSignUpRequest user)
+        {
+            User users = new();
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'User'  is null.");
+            }
+            // Generate a random salt
+            byte[] salt = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
+
+           
+            using (var sha256 = new SHA256Managed())
+            {
+
+                users.Salt = salt.ToString();
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(user.Password);
+                byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+
+                Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+
+                byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
+
+                // Assuming you might want to update the password with the hash
+                user.Password = Convert.ToBase64String(hashedBytes);
+            }
+            // is not inf
+            users.UpdatedAt = DateTime.UtcNow;
+            users.CreatedAt = DateTime.UtcNow;
+            _context.Users.Add(users);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = users.Id }, user);
+        }
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -167,7 +169,6 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // Check if user exists
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);

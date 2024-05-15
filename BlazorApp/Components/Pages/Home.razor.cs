@@ -31,8 +31,8 @@ namespace BlazorApp.Components.Pages
         public List<Plant>? plants;
         public List<Setting>? settingList;
 
-        public User userLogin = new User();
-        public User userSignup = new User();
+        public UserLoginRequest userLogin = new UserLoginRequest();
+        public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
         
         public Plant plantProfile = new Plant();

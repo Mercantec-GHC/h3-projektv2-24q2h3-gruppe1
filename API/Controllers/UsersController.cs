@@ -32,7 +32,7 @@ namespace API.Controllers
         // ---------------- User Credentials ------------------ //
 
         // POST: api/Users/username/password
-        [HttpPost]
+        [HttpPost("login")] // do not delete login text
         public async Task<ActionResult<User>> UserLogin(UserLoginRequest request)
         {
             User userLogin = new User();
@@ -82,8 +82,8 @@ namespace API.Controllers
             using (var sha256 = new SHA256Managed())
             {
 
-                userSignUp.Salt = salt.ToString();
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(request.Password);
+                userSignUp.Salt = Convert.ToBase64String(salt); 
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(userSignUp.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
                 Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);

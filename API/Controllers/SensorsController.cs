@@ -16,6 +16,21 @@ namespace API.Controllers
             _context = context;
         }
 
+        // ---------------- Sensor Credentials ------------------ //
+
+        // POST: api/Sensors
+        [HttpPost]
+        public async Task<ActionResult<Sensor>> PostSensor(Sensor sensor)
+        {
+            // is not inf
+            sensor.UpdatedAt = DateTime.UtcNow;
+            sensor.CreatedAt = DateTime.UtcNow;
+            _context.Sensor.Add(sensor);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetSensor", new { id = sensor.Id }, sensor);
+        }
+
         // GET: api/Sensors
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sensor>>> GetSensor()
@@ -23,7 +38,9 @@ namespace API.Controllers
             return await _context.Sensor.ToListAsync();
         }
 
-        // GET: api/Sensors/5
+        // ----------------------- ID --------------------------- //
+
+        // GET: api/Sensors/id
         [HttpGet("{id}")]
         public async Task<ActionResult<Sensor>> GetSensor(int id)
         {
@@ -37,8 +54,7 @@ namespace API.Controllers
             return sensor;
         }
 
-        // PUT: api/Sensors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/Sensors/id
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSensor(int id, Sensor sensor)
         {
@@ -68,21 +84,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/Sensors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Sensor>> PostSensor(Sensor sensor)
-        {
-            // is not inf
-            sensor.UpdatedAt = DateTime.UtcNow;
-            sensor.CreatedAt = DateTime.UtcNow;
-            _context.Sensor.Add(sensor);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSensor", new { id = sensor.Id }, sensor);
-        }
-
-        // DELETE: api/Sensors/5
+        // DELETE: api/Sensors/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSensor(int id)
         {
@@ -97,6 +99,8 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        // ----------------------- Mis ------------------------ //
 
         private bool SensorExists(int id)
         {

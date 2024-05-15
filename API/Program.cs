@@ -17,11 +17,8 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-           
-
             builder.Services.AddDbContext<AppDBContext>(options =>
             options.UseNpgsql());
-
 
             var app = builder.Build();
 

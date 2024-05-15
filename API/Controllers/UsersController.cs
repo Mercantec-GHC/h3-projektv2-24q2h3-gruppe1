@@ -94,6 +94,7 @@ namespace API.Controllers
                 // Assuming you might want to update the password with the hash
                 request.Password = Convert.ToBase64String(hashedBytes);
             }
+
             // is not inf
             userSignUp.UpdatedAt = DateTime.UtcNow;
             userSignUp.CreatedAt = DateTime.UtcNow;
@@ -164,6 +165,8 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        // ---------------------- Mis ------------------------ //
 
         private bool UserExists(int id)
         {

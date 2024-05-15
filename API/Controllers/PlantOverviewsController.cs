@@ -25,8 +25,25 @@ namespace API.Controllers
 			return await _context.PlantOverviews.ToListAsync();
 		}
 
-		// GET: api/PlantOverviews/5
-		[HttpGet("{id}")]
+        // ---------------- Plant Credentials ------------------ //
+
+        // POST: api/PlantOverviews
+        [HttpPost]
+        public async Task<ActionResult<PlantOverview>> PostPlantOverview(PlantOverview plantOverview)
+        {
+            // is not inf
+            plantOverview.UpdatedAt = DateTime.UtcNow;
+            plantOverview.CreatedAt = DateTime.UtcNow;
+            _context.PlantOverviews.Add(plantOverview);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlantOverview", new { id = plantOverview.Id }, plantOverview);
+        }
+
+        // ----------------------- ID -------------------------- //
+
+        // GET: api/PlantOverviews/id
+        [HttpGet("{id}")]
 		public async Task<ActionResult<PlantOverview>> GetPlantOverview(int id)
 		{
 			var plantOverview = await _context.PlantOverviews.FindAsync(id);
@@ -39,8 +56,7 @@ namespace API.Controllers
 			return plantOverview;
 		}
 
-		// PUT: api/PlantOverviews/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		// PUT: api/PlantOverviews/id
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutPlantOverview(int id, PlantOverview plantOverview)
 		{
@@ -70,20 +86,6 @@ namespace API.Controllers
 			return NoContent();
 		}
 
-		// POST: api/PlantOverviews
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPost]
-		public async Task<ActionResult<PlantOverview>> PostPlantOverview(PlantOverview plantOverview)
-		{
-			// is not inf
-			plantOverview.UpdatedAt = DateTime.UtcNow;
-			plantOverview.CreatedAt = DateTime.UtcNow;
-			_context.PlantOverviews.Add(plantOverview);
-			await _context.SaveChangesAsync();
-
-			return CreatedAtAction("GetPlantOverview", new { id = plantOverview.Id }, plantOverview);
-		}
-
 		// DELETE: api/PlantOverviews/5
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeletePlantOverview(int id)
@@ -100,7 +102,9 @@ namespace API.Controllers
 			return NoContent();
 		}
 
-		private bool PlantOverviewExists(int id)
+        // ----------------------- Mis ------------------------ //
+
+        private bool PlantOverviewExists(int id)
 		{
 			return _context.PlantOverviews.Any(e => e.Id == id);
 		}

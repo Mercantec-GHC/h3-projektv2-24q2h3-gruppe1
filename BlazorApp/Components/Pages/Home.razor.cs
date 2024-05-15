@@ -6,7 +6,7 @@ namespace BlazorApp.Components.Pages
 {
     public partial class Home
     {
-        // Top level variables
+        #region Top Level Variables
         string connectionString;
 
         string message = "";
@@ -36,10 +36,11 @@ namespace BlazorApp.Components.Pages
         public bool IsManualChecked = false;
 
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
+        #endregion
 
-        // --------------------------- Users --------------------------- //
+        // --------------------------- Users ---------------------------- //
 
-        // Signup user
+        // Sign up user WIP (Work in progress)
         public async Task HandleSignUp()
         {
             // Reset error message
@@ -86,7 +87,7 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        // Login user 
+        // Login user WIP (Work in progress)
         public async Task HandleLogin()
         {
             if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
@@ -154,7 +155,7 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        // --------------------------- Plants --------------------------- //
+        // -------------------------- Plants ---------------------------- //
         
         // Create plant to database
         public async Task HandleCreatePlant()
@@ -223,7 +224,7 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        // --------------------------- //
+        // ------------- Get -------------- //
 
         // Get the list of plants for drop down menu
         public async Task GetListOfPlants()
@@ -262,7 +263,7 @@ namespace BlazorApp.Components.Pages
 
         }
 
-        // --------------------------- Misc ---------------------------
+        // ---------------------------- Misc ---------------------------- //
 
         // Logout of account
         public void Logout()

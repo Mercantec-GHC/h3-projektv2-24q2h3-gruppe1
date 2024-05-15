@@ -18,6 +18,9 @@ namespace API.Controllers
             _context = context;
         }
 
+        // ---------------- Settings info ---------------------- //
+
+
         // GET: api/PlantOverviews
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Setting>>> GetSettings()
@@ -25,7 +28,24 @@ namespace API.Controllers
             return await _context.Setting.ToListAsync();
         }
 
-        // GET: api/PlantOverviews/5
+
+        // POST: api/PlantOverviews
+        [HttpPost]
+        public async Task<ActionResult<Setting>> PostSettings(Setting settings)
+        {
+            // is not inf
+            settings.UpdatedAt = DateTime.UtcNow;
+            settings.CreatedAt = DateTime.UtcNow;
+            _context.Setting.Add(settings);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlantOverview", new { id = settings.Id }, settings);
+        }
+
+        // ----------------------- ID -------------------------- //
+
+
+        // GET: api/PlantOverviews/id
         [HttpGet("{id}")]
         public async Task<ActionResult<Setting>> GetPlantOverview(int id)
         {
@@ -39,8 +59,7 @@ namespace API.Controllers
             return settings;
         }
 
-        // PUT: api/PlantOverviews/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/PlantOverviews/id
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlantOverview(int id, Setting settings)
         {
@@ -70,21 +89,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/PlantOverviews
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Setting>> PostSettings(Setting settings)
-        {
-            // is not inf
-            settings.UpdatedAt = DateTime.UtcNow;
-            settings.CreatedAt = DateTime.UtcNow;
-            _context.Setting.Add(settings);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPlantOverview", new { id = settings.Id }, settings);
-        }
-
-        // DELETE: api/PlantOverviews/5
+        // DELETE: api/PlantOverviews/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSetting(int id)
         {
@@ -99,6 +104,8 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        // ----------------------- Mis ------------------------ //
 
         private bool SettingExists(int id)
         {

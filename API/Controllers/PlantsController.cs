@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
 
-// Planted createdTime = createdTime DateTime.UtcNow
-
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -24,6 +22,28 @@ namespace API.Controllers
             return await _context.Plants.ToListAsync();
         }
 
+        // ---------------- Plant Credentials ------------------ //
+
+        [HttpPost]
+        public async Task<ActionResult<Plant>> PostPlant(PlantCreation plantCreated)
+        {
+            Plant plantCreate = new Plant();
+
+            plantCreate.PlantName = plantCreated.PlantName;
+            plantCreate.MinWaterLevel = plantCreated.MinWaterLevel;
+            plantCreate.MaxWaterLevel = plantCreated.MaxWaterLevel;
+
+            // is not inf
+            plantCreate.UpdatedAt = DateTime.UtcNow;
+            plantCreate.CreatedAt = DateTime.UtcNow;
+            _context.Plants.Add(plantCreate);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlants", new { id = plantCreate.Id }, plantCreate);
+        }
+
+        // ----------------------- ID -------------------------- //
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Plant>> GetPlant(int id)
         {
@@ -36,7 +56,6 @@ namespace API.Controllers
 
             return plant;
         }
-
        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlant(int id, Plant plant)
@@ -67,20 +86,6 @@ namespace API.Controllers
             return NoContent();
         }
 
-       
-        [HttpPost]
-        public async Task<ActionResult<Plant>> PostPlant(Plant plants)
-        {
-            // is not inf
-            plants.UpdatedAt = DateTime.UtcNow;
-            plants.CreatedAt = DateTime.UtcNow;
-            _context.Plants.Add(plants);
-            await _context.SaveChangesAsync();
-      
-
-            return CreatedAtAction("GetPlants", new { id = plants.Id }, plants);
-        }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlant(int id)
         {
@@ -95,6 +100,8 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        // ----------------------- Mis ------------------------ //
 
         private bool PlantExists(int id)
         {

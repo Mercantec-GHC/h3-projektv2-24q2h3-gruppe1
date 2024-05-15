@@ -23,7 +23,24 @@ namespace API.Controllers
             return await _context.PlantSensor.ToListAsync();
         }
 
-        // GET: api/PlantSensors/5
+        // ---------------- Sensor Credentials ------------------ //
+
+        // POST: api/PlantSensors
+        [HttpPost]
+        public async Task<ActionResult<PlantSensor>> PostPlantSensor(PlantSensor plantSensor)
+        {
+            // is not inf
+            plantSensor.UpdatedAt = DateTime.UtcNow;
+            plantSensor.CreatedAt = DateTime.UtcNow;
+            _context.PlantSensor.Add(plantSensor);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlantSensor", new { id = plantSensor.Id }, plantSensor);
+        }
+
+        // ----------------------- ID -------------------------- //
+
+        // GET: api/PlantSensors/id
         [HttpGet("{id}")]
         public async Task<ActionResult<PlantSensor>> GetPlantSensor(int id)
         {
@@ -37,8 +54,7 @@ namespace API.Controllers
             return plantSensor;
         }
 
-        // PUT: api/PlantSensors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/PlantSensors/id
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlantSensor(int id, PlantSensor plantSensor)
         {
@@ -68,21 +84,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/PlantSensors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<PlantSensor>> PostPlantSensor(PlantSensor plantSensor)
-        {
-            // is not inf
-            plantSensor.UpdatedAt = DateTime.UtcNow;
-            plantSensor.CreatedAt = DateTime.UtcNow;
-            _context.PlantSensor.Add(plantSensor);
-            await _context.SaveChangesAsync();  
-
-            return CreatedAtAction("GetPlantSensor", new { id = plantSensor.Id }, plantSensor);
-        }
-
-        // DELETE: api/PlantSensors/5
+        // DELETE: api/PlantSensors/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlantSensor(int id)
         {
@@ -97,6 +99,8 @@ namespace API.Controllers
 
             return NoContent();
         }
+        
+        // ----------------------- Mis ------------------------ //
 
         private bool PlantSensorExists(int id)
         {

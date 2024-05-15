@@ -32,7 +32,7 @@ namespace API.Controllers
         // ---------------- User Credentials ------------------ //
 
         // POST: api/Users/username/password
-        [HttpPost]
+        [HttpPost("login")] // do not delete login text
         public async Task<ActionResult<User>> UserLogin(UserLoginRequest request)
         {
             User userLogin = new User();

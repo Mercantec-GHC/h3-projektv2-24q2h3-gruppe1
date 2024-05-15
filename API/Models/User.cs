@@ -8,7 +8,7 @@
         public string Salt { get; set; }
     }
 
-    public class UserSignUpRequest
+    public class UserSignUpRequest : Common
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -70,6 +70,7 @@ namespace API.Controllers
             User userSignUp = new();
 
             userSignUp.Username = request.Username;
+            userSignUp.Password = request.Password;
 
             // Generate a random salt
             byte[] salt = new byte[16];

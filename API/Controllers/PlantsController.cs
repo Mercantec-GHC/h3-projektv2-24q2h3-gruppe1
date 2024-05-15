@@ -27,15 +27,16 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Plant>> PostPlant(PlantCreation plantCreated)
         {
-            Plant plantCreate = new Plant();
+            Plant plantCreate = new Plant
+            {
+                PlantName = plantCreated.PlantName,
+                MinWaterLevel = plantCreated.MinWaterLevel,
+                MaxWaterLevel = plantCreated.MaxWaterLevel,
 
-            plantCreate.PlantName = plantCreated.PlantName;
-            plantCreate.MinWaterLevel = plantCreated.MinWaterLevel;
-            plantCreate.MaxWaterLevel = plantCreated.MaxWaterLevel;
+                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
+            };
 
-            // is not inf
-            plantCreate.UpdatedAt = DateTime.UtcNow;
-            plantCreate.CreatedAt = DateTime.UtcNow;
             _context.Plants.Add(plantCreate);
             await _context.SaveChangesAsync();
 

@@ -35,10 +35,11 @@ namespace API.Controllers
         [HttpPost("login")] // do not delete login text
         public async Task<ActionResult<User>> UserLogin(UserLoginRequest request)
         {
-            User userLogin = new User();
-
-            userLogin.Username = request.Username;
-            userLogin.Password = request.Password;
+            User userLogin = new User
+            {
+                Username = request.Username,
+                Password = request.Password
+            };
 
 
             // Generate a random salt
@@ -67,10 +68,15 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> UserSignUp(UserSignUpRequest request)
         {
-            User userSignUp = new();
+            User userSignUp = new User()
+            {
+                Email = request.Email,
+                Username = request.Username,
+                Password = request.Password,
 
-            userSignUp.Username = request.Username;
-            userSignUp.Password = request.Password;
+                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
+        };
 
             // Generate a random salt
             byte[] salt = new byte[16];
@@ -95,9 +101,6 @@ namespace API.Controllers
                 request.Password = Convert.ToBase64String(hashedBytes);
             }
 
-            // is not inf
-            userSignUp.UpdatedAt = DateTime.UtcNow;
-            userSignUp.CreatedAt = DateTime.UtcNow;
             _context.Users.Add(userSignUp);
             await _context.SaveChangesAsync();
 

@@ -39,8 +39,12 @@ namespace API.Controllers
 
         // GET: api/Users/username/password
         [HttpPost("login")]
-        public async Task<ActionResult<User>> GetUserByEmailPassword(Models.Login login)
+        public async Task<ActionResult<User>> GetUserByEmailPassword(UserLoginRequest login)
         {
+            User user = new();
+            user.Username = login.Username;
+            user.Password = login.Password;
+
             if (_context.Users == null)
             {
                 return NotFound();
@@ -51,7 +55,7 @@ namespace API.Controllers
          
             using (var sha256 = new SHA256Managed())
             {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(login.password);
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(login.Password);
                 byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
 
                 Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
@@ -60,10 +64,10 @@ namespace API.Controllers
                 byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 
                 // Assuming you might want to update the password with the hash
-                login.password = Convert.ToBase64String(hashedBytes);
+                login.Password = Convert.ToBase64String(hashedBytes);
             }
   
-            var user = await _context.Users.Where(item => item.Username == login.username && item.Password == login.password).ToListAsync();
+            var user = await _context.Users.Where(item => item.Username == login.Username && item.Password == login.Password).ToListAsync();
 
             return user == null || user.Count() != 1 ? NotFound() : user.First();
         }
@@ -118,10 +122,10 @@ namespace API.Controllers
         public async Task<ActionResult<User>> PostUser(UserSignUpRequest user)
         {
             User users = new();
-            if (_context.Users == null)
-            {
-                return Problem("Entity set 'User'  is null.");
-            }
+
+            users.Username = user.Username;
+            user.Password = user.Password;
+
             // Generate a random salt
             byte[] salt = new byte[16];
             using (var rng = new RNGCryptoServiceProvider())

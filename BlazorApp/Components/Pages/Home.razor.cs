@@ -77,10 +77,8 @@ namespace BlazorApp.Components.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     message = "Registration succesfull";
-                    NavigationManager.NavigateTo("/");
-
                 }
-
+                
                 else
                 {
                     // Registration failed, navigate to signup page
@@ -100,14 +98,13 @@ namespace BlazorApp.Components.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    NavigationManager.NavigateTo("/");
-
+                    message = "Registration succesfull";
                 }
 
                 else
                 {
                     // Registration failed, navigate to signup page
-                    errorMessage = "login failed";
+                    errorMessage = "Registration failed. Please try again.";
                 }
             }
         }

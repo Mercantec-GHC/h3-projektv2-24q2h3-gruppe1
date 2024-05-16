@@ -1,5 +1,6 @@
 using API.Models;
 using BlazorApp.Containers;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
 namespace BlazorApp.Components.Pages
@@ -29,7 +30,7 @@ namespace BlazorApp.Components.Pages
         public UserLoginRequest userLogin = new UserLoginRequest();
         public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
-        
+
         public Plant plantProfile = new Plant();
 
         public bool IsAutoChecked = true;
@@ -46,6 +47,7 @@ namespace BlazorApp.Components.Pages
             // Reset error message
             errorMessage = "";
 
+
             // Perform username and password policy checks
             UsernamePolicyCheck(userSignup.Username);
             PasswordPolicyCheck(userSignup.Password);
@@ -56,18 +58,17 @@ namespace BlazorApp.Components.Pages
                 // If either username or password fails policy checks, set appropriate error message
                 if (!usernameCheck && !passwordCheck)
                 {
-                    errorMessage = "Both credentials are invalid. Please try again.";
+                    errorMessage = "Both username and password are invalid. Please try again.";
                 }
                 else if (!usernameCheck)
                 {
-                    errorMessage = "Username credentials are invalid. Please try again.";
+                    errorMessage = "Username is invalid. Please try again.";
                 }
                 else
                 {
-                    errorMessage = "Password credentials are invalid. Please try again.";
+                    errorMessage = "Password is invalid. Please try again.";
                 }
             }
-
             else
             {
                 string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
@@ -76,16 +77,20 @@ namespace BlazorApp.Components.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    message = "Registration succesfull";
+                    message = "Registration successful";
                 }
-                
                 else
                 {
-                    // Registration failed, navigate to signup page
-                    errorMessage = "Registration failed. Please try again.";
+                    // Read the response content to get the error message from the API
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                    errorMessage = errorResponse?.Detail;
                 }
             }
+
+
         }
+
 
         // Login user WIP (Work in progress)
         public async Task HandleLogin()
@@ -156,7 +161,7 @@ namespace BlazorApp.Components.Pages
         }
 
         // -------------------------- Plants ---------------------------- //
-        
+
         // Create plant to database
         public async Task HandleCreatePlant()
         {

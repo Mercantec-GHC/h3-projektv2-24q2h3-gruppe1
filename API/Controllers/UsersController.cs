@@ -60,7 +60,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> UserSignUp(UserSignUpRequest request)
         {
-            //shoud work but doesnt checks if username and email allready exist
             var resemail = await _context.Users.Where(item => item.Email == request.Email).ToListAsync();
 
             var resusername = await _context.Users.Where(item => item.Username == request.Username).ToListAsync();

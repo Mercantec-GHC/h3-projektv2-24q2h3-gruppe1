@@ -53,13 +53,29 @@ namespace API.Controllers
             }
 
             throw new NotImplementedException("Login Auth");
+
         }
 
         // POST: api/Users
         [HttpPost]
         public async Task<ActionResult<User>> UserSignUp(UserSignUpRequest request)
         {
-            // TODO : Check if username or email is used
+            //shoud work but doesnt checks if username and email allready exist
+            var resemail = await _context.Users.Where(item => item.Email == request.Email).ToListAsync();
+
+            var resusername = await _context.Users.Where(item => item.Username == request.Username).ToListAsync();
+
+
+            if (resemail.Count > 0)
+            {
+                return Problem("email is being used");
+            }
+
+            if (resusername.Count > 0)
+            {
+                return Problem("Username is being used");
+            }
+
             var hashedPassword = HashedPassword.FromPassword(request.Password);
 
             Console.WriteLine(hashedPassword.Hash);
@@ -74,6 +90,7 @@ namespace API.Controllers
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
             };
+       
 
             _context.Users.Add(userSignUp);
             await _context.SaveChangesAsync();

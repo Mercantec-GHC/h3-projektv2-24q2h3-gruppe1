@@ -119,7 +119,7 @@ namespace BlazorApp.Components.Pages
         {
             if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
             {
-                //make put requests
+                //make put requests on user model
 
                 if (userProfile.Username.Contains("@"))
                 {
@@ -208,7 +208,6 @@ namespace BlazorApp.Components.Pages
         public async Task HandleEditPlant()
         {
           
-
             if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
                 errorMessage = "invalid plant name";
@@ -231,7 +230,7 @@ namespace BlazorApp.Components.Pages
 
             else
             {
-                //make post request
+                //make put request
                 string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PutAsync("api/Plants", content);
@@ -243,7 +242,7 @@ namespace BlazorApp.Components.Pages
                 }
             }
         }
-
+        //make put request in settings then we change plant name in setup sensor
         // ------------- Get -------------- //
 
         // Get the list of plants for drop down menu

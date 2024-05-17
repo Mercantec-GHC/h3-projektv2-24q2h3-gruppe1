@@ -110,6 +110,7 @@ namespace BlazorApp.Components.Pages
                 {
                     // Registration failed, navigate to signup page
                     errorMessage = "Registration failed. Please try again.";
+
                 }
             }
         }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using API.Utilities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace API.Controllers
 {
@@ -36,23 +37,24 @@ namespace API.Controllers
         [HttpPost("login")] // do not delete login text
         public async Task<ActionResult<User>> UserLogin(UserLoginRequest request)
         {
-            var userFinder = await _context.Users.Where(item => item.Username == request.Username && item.Password == request.Password).ToListAsync();
-            
+            var userFinder = await _context.Users.Where(item => item.Username == request.Username).ToListAsync();
+
             if (userFinder.Count == 0)
             {
-                return BadRequest("Wrong username and or password");
+                return BadRequest("Wrong username");
             }
 
             var userFromDatabase = userFinder[0];
 
             var passwordIsSame = HashedPassword.FromHashAndSalt(userFromDatabase.Password, userFromDatabase.Salt).Compare(request.Password);
-
-            if(!passwordIsSame)
+         
+            if (!passwordIsSame)
             {
-                return BadRequest("Wrong username and or password");
+                return BadRequest("Wrong password");
             }
 
-            throw new NotImplementedException("Login Auth");
+            return Ok(userFromDatabase);
+            //throw new NotImplementedException("Login Auth");
 
         }
 

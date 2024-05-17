@@ -50,6 +50,8 @@ namespace API.Utilities
 
         public bool Compare(string password)
         {
+            byte[] saltBytes = Convert.FromBase64String(this.Salt);
+
             string hashedPassword2;
 
             using (var sha256 = new SHA256Managed())
@@ -58,6 +60,7 @@ namespace API.Utilities
                 byte[] saltedPassword = new byte[passwordBytes.Length + this.Salt.Length];
 
                 Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+                Buffer.BlockCopy(saltBytes, 0, saltedPassword, passwordBytes.Length, saltBytes.Length);
 
                 byte[] hashedBytes = sha256.ComputeHash(saltedPassword);
 

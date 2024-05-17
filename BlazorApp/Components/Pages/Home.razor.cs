@@ -164,6 +164,7 @@ namespace BlazorApp.Components.Pages
         // -------------------------- Plants ---------------------------- //
 
         // Create plant to database
+        //need to get user id
         public async Task HandleCreatePlant()
         {
     
@@ -198,6 +199,7 @@ namespace BlazorApp.Components.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     message = "plant succesfully created";
+                    NavigationManager.NavigateTo("/");
                 }
             }
         }
@@ -205,33 +207,40 @@ namespace BlazorApp.Components.Pages
         // Edit plant info for the database
         public async Task HandleEditPlant()
         {
-            string PlantName = "";
-            int MinWaterLevel = 0;
-            int MaxWaterLevel = 0;
+          
 
-            if (string.IsNullOrWhiteSpace(PlantName))
+            if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
                 errorMessage = "invalid input try again";
             }
 
-            if (!PlantName.All(char.IsLetterOrDigit))
+            if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
             {
                 errorMessage = "invalid input try again";
             }
 
-            if (MinWaterLevel < 0 || MinWaterLevel > 100)
+            if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
             {
                 errorMessage = "invalid input try again";
             }
 
-            if (MaxWaterLevel < 0 || MaxWaterLevel > 100)
+            if (plantProfile.MaxWaterLevel < 0 || plantProfile.MaxWaterLevel > 100)
             {
                 errorMessage = "invalid input try again";
             }
 
             else
             {
-                message = "Plant created";
+                //make post request
+                string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync("api/Plants", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "plant succesfully created";
+                    NavigationManager.NavigateTo("/");
+                }
             }
         }
 

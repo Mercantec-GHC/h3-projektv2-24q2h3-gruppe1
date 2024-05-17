@@ -175,7 +175,7 @@ namespace BlazorApp.Components.Pages
 
             if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
             {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid input cant contain speical characters try again";
             }
 
             if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
@@ -211,22 +211,22 @@ namespace BlazorApp.Components.Pages
 
             if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid plant name";
             }
 
             if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
             {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid input cant contain speical characters try again";
             }
 
             if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
             {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid minWaterLevel input try again over or under limit";
             }
 
             if (plantProfile.MaxWaterLevel < 0 || plantProfile.MaxWaterLevel > 100)
             {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid MaxWaterLevel input try again over or under limit";
             }
 
             else
@@ -300,6 +300,7 @@ namespace BlazorApp.Components.Pages
         }
 
         // The auto or manual mode toggle for the Arduino 
+        //make a put request then auto changes a put request
         public void Toggle(char switchName)
         {
             // It checks if both toggles are set to false and sets IsAutoChecked to true 

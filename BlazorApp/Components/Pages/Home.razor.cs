@@ -91,8 +91,6 @@ namespace BlazorApp.Components.Pages
 
         }
 
-
-        // Login user WIP (Work in progress)
         public async Task HandleLogin()
         {
             if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
@@ -104,6 +102,7 @@ namespace BlazorApp.Components.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     message = "Registration succesfull";
+                    NavigationManager.NavigateTo("/");
                 }
 
                 else
@@ -120,6 +119,7 @@ namespace BlazorApp.Components.Pages
         {
             if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
             {
+                //make put requests
 
                 if (userProfile.Username.Contains("@"))
                 {
@@ -166,34 +166,39 @@ namespace BlazorApp.Components.Pages
         // Create plant to database
         public async Task HandleCreatePlant()
         {
-            string PlantName = "";
-            int MinWaterLevel = 0;
-            int MaxWaterLevel = 0;
+    
+            if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
+            {
+                errorMessage = "invalid plant name";
+            }
 
-
-            if (string.IsNullOrWhiteSpace(PlantName))
+            if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
             {
                 errorMessage = "invalid input try again";
             }
 
-            if (!PlantName.All(char.IsLetterOrDigit))
+            if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
             {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid minWaterLevel input try again over or under limit";
             }
 
-            if (MinWaterLevel < 0 || MinWaterLevel > 100)
+            if (plantProfile.MaxWaterLevel < 0 || plantProfile.MaxWaterLevel > 100)
             {
-                errorMessage = "invalid input try again";
-            }
-
-            if (MaxWaterLevel < 0 || MaxWaterLevel > 100)
-            {
-                errorMessage = "invalid input try again";
+                errorMessage = "invalid MaxWaterLevel input try again over or under limit";
             }
 
             else
             {
-                message = "Plant created";
+                //make post request
+                string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Plants", content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "plant succesfully created";
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
@@ -30,6 +30,7 @@ namespace API.Controllers
             Plant plantCreate = new Plant
             {
                 PlantName = plantCreated.PlantName,
+                UserId = plantCreated.UserId,
                 MinWaterLevel = plantCreated.MinWaterLevel,
                 MaxWaterLevel = plantCreated.MaxWaterLevel,
 

@@ -201,6 +201,8 @@ namespace BlazorApp.Components.Pages
 
             else
             {
+                plantProfile.UserId = AccountSession.UserSession.Id;
+
                 //make post request
                 string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");

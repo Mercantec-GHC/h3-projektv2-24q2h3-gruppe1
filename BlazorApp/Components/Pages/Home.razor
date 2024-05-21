@@ -2,165 +2,29 @@
 @using API;
 @using API.Models;
 @using BlazorApp.Pages;
+@using BlazorBootstrap;
 @using BlazorApp.Containers;
 @using System.Threading.Tasks;
 @using Syncfusion.Blazor.Charts;
 @using Microsoft.AspNetCore.Components.Forms;
 @using Syncfusion.Blazor.Charts.Chart.Internal;
 
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
 @namespace BlazorApp.Components.Pages
 
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
 <PageTitle>Home</PageTitle>
 
 <h1>Home</h1>
 
 <div class="d-flex">
-
-    <!---------------------------------- Sign up ---------------------------------->
-    <div>
-        <!-- Trigger/Open The Modal -->
-        <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
-
-        <!-- The Modal -->
-        <div id="myModalSignup" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close" on>&times;</span>
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Sign up</h5>
-                </div>
-
-                <!-- EditForm for sign up -->
-                <EditForm Model="@userSignup" >
-
-                    <div class="modal-body">
-
-                        <!-- Input fields for sign up -->
-                        <label for="pass">Email:</label><br>
-                        <div class="form-group">
-                            <InputText id="pass" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
-                        </div>
-
-                        <label for="uname">Username:</label><br>
-                        <div class="form-group">
-                            <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
-                        </div>
-
-                        <label for="pass">Password:</label><br>
-                        <div class="form-group">
-                            <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <!-- Buttons for sign up -->
-                        <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
-                    </div>
-
-                    <p class="error-message" id="login-error">@errorMessage</p>
-
-                </EditForm>
-            </div>
-        </div>
-    </div>
-
-    <!----------------------------------- Login ----------------------------------->
-    <div>
-        <!-- Trigger/Open The Modal -->
-        <button id="myBtnLogin" class="btn btn-primary buttons">Login</button>
-
-        <!-- The Modal -->
-        <div id="myModalLogin" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Login</h5>
-                </div>
-
-                <!-- EditForm for login -->
-                <EditForm Model="@userLogin">
-                    <div class="modal-body">
-
-                        <!-- Input fields for login -->
-                        <label for="login-uname">Username:</label><br>
-                        <div class="form-group">
-                            <InputText id="login-uname" @bind-Value="userLogin.Username" placeholder="Username" required /><br><br>
-                        </div>
-
-                        <label for="login-pass">Password:</label><br>
-                        <div class="form-group">
-                            <InputText id="login-pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required /><br><br>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <!-- Buttons for login -->
-                        <button type="submit" class="btn btn-primary" @onclick="HandleLogin">Login</button>
-                    </div>
-
-                    <p class="error-message" id="login-error">@errorMessage</p>
-
-                </EditForm>
-            </div>
-        </div>
-    </div>
-
-    <!-------------------------------- Edit Profile ------------------------------->
-    <div>
-        <!-- Trigger/Open The Modal -->
-        <button id="myBtnEditProfile" class="btn btn-primary buttons">Edit Profile</button>
-
-        <!-- The Modal -->
-        <div id="myModalEditProfile" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Profile</h5>
-                </div>
-
-                <!-- EditForm for login -->
-                <EditForm Model="@userProfile">
-                    <div class="modal-body">
-
-                        <!-- Input fields for login -->
-                        <label for="login-uname">Username:</label><br>
-                        <div class="form-group">
-                            <InputText id="login-uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
-                        </div>
-
-                        <label for="login-pass">Password:</label><br>
-                        <div class="form-group">
-                            <InputText id="login-pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <!-- Buttons for login -->
-                        <button type="submit" class="btn btn-primary" @onclick="HandleEditProfile">Save Changes</button>
-                    </div>
-
-                    <p class="error-message" id="login-error">@errorMessage</p>
-
-                </EditForm>
-            </div>
-        </div>
-    </div>
-
-    <!-------------------------------- Create Plant ------------------------------->
+    <!----------------------------- Create Plant Modal ---------------------------->
     <div>
         <!-- Trigger/Open The Modal -->
         <button id="myBtnCreatePlant" class="btn btn-primary buttons">Create Plant</button>
@@ -210,7 +74,7 @@
         </div>
     </div>
 
-    <!--------------------------------- Edit Plant -------------------------------->
+    <!------------------------------ Edit Plant Modal ----------------------------->
     <div>
         <!-- Trigger/Open The Modal -->
         <button id="myBtnEditPlant" class="btn btn-primary buttons">Edit Plant</button>
@@ -277,9 +141,7 @@
         </div>
     </div>
 
-    <!-------------------------------- Setup Sensor ------------------------------->
-    <!-------------------------------- make put request in settings then we change plant name in setup sensor ------------------------------->
-
+    <!----------------------------- Setup Sensor Modal ---------------------------->
     <div>
         <!-- Trigger/Open The Modal -->
         <button id="myBtnSetupSensor" class="btn btn-primary buttons">Setup Sensor</button>
@@ -351,55 +213,154 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <!------------------------------- Pie Chart Modal ----------------------------->
+@*     <div>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtnPieChart" class="btn btn-primary buttons">Show Charts</button>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- The Modal -->
+        <div id="myModalPieChart" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Charts</h5>
+                </div>
+
+                <div class="modal-body">
+                    <div id="chart-container-1">
+                        <select id="chart-select" class="btn btn-primary buttonSelect">
+                            <option value="chartdiv1">Chart 1</option>
+                            <option value="chartdiv2">Chart 2</option>
+                            <option value="chartdiv3">Chart 3</option>
+                        </select>
+                        <div id="chartdiv1" class="chartdiv"></div>
+                        <div id="chartdiv2" class="chartdiv"></div>
+                        <div id="chartdiv3" class="chartdiv"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+ *@
+    <!---------------------------------- Pie Chart -------------------------------->
+    <div id="chart-container">
+        <select id="chart-select" class="btn btn-primary buttonSelect">
+            <option value="chartdiv1">Chart 1</option>
+            <option value="chartdiv2">Chart 2</option>
+            <option value="chartdiv3">Chart 3</option>
+        </select>
+        <div id="chartdiv1" class="chartdiv"></div>
+        <div id="chartdiv2" class="chartdiv"></div>
+        <div id="chartdiv3" class="chartdiv"></div>
     </div>
 
 </div>
 
-<!-------------------------------- Modal Script ------------------------------->
+    <!-------------------------------- Modal Script ------------------------------->
 <script>
-    // Get the modals
+    // Modal functionality
     var modals = document.querySelectorAll('.modal');
-
-    // Get the buttons that open the modals
     var buttons = document.querySelectorAll('.btn');
-
-    // Get the <span> elements that close the modals
     var spans = document.querySelectorAll('.close');
 
-    // Loop through each button to add click event listeners
     buttons.forEach(function (button, index) {
         button.addEventListener('click', function () {
             modals[index].style.display = "block";
-            errorMessage = "";
+            createCharts(); // Create charts when modal is opened
         });
     });
 
-    // Loop through each span to add click event listeners
     spans.forEach(function (span, index) {
         span.addEventListener('click', function () {
             modals[index].style.display = "none";
-            errorMessage = "";
         });
     });
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         modals.forEach(function (modal) {
             if (event.target == modal) {
                 modal.style.display = "none";
-                errorMessage = "";
             }
         });
-    }
+    };
 
     function loginUser() {
-        alert("User has been logged in")
+        alert("User has been logged in");
     }
+
 </script>
 
-<!--------------------------------- Plant Code -------------------------------->
+<script>
+
+    am5.ready(function () {
+        // Common chart creation function
+        function createChart(rootId, data) {
+            
+            var root = am5.Root.new(rootId);
+            
+            root.setThemes([am5themes_Animated.new(root)]);
+            
+            var chart = root.container.children.push(
+                am5percent.PieChart.new(root, { endAngle: 270 })
+            );
+            
+            var series = chart.series.push(
+                am5percent.PieSeries.new(root, {
+                    valueField: "value",
+                    categoryField: "category",
+                    endAngle: 270
+                })
+            );
+            series.states.create("hidden", { endAngle: -90 });
+            
+            series.data.setAll(data);
+            
+            series.labels.template.setAll({
+                fill: am5.color(0xFFFFFF), // Set label text color to white
+            });
+            
+            series.slices.template.setAll({
+            });
+
+            series.appear(1000, 100);
+        }
+
+        // Data for the charts
+        var data1 = [
+            { category: "Moisture Level", value: 601.9 },
+            { category: "Drought Level", value: 301.9 }
+        ];
+        var data2 = [
+            { category: "Moisture Level", value: 641.9 },
+            { category: "Drought Level", value: 358.1 }
+        ];
+        var data3 = [
+            { category: "Moisture Level", value: 751.9 },
+            { category: "Drought Level", value: 208.1 }
+        ];
+
+        // Create charts
+        createChart("chartdiv1", data1);
+        createChart("chartdiv2", data2);
+        createChart("chartdiv3", data3);
+
+        // Dropdown change event
+        document.getElementById("chart-select").addEventListener("change", function () {
+            var selectedChart = this.value;
+            document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
+                chartDiv.style.display = "none";
+            });
+            document.getElementById(selectedChart).style.display = "block";
+        });
+    });
+</script>
+
+    <!------------------------------------ Code ----------------------------------->
 <tr>
     @code {
         private string selectedPlant1 = "";
@@ -412,12 +373,12 @@
             await GetListOfPlants(); // This method should populate the 'plants' list
         }
 
-        private void SelectPlant1(Plant plant)
+        public void SelectPlant1(Plant plant)
         {
             selectedPlant1 = plant.PlantName;
         }
 
-        private void SelectPlant2(Plant plant)
+        public void SelectPlant2(Plant plant)
         {
             selectedPlant2 = plant.PlantName;
         }

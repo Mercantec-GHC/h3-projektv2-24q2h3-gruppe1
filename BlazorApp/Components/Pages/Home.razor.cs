@@ -1,5 +1,6 @@
 using API.Models;
 using BlazorApp.Containers;
+using BlazorBootstrap;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using System.Text;
@@ -49,17 +50,15 @@ namespace BlazorApp.Components.Pages
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
 
-        // User Variables
-        public User userProfile = new User();
-        public UserLoginRequest userLogin = new UserLoginRequest();
-        public UserSignUpRequest userSignup = new UserSignUpRequest();
+     
         
         // Connection
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
+        private int numberOfDatasets;
         #endregion
 
         // -------------------------- Plants ---------------------------- //
-        
+
         #region Plants Create, Edit, Get Plants & Settings
         // Create plant to database
         //need to get user id
@@ -251,7 +250,7 @@ namespace BlazorApp.Components.Pages
                 datasets.Add(GetRandomPieChartDataset());
             }
 
-            return datasets;
+           // return datasets;
         }
 
         //

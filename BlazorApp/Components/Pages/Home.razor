@@ -229,11 +229,28 @@
                 <!-- EditForm for login -->
                 <EditForm Model="@plantProfile">
                     <div class="modal-body">
-
+                        <p>selected plant: @selectedEditPlant</p>
                         <!-- Input fields for login -->
-                        <label for="plantName">Plant Name:</label><br>
-                        <div class="form-group">
-                            <InputText id="plantName" @bind-Value="plantProfile.PlantName" placeholder="Plant Name" required /><br><br>
+                        <div class="dropdown">
+                            
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <text>Choose Plant</text>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                @if (plants != null)
+                                {
+                                    @foreach (var plant in plants)
+                                    {
+                                        <li><button class="dropdown-item" @onclick="() => SelectEditPlant(plant)">@plant.PlantName</button></li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li><span class="dropdown-item">Loading...</span></li>
+                                }
+                            </ul>
+
                         </div>
 
                         <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
@@ -387,6 +404,8 @@
     @code {
         private string selectedPlant1 = "";
         private string selectedPlant2 = "";
+        private string selectedEditPlant = "";
+        private int selectedEditPlantId = 0;
 
         protected override async Task OnInitializedAsync()
         {
@@ -401,6 +420,12 @@
         private void SelectPlant2(Plant plant)
         {
             selectedPlant2 = plant.PlantName;
+        }
+
+        private void SelectEditPlant(Plant plant)
+        {
+            selectedEditPlant = plant.PlantName;
+            selectedEditPlantId = plant.Id;
         }
     }
 </tr>

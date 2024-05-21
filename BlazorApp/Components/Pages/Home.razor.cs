@@ -221,15 +221,15 @@ namespace BlazorApp.Components.Pages
         public async Task HandleEditPlant()
         {
           
-            if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
-            {
-                errorMessage = "invalid plant name";
-            }
+            //if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
+            //{
+            //    errorMessage = "invalid plant name";
+            //}
 
-            if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
-            {
-                errorMessage = "invalid input cant contain speical characters try again";
-            }
+            //if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
+            //{
+            //    errorMessage = "invalid input cant contain speical characters try again";
+            //}
 
             if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
             {
@@ -243,10 +243,12 @@ namespace BlazorApp.Components.Pages
 
             else
             {
+                plantProfile.Id = selectedEditPlantId;
+                plantProfile.PlantName = selectedEditPlant;
                 //make put request
                 string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PutAsync("api/Plants", content);
+                var response = await client.PutAsync($"api/Plants/{plantProfile.Id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {

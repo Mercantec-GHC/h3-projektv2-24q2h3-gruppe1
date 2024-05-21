@@ -1,6 +1,7 @@
 using API.Models;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 using System.Text;
 
 namespace BlazorApp.Components.Pages
@@ -8,8 +9,6 @@ namespace BlazorApp.Components.Pages
     public partial class Home
     {
         #region Top Level Variables
-        string connectionString;
-
         string message = "";
         string errorMessage = "";
 
@@ -101,8 +100,20 @@ namespace BlazorApp.Components.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    message = "Registration succesfull";
-                    NavigationManager.NavigateTo("/");
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Response Content: " + responseContent); // Debug: Log the response content
+
+                    var user = System.Text.Json.JsonSerializer.Deserialize<User>(responseContent);
+
+                    if (user != null)
+                    {
+                        Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
+
+                        AccountSession.UserSession = user;
+
+                        message = "Login successful";
+                        NavigationManager.NavigateTo("/");
+                    }
                 }
 
                 else

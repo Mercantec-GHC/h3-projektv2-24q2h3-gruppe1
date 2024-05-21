@@ -1,10 +1,20 @@
-﻿namespace API.Models
+using System.Text.Json.Serialization;
+
+namespace API.Models
 {
     public class User : Common
     {
+        [JsonPropertyName("email")]
+
         public string Email { get; set; }
+        [JsonPropertyName("username")]
+
         public string Username { get; set; }
+        [JsonPropertyName("password")]
+
         public string Password { get; set; }
+        [JsonPropertyName("salt")]
+
         public string Salt { get; set; }
     }
 

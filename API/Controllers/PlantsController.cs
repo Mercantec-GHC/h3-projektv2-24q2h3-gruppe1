@@ -59,9 +59,9 @@ namespace API.Controllers
 
             return plant;
         }
-
+       
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlant(int id, EditPlant plant)
+        public async Task<IActionResult> PutPlant(int id, Plant plant)
         {
             if (id != plant.Id)
             {
@@ -69,12 +69,15 @@ namespace API.Controllers
             }
             Plant plantEdit = new Plant
             {
-            
+                PlantName = plant.PlantName,
+                UserId = plant.UserId,
                 MinWaterLevel = plant.MinWaterLevel,
                 MaxWaterLevel = plant.MaxWaterLevel,
 
+                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
             };
-            _context.Entry(plant).State = EntityState.Modified;
+            _context.Entry(plantEdit).State = EntityState.Modified;
 
             try
             {

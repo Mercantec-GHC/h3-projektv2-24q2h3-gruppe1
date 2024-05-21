@@ -19,6 +19,7 @@ namespace API.Models
 
     public class EditPlant
     {
+        public int Id { get; set; }
         public int MinWaterLevel { get; set; }
         public int MaxWaterLevel { get; set; }
     }

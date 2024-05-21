@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace API.Controllers
 {
@@ -58,7 +59,7 @@ namespace API.Controllers
 
             return plant;
         }
-       
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlant(int id, Plant plant)
         {
@@ -66,8 +67,14 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
+            EditPlant plantEdit = new EditPlant
+            {
+                MinWaterLevel = plant.MinWaterLevel,
+                MaxWaterLevel = plant.MaxWaterLevel,
 
-            _context.Entry(plant).State = EntityState.Modified;
+       
+            };
+            _context.Entry(plantEdit).State = EntityState.Modified;
 
             try
             {

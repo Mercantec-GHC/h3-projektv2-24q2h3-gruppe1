@@ -264,7 +264,26 @@ namespace BlazorApp.Components.Pages
             // It takes the list of plants we have in our API via the endpoint "api/Plants"
             try
             {
-                plants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
+                if (AccountSession.UserSession != null)
+                {
+                    var allPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
+
+                    // Filter plants where UserId is 0 and AccountSessionId matches
+                    var filteredPlants = allPlants.Where(plant => plant.UserId == 0 || plant.UserId == AccountSession.UserSession.Id).ToList();
+
+                    // Assign filtered plants to the plants list
+                    plants = filteredPlants;
+                }
+                else
+                {
+                    var allPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
+
+                    // Filter plants where UserId is 0 and AccountSessionId matches
+                    var filteredPlants = allPlants.Where(plant => plant.UserId == 0).ToList();
+
+                    // Assign filtered plants to the plants list
+                    plants = filteredPlants;
+                }
 
             }
             catch (Exception ex)

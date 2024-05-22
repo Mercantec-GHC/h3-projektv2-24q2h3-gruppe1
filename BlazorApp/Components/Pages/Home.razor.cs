@@ -222,16 +222,16 @@ namespace BlazorApp.Components.Pages
         // Edit plant info for the database
         public async Task HandleEditPlant()
         {
-          
-            //if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
-            //{
-            //    errorMessage = "invalid plant name";
-            //}
 
-            //if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
-            //{
-            //    errorMessage = "invalid input cant contain speical characters try again";
-            //}
+            if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
+            {
+                errorMessage = "invalid plant name";
+            }
+
+            if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
+            {
+                errorMessage = "invalid input cant contain speical characters try again";
+            }
 
             if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
             {
@@ -256,7 +256,28 @@ namespace BlazorApp.Components.Pages
                     message = "plant succesfully created";
                     NavigationManager.NavigateTo("/");
                 }
+                else
+                {
+                    errorMessage = "select a plant "; 
+                }
             }
+        }
+
+        // Edit plant info for the database
+        public async Task HandlePlantDelete()
+        {
+                plantProfile.Id = selectedEditPlantId;
+                //make put request
+                string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.DeleteAsync($"api/Plants/{plantProfile.Id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "plant succesfully created";
+                    NavigationManager.NavigateTo("/");
+                }
+            
         }
         //make put request in settings then we change plant name in setup sensor
         // ------------- Get -------------- //

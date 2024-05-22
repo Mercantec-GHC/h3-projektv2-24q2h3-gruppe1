@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Components\Layout\MainLayout.razor.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Components\Pages\CreatePlant.razor.css" />
     <None Remove="Components\Pages\Login.razor.css" />
   </ItemGroup>
@@ -18,10 +14,6 @@
   <ItemGroup>
     <Content Include="Components\Pages\CreatePlant.razor.css" />
     <Content Include="Components\Pages\Login.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Components\Layout\MainLayout.razor.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,6 +7,6 @@
     "\\BlazorApp\\Components",
     "\\BlazorApp\\Components\\Pages"
   ],
-  "SelectedNode": "\\WaterMyPot.sln",
+  "SelectedNode": "\\BlazorApp\\Components\\Pages\\Login.razor.cs",
   "PreviewInSolutionExplorer": false
 }

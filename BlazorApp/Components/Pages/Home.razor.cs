@@ -246,7 +246,6 @@ namespace BlazorApp.Components.Pages
             else
             {
                 plantProfile.Id = selectedEditPlantId;
-                plantProfile.PlantName = selectedEditPlant;
                 //make put request
                 string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");

@@ -59,25 +59,22 @@ namespace API.Controllers
 
             return plant;
         }
-       
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlant(int id, Plant plant)
-        {
-            if (id != plant.Id)
-            {
-                return BadRequest();
-            }
-            Plant plantEdit = new Plant
-            {
-                PlantName = plant.PlantName,
-                UserId = plant.UserId,
-                MinWaterLevel = plant.MinWaterLevel,
-                MaxWaterLevel = plant.MaxWaterLevel,
 
-                UpdatedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow
-            };
-            _context.Entry(plantEdit).State = EntityState.Modified;
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPlant(int id, EditPlant editPlant)
+        {
+            var existingPlant = await _context.Plants.FindAsync(id);
+            if (existingPlant == null)
+            {
+                return NotFound();
+            }
+
+            // Update properties
+            existingPlant.MinWaterLevel = editPlant.MinWaterLevel;
+            existingPlant.MaxWaterLevel = editPlant.MaxWaterLevel;
+            existingPlant.PlantName = editPlant.PlantName;
+        
+            _context.Entry(existingPlant).State = EntityState.Modified;
 
             try
             {
@@ -97,6 +94,8 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlant(int id)

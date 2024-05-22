@@ -73,9 +73,17 @@
 	<!----------------------------------- Login ----------------------------------->
 	<div>
 		<!-- Trigger/Open The Modal -->
-		<button id="myBtnLogin" class="btn btn-primary buttons">Login</button>
+       
+        @if (AccountSession.UserSession == null)
+        {
+            <button id="myBtnLogin" style="background-color: darkslategrey;" class="btn btn-primary buttons">Login</button>
+        }
+        else
+        {
+            <button id="myBtnLogin" style="background-color: darkslategrey;" @onclick="Logout" class="btn btn-primary buttons">Logout</button>
+        }
 
-		<!-- The Modal -->
+        <!-- The Modal -->
 		<div id="myModalLogin" class="modal">
 
 			<!-- Modal content -->

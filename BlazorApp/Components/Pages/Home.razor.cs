@@ -110,7 +110,7 @@ namespace BlazorApp.Components.Pages
                     if (user != null)
                     {
                         Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
-
+                        
                         AccountSession.UserSession = user;
 
                         message = "Login successful";

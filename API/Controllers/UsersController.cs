@@ -15,7 +15,6 @@ namespace API.Controllers
     {
         private readonly AppDBContext _context;
 
-        // Constructor to inject the database context
         public UsersController(AppDBContext context)
         {
             _context = context;
@@ -25,14 +24,17 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
-            // Retrieve all users from the database
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
         // ---------------- User Credentials ------------------ //
 
-        // POST: api/Users/login
-        [HttpPost("login")] // Route for user login
+        // POST: api/Users/username/password
+        [HttpPost("login")] // do not delete login text
         public async Task<ActionResult<User>> UserLogin(UserLoginRequest request)
         {
             var userFinder = await _context.Users.Where(item => item.Username == request.Username).ToListAsync();
@@ -42,10 +44,8 @@ namespace API.Controllers
                 return BadRequest("Wrong username");
             }
 
-            // Retrieve user information from the database
             var userFromDatabase = userFinder[0];
 
-            // Compare the hashed password with the provided password
             var passwordIsSame = HashedPassword.FromHashAndSalt(userFromDatabase.Password, userFromDatabase.Salt).Compare(request.Password);
          
             if (!passwordIsSame)
@@ -79,19 +79,20 @@ namespace API.Controllers
 
             var hashedPassword = HashedPassword.FromPassword(request.Password);
 
-            // Create a new user object with hashed password and salt
+            Console.WriteLine(hashedPassword.Hash);
+
             User userSignUp = new User()
             {
                 Email = request.Email,
                 Username = request.Username,
                 Password = hashedPassword.Hash,
                 Salt = hashedPassword.Salt,
+
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
             };
        
 
-            // Add the new user to the database
             _context.Users.Add(userSignUp);
             await _context.SaveChangesAsync();
 
@@ -104,7 +105,6 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            // Retrieve a user by their ID from the database
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -119,7 +119,6 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            // It says it itself 
             if (id != user.Id)
             {
                 return BadRequest();
@@ -133,7 +132,6 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                // It says it itself 
                 if (!UserExists(id))
                 {
                     return NotFound();
@@ -151,14 +149,12 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            // It says it itself 
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            // Delete the user from the database if the id exists
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
@@ -167,11 +163,9 @@ namespace API.Controllers
 
         // ---------------------- Mis ------------------------ //
 
-        // Helper method to check if a user with a specific ID exists
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }
     }
-
 }

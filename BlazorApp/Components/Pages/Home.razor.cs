@@ -12,7 +12,6 @@ namespace BlazorApp.Components.Pages
         string message = "";
         string errorMessage = "";
 
-        // Modal User Input Variables
         string email = "";
         string username = "";
         string password = "";
@@ -24,19 +23,6 @@ namespace BlazorApp.Components.Pages
         bool usernameCheck = false;
         bool passwordCheck = false;
 
-        // Pie Variables
-        public string[]? backgroundColors;
-        public PieChart pieChart = default!;
-        public PieChartOptions pieChartOptions = default!;
-        public BlazorBootstrap.ChartData chartData = default!;
-
-        public int datasetsCount = 0;
-        public int dataLabelsCount = 0;
-
-        // Random Variable
-        public Random random = new();
-
-        // Plants Variables
         public List<Plant>? plants;
         public List<Setting>? settingList;
 
@@ -45,22 +31,149 @@ namespace BlazorApp.Components.Pages
         public User userProfile = new User();
 
         public Plant plantProfile = new Plant();
-        
+
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
 
-        // User Variables
-        public User userProfile = new User();
-        public UserLoginRequest userLogin = new UserLoginRequest();
-        public UserSignUpRequest userSignup = new UserSignUpRequest();
-        
-        // Connection
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
         #endregion
 
+        // --------------------------- Users ---------------------------- //
+
+        // Sign up user WIP (Work in progress)
+        public async Task HandleSignUp()
+        {
+            // Reset error message
+            errorMessage = "";
+
+
+            // Perform username and password policy checks
+            UsernamePolicyCheck(userSignup.Username);
+            PasswordPolicyCheck(userSignup.Password);
+
+            // Check if username and password meet requirements
+            if (!usernameCheck || !passwordCheck)
+            {
+                // If either username or password fails policy checks, set appropriate error message
+                if (!usernameCheck && !passwordCheck)
+                {
+                    errorMessage = "Both username and password are invalid. Please try again.";
+                }
+                else if (!usernameCheck)
+                {
+                    errorMessage = "Username is invalid. Please try again.";
+                }
+                else
+                {
+                    errorMessage = "Password is invalid. Please try again.";
+                }
+            }
+            else
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Registration successful";
+                }
+                else
+                {
+                    // Read the response content to get the error message from the API
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                    errorMessage = errorResponse?.Detail;
+                }
+            }
+
+
+        }
+
+        public async Task HandleLogin()
+        {
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users/login", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Response Content: " + responseContent); // Debug: Log the response content
+
+                    var user = System.Text.Json.JsonSerializer.Deserialize<User>(responseContent);
+
+                    if (user != null)
+                    {
+                        Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
+
+                        AccountSession.UserSession = user;
+
+                        message = "Login successful";
+                        NavigationManager.NavigateTo("/");
+                    }
+                }
+
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Registration failed. Please try again.";
+
+                }
+            }
+        }
+
+        // Edit profile WIP (Work in progress)
+        public async Task HandleEditProfile()
+        {
+            if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
+            {
+                //make put requests on user model
+
+                if (userProfile.Username.Contains("@"))
+                {
+                    newEmail = userProfile.Email;
+                }
+
+                else
+                {
+                    newUsername = userProfile.Username;
+                }
+
+                if (userProfile.Username != newEmail || userProfile.Username != newUsername)
+                {
+                    errorMessage = "Invalid credentials. Please make sure you have a different email or username";
+                }
+
+                if (userProfile.Password != newPassword)
+                {
+                    errorMessage = "Invalid credentials. Please make sure you have a different password";
+                }
+            }
+            else
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users", content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Registration succesfull";
+                }
+
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
+                }
+            }
+        }
+
         // -------------------------- Plants ---------------------------- //
-        
-        #region Plants Create, Edit, Get Plants & Settings
+
         // Create plant to database
         //need to get user id
         public async Task HandleCreatePlant()
@@ -195,114 +308,140 @@ namespace BlazorApp.Components.Pages
                 Console.WriteLine($"Error fetching Settings: {ex.Message}");
             }
         }
-        #endregion
+
 
         // --------------------------- Sensor --------------------------- //
-
-        #region Sensor
-        //
         public async Task SetupSensor()
         {
 
         }
-        #endregion
 
-        // ----------------------------- Pie ---------------------------- //
+        // ---------------------------- Misc ---------------------------- //
 
-        #region Pie Chart
-        //
-        public async Task AddDatasetAsync()
+        // Logout of account
+        public void Logout()
         {
-            if (chartData is null || chartData.Datasets is null) return;
-
-            var chartDataset = GetRandomPieChartDataset();
-            chartData = await pieChart.AddDatasetAsync(chartData, chartDataset, pieChartOptions);
-        }
-        
-        //
-        public async Task AddDataAsync()
-        {
-            if (dataLabelsCount >= 12)
-                return;
-
-            if (chartData is null || chartData.Datasets is null)
-                return;
-
-            var data = new List<IChartDatasetData>();
-            foreach (var dataset in chartData.Datasets)
+            try
             {
-                if (dataset is PieChartDataset pieChartDataset)
-                    data.Add(new PieChartDatasetData(pieChartDataset.Label, random.Next(0, 100), backgroundColors![dataLabelsCount]));
+                AccountSession.UserSession = null;
             }
 
-            chartData = await pieChart.AddDataAsync(chartData, GetNextDataLabel(), data);
-
-            dataLabelsCount += 1;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
         }
 
         // The auto or manual mode toggle for the Arduino 
         //make a put request then auto changes a put request
         public void Toggle(char switchName)
         {
-            var datasets = new List<IChartDataset>();
-
-            for (var index = 0; index < numberOfDatasets; index++)
+            // It checks if both toggles are set to false and sets IsAutoChecked to true 
+            if (!IsManualChecked && !IsAutoChecked)
             {
-                datasets.Add(GetRandomPieChartDataset());
+                IsAutoChecked = true;
+                // setting.AutoMode = true;
+            }
+            // The else insures that no matter what if both are set to false that the if statement is true insuring one is always active
+            else
+            {
+                IsAutoChecked = !IsAutoChecked;
+                IsManualChecked = !IsManualChecked;
+                //setting.AutoMode = false;
+            }
+        }
+
+        // This is an email policy for insuring that there is fx. @ so that we are sure that it is a valid email 
+        public void EmailPolicyCheck(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                errorMessage = "Email cannot be empty or contain only whitespace!";
             }
 
-            return datasets;
-        }
-
-        //
-        public PieChartDataset GetRandomPieChartDataset()
-        {
-            datasetsCount += 1;
-            return new() { Label = $"Team {datasetsCount}", Data = GetRandomData(), BackgroundColor = GetRandomBackgroundColors() };
-        }
-
-        //
-        public List<double> GetRandomData()
-        {
-            var data = new List<double>();
-            for (var index = 0; index < dataLabelsCount; index++)
+            if (!email.All(char.IsLetterOrDigit))
             {
-                data.Add(random.Next(0, 100));
+                errorMessage = "Only letters and digits are allowed in the email!";
             }
 
-            return data;
-        }
-
-        //
-        public List<string> GetRandomBackgroundColors()
-        {
-            var colors = new List<string>();
-            for (var index = 0; index < dataLabelsCount; index++)
+            if (!email.Contains("@"))
             {
-                colors.Add(backgroundColors![index]);
+                errorMessage = "Email is invalid";
             }
 
-            return colors;
+            else
+            {
+                message = "Email is accepted!";
+            }
         }
 
-        //
-        public List<string> GetDefaultDataLabels(int numberOfLabels)
+        // This is a username policy for insuring that this isnt fx. @ so we can differenciate between mail and username 
+        public string UsernamePolicyCheck(string username)
         {
-            var labels = new List<string>();
-            for (var index = 0; index < numberOfLabels; index++)
+            if (string.IsNullOrWhiteSpace(username))
             {
-                labels.Add(GetNextDataLabel());
-                dataLabelsCount += 1;
+                return "Username cannot be empty or contain only whitespace!";
             }
 
-            return labels;
+            if (username.Length < 2)
+            {
+                return "Username must be at least 2 characters!";
+            }
+
+            if (!username.All(char.IsLetterOrDigit))
+            {
+                return "Only letters and digits are allowed in the username!";
+            }
+
+            if (!username.Any(char.IsUpper))
+            {
+                return "Username must contain uppercase letters!";
+            }
+
+            if (!username.Any(char.IsLower))
+            {
+                return "Username must contain lowercase letters!";
+            }
+
+            else
+            {
+                usernameCheck = true;
+                return "Username is valid";
+            }
         }
 
-        //
-        public string GetNextDataLabel() => $"Product {dataLabelsCount + 1}";
+        public string PasswordPolicyCheck(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                return "Password cannot be empty or contain only whitespace!";
+            }
 
-        //
-        public string GetNextDataBackgrounfColor() => backgroundColors![dataLabelsCount];
-        #endregion
+            if (password.Length < 5)
+            {
+                return "Password must be at least 5 characters!";
+            }
+
+            if (!password.Any(char.IsUpper))
+            {
+                return "Password must contain uppercase letters!";
+            }
+
+            if (!password.Any(char.IsLower))
+            {
+                return "Password must contain lowercase letters!";
+            }
+
+            if (!password.Any(char.IsDigit))
+            {
+                return "Password must contain numbers!";
+            }
+
+            else
+            {
+                passwordCheck = true;
+                return "Password is valid";
+            }
+        }
     }
 }

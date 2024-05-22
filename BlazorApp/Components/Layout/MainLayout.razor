@@ -1,4 +1,14 @@
-﻿@inherits LayoutComponentBase
+@using API;
+@using API.Models;
+@using BlazorApp.Pages;
+@using BlazorApp.Containers;
+@using System.Threading.Tasks;
+@using Syncfusion.Blazor.Charts;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Syncfusion.Blazor.Charts.Chart.Internal;
+@inherits LayoutComponentBase
+
+@namespace BlazorApp.Components.Layout
 
 <div class="page">
     <div class="sidebar">
@@ -6,9 +16,59 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+        <!---------------------------------- Sign up ---------------------------------->
+        @if (AccountSession.UserSession == null)
+        {
+            <div>
+                <!-- Trigger/Open The Modal -->
+                <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
+
+                <!-- The Modal -->
+                <div id="myModalSignup" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" on>&times;</span>
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Sign up</h5>
+                        </div>
+
+                        <!-- EditForm for sign up -->
+                        <EditForm Model="@userSignup">
+
+                            <div class="modal-body">
+
+                                <!-- Input fields for sign up -->
+                                <label for="pass">Email:</label><br>
+                                <div class="form-group">
+                                    <InputText id="pass" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
+                                </div>
+
+                                <label for="uname">Username:</label><br>
+                                <div class="form-group">
+                                    <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
+                                </div>
+
+                                <label for="pass">Password:</label><br>
+                                <div class="form-group">
+                                    <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <!-- Buttons for sign up -->
+                                <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
+                            </div>
+
+                            <p class="error-message" id="login-error">@errorMessage</p>
+
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        }
 
         <article class="content px-4">
             @Body
@@ -21,3 +81,4 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+

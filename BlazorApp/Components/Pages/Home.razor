@@ -19,60 +19,6 @@
 
 <div class="d-flex">
 
-    <!---------------------------------- Sign up ---------------------------------->
-        @if (AccountSession.UserSession == null)
-    {
-        <div>
-            <!-- Trigger/Open The Modal -->
-        <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
-
-        <!-- The Modal -->
-        <div id="myModalSignup" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close" on>&times;</span>
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Sign up</h5>
-                </div>
-
-                <!-- EditForm for sign up -->
-                <EditForm Model="@userSignup">
-
-                    <div class="modal-body">
-
-                        <!-- Input fields for sign up -->
-                        <label for="pass">Email:</label><br>
-                        <div class="form-group">
-                            <InputText id="pass" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
-                        </div>
-
-                        <label for="uname">Username:</label><br>
-                        <div class="form-group">
-                            <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
-                        </div>
-
-                        <label for="pass">Password:</label><br>
-                        <div class="form-group">
-                            <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <!-- Buttons for sign up -->
-                        <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
-                    </div>
-
-                    <p class="error-message" id="login-error">@errorMessage</p>
-
-                </EditForm>
-            </div>
-        </div>
-    </div>
-    }
-
     <!----------------------------------- Login ----------------------------------->
     <div>
         <!-- Trigger/Open The Modal -->

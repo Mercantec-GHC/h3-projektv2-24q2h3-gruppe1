@@ -10,6 +10,8 @@
 
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject NavigationManager Navigation
+
 @namespace BlazorApp.Components.Pages
 
 
@@ -18,9 +20,6 @@
 <h1>Home</h1>
 
 <div class="d-flex">
-
-  
-
     <!-------------------------------- Edit Profile ------------------------------->
     @if (AccountSession.UserSession != null)
     {
@@ -275,17 +274,12 @@
 </div>
 
 <!-------------------------------- Modal Script ------------------------------->
+
 <script>
-    // Get the modals
     var modals = document.querySelectorAll('.modal');
-
-    // Get the buttons that open the modals
-    var buttons = document.querySelectorAll('.btn');
-
-    // Get the <span> elements that close the modals
+    var buttons = document.querySelectorAll('.btn-primary.buttons');
     var spans = document.querySelectorAll('.close');
 
-    // Loop through each button to add click event listeners
     buttons.forEach(function (button, index) {
         button.addEventListener('click', function () {
             modals[index].style.display = "block";
@@ -293,7 +287,6 @@
         });
     });
 
-    // Loop through each span to add click event listeners
     spans.forEach(function (span, index) {
         span.addEventListener('click', function () {
             modals[index].style.display = "none";
@@ -301,7 +294,6 @@
         });
     });
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         modals.forEach(function (modal) {
             if (event.target == modal) {
@@ -309,10 +301,6 @@
                 errorMessage = "";
             }
         });
-    }
-
-    function loginUser() {
-        alert("User has been logged in")
     }
 </script>
 

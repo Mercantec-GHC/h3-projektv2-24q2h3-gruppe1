@@ -2,8 +2,11 @@ using API.Models;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Charts.Chart.Internal;
 using System.Text;
+
 
 namespace BlazorApp.Components.Layout
 {
@@ -99,6 +102,12 @@ namespace BlazorApp.Components.Layout
 
                         AccountSession.UserSession = user;
 
+                        Navigation.NavigateTo("/signup");
+                        // Force reload
+                    
+                        Navigation.NavigateTo("/");
+                        await JS.InvokeVoidAsync("closeModal", "myModalLogin");
+
                         message = "Login successful";
                     }
                 }
@@ -118,6 +127,8 @@ namespace BlazorApp.Components.Layout
             try
             {
                 AccountSession.UserSession = null;
+                // Force reload
+                Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
             }
 
             catch (Exception ex)

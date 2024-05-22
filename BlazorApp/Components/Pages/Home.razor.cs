@@ -1,6 +1,7 @@
 using API.Models;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
 using System.Text;
 
@@ -41,8 +42,6 @@ namespace BlazorApp.Components.Pages
 
         // --------------------------- Users ---------------------------- //
 
-   
-
         // Edit profile WIP (Work in progress)
         public async Task HandleEditProfile()
         {
@@ -72,14 +71,14 @@ namespace BlazorApp.Components.Pages
             }
             else
             {
-                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+                string json = System.Text.Json.JsonSerializer.Serialize(userProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users", content);
+                var response = await client.PutAsync("api/Users", content);
 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    message = "Registration succesfull";
+                    message = "change succesfull";
                 }
 
                 else
@@ -138,7 +137,6 @@ namespace BlazorApp.Components.Pages
         // Edit plant info for the database
         public async Task HandleEditPlant()
         {
-
             if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
                 errorMessage = "invalid plant name";

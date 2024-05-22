@@ -1,4 +1,6 @@
 using API.Models;
+using BlazorApp.Containers;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Syncfusion.Blazor.Charts.Chart.Internal;
 using System.Text;
@@ -74,6 +76,56 @@ namespace BlazorApp.Components.Layout
 
 
         }
+        // --------------------------- Users ---------------------------- //
+
+        public async Task HandleLogin()
+        {
+            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Users/login", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Response Content: " + responseContent); // Debug: Log the response content
+
+                    var user = System.Text.Json.JsonSerializer.Deserialize<User>(responseContent);
+
+                    if (user != null)
+                    {
+                        Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
+
+                        AccountSession.UserSession = user;
+
+                        message = "Login successful";
+                    }
+                }
+
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessage = "Registration failed. Please try again.";
+
+                }
+            }
+        }
+
+        // Logout of account
+        public void Logout()
+        {
+            try
+            {
+                AccountSession.UserSession = null;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
         // This is an email policy for insuring that there is fx. @ so that we are sure that it is a valid email 
         public void EmailPolicyCheck(string email)
         {

@@ -28,7 +28,6 @@ namespace BlazorApp.Components.Pages
 
         public List<Setting>? settingList;
 
-        public UserLoginRequest userLogin = new UserLoginRequest();
         public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
 
@@ -42,40 +41,7 @@ namespace BlazorApp.Components.Pages
 
         // --------------------------- Users ---------------------------- //
 
-        public async Task HandleLogin()
-        {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users/login", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Response Content: " + responseContent); // Debug: Log the response content
-
-                    var user = System.Text.Json.JsonSerializer.Deserialize<User>(responseContent);
-
-                    if (user != null)
-                    {
-                        Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
-                        
-                        AccountSession.UserSession = user;
-
-                        message = "Login successful";
-                        NavigationManager.NavigateTo("/");
-                    }
-                }
-
-                else
-                {
-                    // Registration failed, navigate to signup page
-                    errorMessage = "Registration failed. Please try again.";
-
-                }
-            }
-        }
+   
 
         // Edit profile WIP (Work in progress)
         public async Task HandleEditProfile()
@@ -293,19 +259,7 @@ namespace BlazorApp.Components.Pages
 
         // ---------------------------- Misc ---------------------------- //
 
-        // Logout of account
-        public void Logout()
-        {
-            try
-            {
-                AccountSession.UserSession = null;
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception: {ex.Message}");
-            }
-        }
+  
 
         // The auto or manual mode toggle for the Arduino 
         //make a put request then auto changes a put request

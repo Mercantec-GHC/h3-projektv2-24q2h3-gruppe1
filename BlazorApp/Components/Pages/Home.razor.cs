@@ -24,6 +24,8 @@ namespace BlazorApp.Components.Pages
         bool passwordCheck = false;
 
         public List<Plant>? plants;
+        public List<Plant>? Useronlyplants;
+
         public List<Setting>? settingList;
 
         public UserLoginRequest userLogin = new UserLoginRequest();
@@ -269,12 +271,15 @@ namespace BlazorApp.Components.Pages
                 if (AccountSession.UserSession != null)
                 {
                     var allPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
+                    var allUserPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
 
                     // Filter plants where UserId is 0 and AccountSessionId matches
                     var filteredPlants = allPlants.Where(plant => plant.UserId == 0 || plant.UserId == AccountSession.UserSession.Id).ToList();
+                    var filtereduseronlyPlants = allUserPlants.Where(Useronlyplants => Useronlyplants.UserId == AccountSession.UserSession.Id).ToList();
 
                     // Assign filtered plants to the plants list
                     plants = filteredPlants;
+                    Useronlyplants = filtereduseronlyPlants;
                 }
                 else
                 {

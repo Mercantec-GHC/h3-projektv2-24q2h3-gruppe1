@@ -238,9 +238,9 @@
                             </button>
 
                             <ul class="dropdown-menu">
-                                @if (plants != null)
+                                @if (Useronlyplants != null)
                                 {
-                                    @foreach (var plant in plants)
+                                    @foreach (var plant in Useronlyplants)
                                     {
                                         <li><button class="dropdown-item" @onclick="() => SelectEditPlant(plant)">@plant.PlantName</button></li>
                                     }

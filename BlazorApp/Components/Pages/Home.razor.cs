@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
 using System.Text;
+using Microsoft.JSInterop;
 
 namespace BlazorApp.Components.Pages
 {
@@ -33,6 +34,7 @@ namespace BlazorApp.Components.Pages
         public User userProfile = new User();
 
         public Plant plantProfile = new Plant();
+        public Plant createPlantProfile = new Plant();
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
@@ -95,33 +97,33 @@ namespace BlazorApp.Components.Pages
         //need to get user id
         public async Task HandleCreatePlant()
         {
-    
-            if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
+
+            if (string.IsNullOrWhiteSpace(createPlantProfile.PlantName))
             {
                 errorMessage = "invalid plant name";
             }
 
-            if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
+            if (!createPlantProfile.PlantName.All(char.IsLetterOrDigit))
             {
                 errorMessage = "invalid input cant contain speical characters try again";
             }
 
-            if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
+            if (createPlantProfile.MinWaterLevel < 0 || createPlantProfile.MinWaterLevel > 100)
             {
                 errorMessage = "invalid minWaterLevel input try again over or under limit";
             }
 
-            if (plantProfile.MaxWaterLevel < 0 || plantProfile.MaxWaterLevel > 100)
+            if (createPlantProfile.MaxWaterLevel < 0 || createPlantProfile.MaxWaterLevel > 100)
             {
                 errorMessage = "invalid MaxWaterLevel input try again over or under limit";
             }
 
             else
             {
-                plantProfile.UserId = AccountSession.UserSession.Id;
+                createPlantProfile.UserId = AccountSession.UserSession.Id;
 
                 //make post request
-                string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+                string json = System.Text.Json.JsonSerializer.Serialize(createPlantProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("api/Plants", content);
 
@@ -129,6 +131,10 @@ namespace BlazorApp.Components.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     message = "plant succesfully created";
+                    await JS.InvokeVoidAsync("closeModal", "myModalCreatePlant");
+                    //Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+                    NavigationManager.NavigateTo("/login");
+                    NavigationManager.NavigateTo("/");NavigationManager.NavigateTo("/login");
                     NavigationManager.NavigateTo("/");
                 }
             }
@@ -172,7 +178,7 @@ namespace BlazorApp.Components.Pages
                 }
                 else
                 {
-                    errorMessage = "select a plant "; 
+                    errorMessage = "select a plant ";
                 }
             }
         }
@@ -180,18 +186,27 @@ namespace BlazorApp.Components.Pages
         // Edit plant info for the database
         public async Task HandlePlantDelete()
         {
-                plantProfile.Id = selectedEditPlantId;
-                //make put request
-                string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.DeleteAsync($"api/Plants/{plantProfile.Id}");
+            plantProfile.Id = selectedEditPlantId;
+            //make put request
+            string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.DeleteAsync($"api/Plants/{plantProfile.Id}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    message = "plant succesfully created";
-                    NavigationManager.NavigateTo("/");
-                }
-            
+            if (response.IsSuccessStatusCode)
+            {
+                message = "plant succesfully created";
+
+                await JS.InvokeVoidAsync("closeModal", "myModalEditPlant");
+
+                NavigationManager.NavigateTo("/login");
+                NavigationManager.NavigateTo("/"); NavigationManager.NavigateTo("/login");
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                errorMessage = "Select a valid plant";
+            }
+
         }
         //make put request in settings then we change plant name in setup sensor
         // ------------- Get -------------- //
@@ -257,7 +272,7 @@ namespace BlazorApp.Components.Pages
 
         // ---------------------------- Misc ---------------------------- //
 
-  
+
 
         // The auto or manual mode toggle for the Arduino 
         //make a put request then auto changes a put request

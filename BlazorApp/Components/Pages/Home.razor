@@ -11,6 +11,7 @@
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
 
 @namespace BlazorApp.Components.Pages
 
@@ -86,23 +87,23 @@
                     </div>
 
                     <!-- EditForm for login -->
-                    <EditForm Model="@plantProfile">
+                    <EditForm Model="@createPlantProfile">
                         <div class="modal-body">
 
                             <!-- Input fields for login -->
                             <label for="plantName">Plant Name:</label><br>
                             <div class="form-group">
-                                <InputText id="plantName" @bind-Value="plantProfile.PlantName" placeholder="Plant Name" required /><br><br>
+                                <InputText id="plantName" @bind-Value="createPlantProfile.PlantName" placeholder="Plant Name" required /><br><br>
                             </div>
 
                             <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
                             <div class="form-group">
-                                <InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
+                                <InputNumber id="plantMinMoisture" @bind-Value="createPlantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
                             </div>
 
                             <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
                             <div class="form-group">
-                                <InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
+                                <InputNumber id="plantMaxMoisture" @bind-Value="createPlantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
                             </div>
 
                         </div>
@@ -149,7 +150,7 @@
                                 </button>
 
                                 <ul class="dropdown-menu">
-                                    @if (Useronlyplants != null)
+                                    @if (Useronlyplants != null && Useronlyplants.Count > 0)
                                     {
                                         @foreach (var plant in Useronlyplants)
                                         {
@@ -158,7 +159,7 @@
                                     }
                                     else
                                     {
-                                        <li><span class="dropdown-item">Loading...</span></li>
+                                        <li><span class="dropdown-item">No plants made</span></li>
                                     }
                                 </ul>
 
@@ -301,6 +302,13 @@
                 errorMessage = "";
             }
         });
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "none";
+        }
     }
 </script>
 

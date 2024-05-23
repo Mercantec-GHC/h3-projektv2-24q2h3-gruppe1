@@ -67,6 +67,7 @@ namespace BlazorApp.Components.Layout
                 if (response.IsSuccessStatusCode)
                 {
                     message = "Registration successful";
+                    await JS.InvokeVoidAsync("closeModal", "myModalSignup");
                 }
                 else
                 {
@@ -102,10 +103,9 @@ namespace BlazorApp.Components.Layout
 
                         AccountSession.UserSession = user;
 
-                        Navigation.NavigateTo("/signup");
-                        // Force reload
-                    
+                        Navigation.NavigateTo("/signup");                   
                         Navigation.NavigateTo("/");
+
                         await JS.InvokeVoidAsync("closeModal", "myModalLogin");
 
                         message = "Login successful";
@@ -116,7 +116,6 @@ namespace BlazorApp.Components.Layout
                 {
                     // Registration failed, navigate to signup page
                     errorMessage = "Registration failed. Please try again.";
-
                 }
             }
         }

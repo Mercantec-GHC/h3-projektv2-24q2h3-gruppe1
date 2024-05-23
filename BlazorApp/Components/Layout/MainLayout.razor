@@ -19,108 +19,108 @@
     </div>
 
     <main>
-        <!---------------------------------- Sign up ---------------------------------->
-        @if (AccountSession.UserSession == null)
-        {
-            <div>
-                <!-- Trigger/Open The Modal -->
-                <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
+        <div class="d-flex justify-content-end">
+            <!---------------------------------- Sign up ---------------------------------->
+            @if (AccountSession.UserSession == null)
+            {
+                <div>
+                    <!-- Trigger/Open The Modal -->
+                    <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
 
-                <!-- The Modal -->
-                <div id="myModalSignup" class="modal">
+                    <!-- The Modal -->
+                    <div id="myModalSignup" class="modal">
 
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <span class="close" on>&times;</span>
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close" on>&times;</span>
 
-                        <div class="modal-header">
-                            <h5 class="modal-title">Sign up</h5>
+                            <div class="modal-header">
+                                <h5 class="modal-title">Sign up</h5>
+                            </div>
+
+                            <!-- EditForm for sign up -->
+                            <EditForm Model="@userSignup">
+
+                                <div class="modal-body" id="centerForm">
+
+                                    <!-- Input fields for sign up -->
+                                    <label for="email">Email:</label><br>
+                                    <div class="form-group">
+                                        <InputText id="email" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
+                                    </div>
+
+                                    <label for="uname">Username:</label><br>
+                                    <div class="form-group">
+                                        <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
+                                    </div>
+
+                                    <label for="pass">Password:</label><br>
+                                    <div class="form-group">
+                                        <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <!-- Buttons for sign up -->
+                                    <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
+                                </div>
+
+                                <p class="error-message" id="login-error">@errorMessage</p>  <p class="error-message" id="login-error">@errorMessageSignup</p>
+
+                            </EditForm>
                         </div>
-
-                        <!-- EditForm for sign up -->
-                        <EditForm Model="@userSignup">
-
-                            <div class="modal-body">
-
-                                <!-- Input fields for sign up -->
-                                <label for="pass">Email:</label><br>
-                                <div class="form-group">
-                                    <InputText id="pass" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
-                                </div>
-
-                                <label for="uname">Username:</label><br>
-                                <div class="form-group">
-                                    <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
-                                </div>
-
-                                <label for="pass">Password:</label><br>
-                                <div class="form-group">
-                                    <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
-                                </div>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <!-- Buttons for sign up -->
-                                <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
-                            </div>
-
-                            <p class="error-message" id="login-error">@errorMessage</p>  <p class="error-message" id="login-error">@errorMessageSignup</p>
-
-                        </EditForm>
                     </div>
                 </div>
-            </div>
-        }
-        <!-------------------------------- Edit Profile ------------------------------->
-        @if (AccountSession.UserSession != null)
-        {
-            <div>
-                <!-- Trigger/Open The Modal -->
-                <button id="myBtnEditProfile" class="btn btn-primary buttons">Edit Profile</button>
+            }
+            <!-------------------------------- Edit Profile ------------------------------->
+            @if (AccountSession.UserSession != null)
+            {
+                <div>
+                    <!-- Trigger/Open The Modal -->
+                    <button id="myBtnEditProfile" class="btn btn-primary buttons">Edit Profile</button>
 
-                <!-- The Modal -->
-                <div id="myModalEditProfile" class="modal">
+                    <!-- The Modal -->
+                    <div id="myModalEditProfile" class="modal">
 
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
 
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Profile</h5>
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Profile</h5>
+                            </div>
+
+                            <!-- EditForm for login -->
+                            <EditForm Model="@userProfile">
+                                <div class="modal-body" id="centerForm">
+
+                                    <!-- Input fields for login -->
+                                    <label for="login-uname">Username:</label><br>
+                                    <div class="form-group">
+                                        <InputText id="login-uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
+                                    </div>
+
+                                    <label for="login-pass">Password:</label><br>
+                                    <div class="form-group">
+                                        <InputText id="login-pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <!-- Buttons for login -->
+                                    <button type="submit" class="btn btn-primary" @onclick="HandleEditProfile">Save Changes</button>
+                                </div>
+
+                                <p class="error-message" id="login-error">@errorMessageEditProfile</p>
+
+                            </EditForm>
                         </div>
-
-                        <!-- EditForm for login -->
-                        <EditForm Model="@userProfile">
-                            <div class="modal-body">
-
-                                <!-- Input fields for login -->
-                                <label for="login-uname">Username:</label><br>
-                                <div class="form-group">
-                                    <InputText id="login-uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
-                                </div>
-
-                                <label for="login-pass">Password:</label><br>
-                                <div class="form-group">
-                                    <InputText id="login-pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
-                                </div>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <!-- Buttons for login -->
-                                <button type="submit" class="btn btn-primary" @onclick="HandleEditProfile">Save Changes</button>
-                            </div>
-
-                            <p class="error-message" id="login-error">@errorMessageEditProfile</p>
-
-                        </EditForm>
                     </div>
                 </div>
-            </div>
-        }
-        <!----------------------------------- Login ----------------------------------->
-        <div>
+            }
+            <!----------------------------------- Login ----------------------------------->
             <!-- Trigger/Open The Modal -->
             @if (AccountSession.UserSession == null)
             {
@@ -144,7 +144,7 @@
 
                     <!-- EditForm for login -->
                     <EditForm Model="@userLogin">
-                        <div class="modal-body">
+                        <div class="modal-body" id="centerForm">
 
                             <!-- Input fields for login -->
                             <label for="login-uname">Username:</label><br>

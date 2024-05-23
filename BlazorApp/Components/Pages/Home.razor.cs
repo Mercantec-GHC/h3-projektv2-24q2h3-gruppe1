@@ -12,19 +12,10 @@ namespace BlazorApp.Components.Pages
     {
         #region Top Level Variables
         string message = "";
-        string errorMessageEditProfile = "";
         string errorMessageCreatePlant = "";
         string errorMessageEditPlant = "";
         string errorMessageDeletePlant = "";
         string errorMessageSignup = "";
-
-        string email = "";
-        string username = "";
-        string password = "";
-
-        string newEmail = "";
-        string newUsername = "";
-        string newPassword = "";
 
         bool usernameCheck = false;
         bool passwordCheck = false;
@@ -45,55 +36,6 @@ namespace BlazorApp.Components.Pages
 
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
         #endregion
-
-        // --------------------------- Users ---------------------------- //
-
-        // Edit profile WIP (Work in progress)
-        public async Task HandleEditProfile()
-        {
-            if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
-            {
-                //make put requests on user model
-
-                if (userProfile.Username.Contains("@"))
-                {
-                    newEmail = userProfile.Email;
-                }
-
-                else
-                {
-                    newUsername = userProfile.Username;
-                }
-
-                if (userProfile.Username != newEmail || userProfile.Username != newUsername)
-                {
-                    errorMessageEditProfile = "Invalid credentials. Please make sure you have a different email or username";
-                }
-
-                if (userProfile.Password != newPassword)
-                {
-                    errorMessageEditProfile = "Invalid credentials. Please make sure you have a different password";
-                }
-            }
-            else
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(userProfile);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PutAsync("api/Users", content);
-
-
-                if (response.IsSuccessStatusCode)
-                {
-                    message = "change succesfull";
-                }
-
-                else
-                {
-                    // Registration failed, navigate to signup page
-                    errorMessageEditProfile = "Please enter a correct username and password. Note that both fields may be case-sensitive";
-                }
-            }
-        }
 
         // -------------------------- Plants ---------------------------- //
 

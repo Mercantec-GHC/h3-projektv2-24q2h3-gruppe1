@@ -21,53 +21,6 @@
 <h1>Home</h1>
 
 <div class="d-flex">
-    <!-------------------------------- Edit Profile ------------------------------->
-    @if (AccountSession.UserSession != null)
-    {
-        <div>
-            <!-- Trigger/Open The Modal -->
-            <button id="myBtnEditProfile" class="btn btn-primary buttons">Edit Profile</button>
-
-            <!-- The Modal -->
-            <div id="myModalEditProfile" class="modal">
-
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Profile</h5>
-                    </div>
-
-                    <!-- EditForm for login -->
-                    <EditForm Model="@userProfile">
-                        <div class="modal-body">
-
-                            <!-- Input fields for login -->
-                            <label for="login-uname">Username:</label><br>
-                            <div class="form-group">
-                                <InputText id="login-uname" @bind-Value="userProfile.Username" placeholder="Username" required /><br><br>
-                            </div>
-
-                            <label for="login-pass">Password:</label><br>
-                            <div class="form-group">
-                                <InputText id="login-pass" @bind-Value="userProfile.Password" type="password" placeholder="Password" required /><br><br>
-                            </div>
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <!-- Buttons for login -->
-                            <button type="submit" class="btn btn-primary" @onclick="HandleEditProfile">Save Changes</button>
-                        </div>
-
-                        <p class="error-message" id="login-error">@errorMessageEditProfile</p>
-
-                    </EditForm>
-                </div>
-            </div>
-        </div>
-    }
     <!-------------------------------- Create Plant ------------------------------->
     @if (AccountSession.UserSession != null)
     {

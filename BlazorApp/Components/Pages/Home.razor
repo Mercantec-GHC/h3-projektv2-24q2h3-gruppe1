@@ -61,7 +61,7 @@
                             <button type="submit" class="btn btn-primary" @onclick="HandleEditProfile">Save Changes</button>
                         </div>
 
-                        <p class="error-message" id="login-error">@errorMessage</p>
+                        <p class="error-message" id="login-error">@errorMessageEditProfile</p>
 
                     </EditForm>
                 </div>
@@ -109,11 +109,18 @@
                         </div>
 
                         <div class="modal-footer">
-                            <!-- Buttons for login -->
-                            <button type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
+                            @if (createPlantProfile.PlantName == null || createPlantProfile.MinWaterLevel == 0 || createPlantProfile.MaxWaterLevel == 0)
+                            {
+                                <!-- Buttons for login -->
+                                <button disabled type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
+                            }
                         </div>
 
-                        <p class="error-message" id="login-error">@errorMessage</p>
+                        <p class="error-message" id="login-error">@errorMessageCreatePlant</p>
 
                     </EditForm>
                 </div>
@@ -186,7 +193,8 @@
                             <button type="submit" class="btn btn-primary" @onclick="HandlePlantDelete" style="background-color:red;">Delete plant</button>
                         </div>
 
-                        <p class="error-message" id="login-error">@errorMessage</p>
+                        <p class="error-message" id="login-error">@errorMessageEditPlant</p>
+                        <p class="error-message" id="login-error">@errorMessageDeletePlant</p>
 
                     </EditForm>
                 </div>

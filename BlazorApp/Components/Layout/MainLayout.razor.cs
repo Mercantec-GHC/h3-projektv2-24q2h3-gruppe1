@@ -14,6 +14,8 @@ namespace BlazorApp.Components.Layout
     {
         string message = "";
         string errorMessage = "";
+        string errorMessageLogin = "";
+        string errorMessageSignup = "";
 
   
 
@@ -74,7 +76,7 @@ namespace BlazorApp.Components.Layout
                     // Read the response content to get the error message from the API
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
-                    errorMessage = errorResponse?.Detail;
+                    errorMessageSignup = errorResponse?.Detail;
                 }
             }
 
@@ -115,7 +117,7 @@ namespace BlazorApp.Components.Layout
                 else
                 {
                     // Registration failed, navigate to signup page
-                    errorMessage = "Registration failed. Please try again.";
+                    errorMessageLogin = "Registration failed. Please try again.";
                 }
             }
         }

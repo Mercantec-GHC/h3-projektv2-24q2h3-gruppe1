@@ -12,7 +12,11 @@ namespace BlazorApp.Components.Pages
     {
         #region Top Level Variables
         string message = "";
-        string errorMessage = "";
+        string errorMessageEditProfile = "";
+        string errorMessageCreatePlant = "";
+        string errorMessageEditPlant = "";
+        string errorMessageDeletePlant = "";
+        string errorMessageSignup = "";
 
         string email = "";
         string username = "";
@@ -63,12 +67,12 @@ namespace BlazorApp.Components.Pages
 
                 if (userProfile.Username != newEmail || userProfile.Username != newUsername)
                 {
-                    errorMessage = "Invalid credentials. Please make sure you have a different email or username";
+                    errorMessageEditProfile = "Invalid credentials. Please make sure you have a different email or username";
                 }
 
                 if (userProfile.Password != newPassword)
                 {
-                    errorMessage = "Invalid credentials. Please make sure you have a different password";
+                    errorMessageEditProfile = "Invalid credentials. Please make sure you have a different password";
                 }
             }
             else
@@ -86,7 +90,7 @@ namespace BlazorApp.Components.Pages
                 else
                 {
                     // Registration failed, navigate to signup page
-                    errorMessage = "Please enter a correct username and password. Note that both fields may be case-sensitive";
+                    errorMessageEditProfile = "Please enter a correct username and password. Note that both fields may be case-sensitive";
                 }
             }
         }
@@ -100,22 +104,22 @@ namespace BlazorApp.Components.Pages
 
             if (string.IsNullOrWhiteSpace(createPlantProfile.PlantName))
             {
-                errorMessage = "invalid plant name";
+                errorMessageCreatePlant = "invalid plant name";
             }
 
             if (!createPlantProfile.PlantName.All(char.IsLetterOrDigit))
             {
-                errorMessage = "invalid input cant contain speical characters try again";
+                errorMessageCreatePlant = "invalid input cant contain speical characters try again";
             }
 
             if (createPlantProfile.MinWaterLevel < 0 || createPlantProfile.MinWaterLevel > 100)
             {
-                errorMessage = "invalid minWaterLevel input try again over or under limit";
+                errorMessageCreatePlant = "invalid minWaterLevel input try again over or under limit";
             }
 
             if (createPlantProfile.MaxWaterLevel < 0 || createPlantProfile.MaxWaterLevel > 100)
             {
-                errorMessage = "invalid MaxWaterLevel input try again over or under limit";
+                errorMessageCreatePlant = "invalid MaxWaterLevel input try again over or under limit";
             }
 
             else
@@ -145,22 +149,22 @@ namespace BlazorApp.Components.Pages
         {
             if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
-                errorMessage = "invalid plant name";
+                errorMessageEditPlant = "invalid plant name";
             }
 
             if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
             {
-                errorMessage = "invalid input cant contain speical characters try again";
+                errorMessageEditPlant = "invalid input cant contain speical characters try again";
             }
 
             if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
             {
-                errorMessage = "invalid minWaterLevel input try again over or under limit";
+                errorMessageEditPlant = "invalid minWaterLevel input try again over or under limit";
             }
 
             if (plantProfile.MaxWaterLevel < 0 || plantProfile.MaxWaterLevel > 100)
             {
-                errorMessage = "invalid MaxWaterLevel input try again over or under limit";
+                errorMessageEditPlant = "invalid MaxWaterLevel input try again over or under limit";
             }
 
             else
@@ -178,7 +182,7 @@ namespace BlazorApp.Components.Pages
                 }
                 else
                 {
-                    errorMessage = "select a plant ";
+                    errorMessageEditPlant = "select a plant ";
                 }
             }
         }
@@ -204,7 +208,7 @@ namespace BlazorApp.Components.Pages
             }
             else
             {
-                errorMessage = "Select a valid plant";
+                errorMessageDeletePlant = "Select a valid plant";
             }
 
         }

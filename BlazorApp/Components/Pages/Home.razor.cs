@@ -1,8 +1,10 @@
 using API.Models;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
 using System.Text;
+using Microsoft.JSInterop;
 
 namespace BlazorApp.Components.Pages
 {
@@ -24,13 +26,15 @@ namespace BlazorApp.Components.Pages
         bool passwordCheck = false;
 
         public List<Plant>? plants;
+        public List<Plant>? Useronlyplants;
+
         public List<Setting>? settingList;
 
-        public UserLoginRequest userLogin = new UserLoginRequest();
         public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
 
         public Plant plantProfile = new Plant();
+        public Plant createPlantProfile = new Plant();
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
@@ -39,91 +43,6 @@ namespace BlazorApp.Components.Pages
         #endregion
 
         // --------------------------- Users ---------------------------- //
-
-        // Sign up user WIP (Work in progress)
-        public async Task HandleSignUp()
-        {
-            // Reset error message
-            errorMessage = "";
-
-
-            // Perform username and password policy checks
-            UsernamePolicyCheck(userSignup.Username);
-            PasswordPolicyCheck(userSignup.Password);
-
-            // Check if username and password meet requirements
-            if (!usernameCheck || !passwordCheck)
-            {
-                // If either username or password fails policy checks, set appropriate error message
-                if (!usernameCheck && !passwordCheck)
-                {
-                    errorMessage = "Both username and password are invalid. Please try again.";
-                }
-                else if (!usernameCheck)
-                {
-                    errorMessage = "Username is invalid. Please try again.";
-                }
-                else
-                {
-                    errorMessage = "Password is invalid. Please try again.";
-                }
-            }
-            else
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    message = "Registration successful";
-                }
-                else
-                {
-                    // Read the response content to get the error message from the API
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
-                    errorMessage = errorResponse?.Detail;
-                }
-            }
-
-
-        }
-
-        public async Task HandleLogin()
-        {
-            if (!string.IsNullOrWhiteSpace(userLogin.Username) && !string.IsNullOrWhiteSpace(userLogin.Password))
-            {
-                string json = System.Text.Json.JsonSerializer.Serialize(userLogin);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users/login", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Response Content: " + responseContent); // Debug: Log the response content
-
-                    var user = System.Text.Json.JsonSerializer.Deserialize<User>(responseContent);
-
-                    if (user != null)
-                    {
-                        Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
-
-                        AccountSession.UserSession = user;
-
-                        message = "Login successful";
-                        NavigationManager.NavigateTo("/");
-                    }
-                }
-
-                else
-                {
-                    // Registration failed, navigate to signup page
-                    errorMessage = "Registration failed. Please try again.";
-
-                }
-            }
-        }
 
         // Edit profile WIP (Work in progress)
         public async Task HandleEditProfile()
@@ -154,14 +73,14 @@ namespace BlazorApp.Components.Pages
             }
             else
             {
-                string json = System.Text.Json.JsonSerializer.Serialize(userSignup);
+                string json = System.Text.Json.JsonSerializer.Serialize(userProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Users", content);
+                var response = await client.PutAsync("api/Users", content);
 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    message = "Registration succesfull";
+                    message = "change succesfull";
                 }
 
                 else
@@ -178,7 +97,52 @@ namespace BlazorApp.Components.Pages
         //need to get user id
         public async Task HandleCreatePlant()
         {
-    
+
+            if (string.IsNullOrWhiteSpace(createPlantProfile.PlantName))
+            {
+                errorMessage = "invalid plant name";
+            }
+
+            if (!createPlantProfile.PlantName.All(char.IsLetterOrDigit))
+            {
+                errorMessage = "invalid input cant contain speical characters try again";
+            }
+
+            if (createPlantProfile.MinWaterLevel < 0 || createPlantProfile.MinWaterLevel > 100)
+            {
+                errorMessage = "invalid minWaterLevel input try again over or under limit";
+            }
+
+            if (createPlantProfile.MaxWaterLevel < 0 || createPlantProfile.MaxWaterLevel > 100)
+            {
+                errorMessage = "invalid MaxWaterLevel input try again over or under limit";
+            }
+
+            else
+            {
+                createPlantProfile.UserId = AccountSession.UserSession.Id;
+
+                //make post request
+                string json = System.Text.Json.JsonSerializer.Serialize(createPlantProfile);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("api/Plants", content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "plant succesfully created";
+                    await JS.InvokeVoidAsync("closeModal", "myModalCreatePlant");
+                    //Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+                    NavigationManager.NavigateTo("/login");
+                    NavigationManager.NavigateTo("/");NavigationManager.NavigateTo("/login");
+                    NavigationManager.NavigateTo("/");
+                }
+            }
+        }
+
+        // Edit plant info for the database
+        public async Task HandleEditPlant()
+        {
             if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
                 errorMessage = "invalid plant name";
@@ -201,50 +165,7 @@ namespace BlazorApp.Components.Pages
 
             else
             {
-                plantProfile.UserId = AccountSession.UserSession.Id;
-
-                //make post request
-                string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("api/Plants", content);
-
-
-                if (response.IsSuccessStatusCode)
-                {
-                    message = "plant succesfully created";
-                    NavigationManager.NavigateTo("/");
-                }
-            }
-        }
-
-        // Edit plant info for the database
-        public async Task HandleEditPlant()
-        {
-          
-            //if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
-            //{
-            //    errorMessage = "invalid plant name";
-            //}
-
-            //if (!plantProfile.PlantName.All(char.IsLetterOrDigit))
-            //{
-            //    errorMessage = "invalid input cant contain speical characters try again";
-            //}
-
-            if (plantProfile.MinWaterLevel < 0 || plantProfile.MinWaterLevel > 100)
-            {
-                errorMessage = "invalid minWaterLevel input try again over or under limit";
-            }
-
-            if (plantProfile.MaxWaterLevel < 0 || plantProfile.MaxWaterLevel > 100)
-            {
-                errorMessage = "invalid MaxWaterLevel input try again over or under limit";
-            }
-
-            else
-            {
                 plantProfile.Id = selectedEditPlantId;
-                plantProfile.PlantName = selectedEditPlant;
                 //make put request
                 string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -255,7 +176,37 @@ namespace BlazorApp.Components.Pages
                     message = "plant succesfully created";
                     NavigationManager.NavigateTo("/");
                 }
+                else
+                {
+                    errorMessage = "select a plant ";
+                }
             }
+        }
+
+        // Edit plant info for the database
+        public async Task HandlePlantDelete()
+        {
+            plantProfile.Id = selectedEditPlantId;
+            //make put request
+            string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.DeleteAsync($"api/Plants/{plantProfile.Id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                message = "plant succesfully created";
+
+                await JS.InvokeVoidAsync("closeModal", "myModalEditPlant");
+
+                NavigationManager.NavigateTo("/login");
+                NavigationManager.NavigateTo("/"); NavigationManager.NavigateTo("/login");
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                errorMessage = "Select a valid plant";
+            }
+
         }
         //make put request in settings then we change plant name in setup sensor
         // ------------- Get -------------- //
@@ -269,12 +220,15 @@ namespace BlazorApp.Components.Pages
                 if (AccountSession.UserSession != null)
                 {
                     var allPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
+                    var allUserPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
 
                     // Filter plants where UserId is 0 and AccountSessionId matches
                     var filteredPlants = allPlants.Where(plant => plant.UserId == 0 || plant.UserId == AccountSession.UserSession.Id).ToList();
+                    var filtereduseronlyPlants = allUserPlants.Where(Useronlyplants => Useronlyplants.UserId == AccountSession.UserSession.Id).ToList();
 
                     // Assign filtered plants to the plants list
                     plants = filteredPlants;
+                    Useronlyplants = filtereduseronlyPlants;
                 }
                 else
                 {
@@ -318,19 +272,7 @@ namespace BlazorApp.Components.Pages
 
         // ---------------------------- Misc ---------------------------- //
 
-        // Logout of account
-        public void Logout()
-        {
-            try
-            {
-                AccountSession.UserSession = null;
-            }
 
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception: {ex.Message}");
-            }
-        }
 
         // The auto or manual mode toggle for the Arduino 
         //make a put request then auto changes a put request
@@ -348,99 +290,6 @@ namespace BlazorApp.Components.Pages
                 IsAutoChecked = !IsAutoChecked;
                 IsManualChecked = !IsManualChecked;
                 //setting.AutoMode = false;
-            }
-        }
-
-        // This is an email policy for insuring that there is fx. @ so that we are sure that it is a valid email 
-        public void EmailPolicyCheck(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                errorMessage = "Email cannot be empty or contain only whitespace!";
-            }
-
-            if (!email.All(char.IsLetterOrDigit))
-            {
-                errorMessage = "Only letters and digits are allowed in the email!";
-            }
-
-            if (!email.Contains("@"))
-            {
-                errorMessage = "Email is invalid";
-            }
-
-            else
-            {
-                message = "Email is accepted!";
-            }
-        }
-
-        // This is a username policy for insuring that this isnt fx. @ so we can differenciate between mail and username 
-        public string UsernamePolicyCheck(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                return "Username cannot be empty or contain only whitespace!";
-            }
-
-            if (username.Length < 2)
-            {
-                return "Username must be at least 2 characters!";
-            }
-
-            if (!username.All(char.IsLetterOrDigit))
-            {
-                return "Only letters and digits are allowed in the username!";
-            }
-
-            if (!username.Any(char.IsUpper))
-            {
-                return "Username must contain uppercase letters!";
-            }
-
-            if (!username.Any(char.IsLower))
-            {
-                return "Username must contain lowercase letters!";
-            }
-
-            else
-            {
-                usernameCheck = true;
-                return "Username is valid";
-            }
-        }
-
-        public string PasswordPolicyCheck(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                return "Password cannot be empty or contain only whitespace!";
-            }
-
-            if (password.Length < 5)
-            {
-                return "Password must be at least 5 characters!";
-            }
-
-            if (!password.Any(char.IsUpper))
-            {
-                return "Password must contain uppercase letters!";
-            }
-
-            if (!password.Any(char.IsLower))
-            {
-                return "Password must contain lowercase letters!";
-            }
-
-            if (!password.Any(char.IsDigit))
-            {
-                return "Password must contain numbers!";
-            }
-
-            else
-            {
-                passwordCheck = true;
-                return "Password is valid";
             }
         }
     }

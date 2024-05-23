@@ -1,4 +1,17 @@
-﻿@inherits LayoutComponentBase
+@using API;
+@using API.Models;
+@using BlazorApp.Pages;
+@using BlazorApp.Containers;
+@using System.Threading.Tasks;
+@using Syncfusion.Blazor.Charts;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Syncfusion.Blazor.Charts.Chart.Internal;
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+@inject NavigationManager Navigation
+
+@namespace BlazorApp.Components.Layout
 
 <div class="page">
     <div class="sidebar">
@@ -6,8 +19,109 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <!---------------------------------- Sign up ---------------------------------->
+        @if (AccountSession.UserSession == null)
+        {
+            <div>
+                <!-- Trigger/Open The Modal -->
+                <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
+
+                <!-- The Modal -->
+                <div id="myModalSignup" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" on>&times;</span>
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Sign up</h5>
+                        </div>
+
+                        <!-- EditForm for sign up -->
+                        <EditForm Model="@userSignup">
+
+                            <div class="modal-body">
+
+                                <!-- Input fields for sign up -->
+                                <label for="pass">Email:</label><br>
+                                <div class="form-group">
+                                    <InputText id="pass" type="email" placeholder="Email" @bind-Value="userSignup.Email" required /><br><br>
+                                </div>
+
+                                <label for="uname">Username:</label><br>
+                                <div class="form-group">
+                                    <InputText id="uname" placeholder="Username" @bind-Value="userSignup.Username" required /><br><br>
+                                </div>
+
+                                <label for="pass">Password:</label><br>
+                                <div class="form-group">
+                                    <InputText id="pass" type="password" placeholder="Password" @bind-Value="userSignup.Password" required /><br><br>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <!-- Buttons for sign up -->
+                                <input type="submit" class="btn btn-primary" @onclick="HandleSignUp" value="Signup">
+                            </div>
+
+                            <p class="error-message" id="login-error">@errorMessage</p>
+
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        }
+        <!----------------------------------- Login ----------------------------------->
+        <div>
+            <!-- Trigger/Open The Modal -->
+            @if (AccountSession.UserSession == null)
+            {
+                <button href="login" id="myBtnLogin" style="background-color: darkslategrey;" class="btn btn-primary buttons">Login</button>
+            }
+            else
+            {
+                <button id="myBtnLogin" style="background-color: darkslategrey;" @onclick="Logout" class="btn btn-primary buttons">Logout</button>
+            }
+
+            <!-- The Modal -->
+            <div id="myModalLogin" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login</h5>
+                    </div>
+
+                    <!-- EditForm for login -->
+                    <EditForm Model="@userLogin">
+                        <div class="modal-body">
+
+                            <!-- Input fields for login -->
+                            <label for="login-uname">Username:</label><br>
+                            <div class="form-group">
+                                <InputText id="login-uname" @bind-Value="userLogin.Username" placeholder="Username" required /><br><br>
+                            </div>
+
+                            <label for="login-pass">Password:</label><br>
+                            <div class="form-group">
+                                <InputText id="login-pass" @bind-Value="userLogin.Password" type="password" placeholder="Password" required /><br><br>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <!-- Buttons for login -->
+                            <button type="submit" class="btn btn-primary" @onclick="HandleLogin">Login</button>
+                        </div>
+
+                        <p class="error-message" id="login-error">@errorMessage</p>
+
+                    </EditForm>
+                </div>
+            </div>
         </div>
 
         <article class="content px-4">
@@ -21,3 +135,46 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+<script>
+    // Get the modals
+    var modals = document.querySelectorAll('.modal');
+
+    // Get the buttons that open the modals
+    var buttons = document.querySelectorAll('.btn');
+
+    // Get the <span> elements that close the modals
+    var spans = document.querySelectorAll('.close');
+
+    // Loop through each button to add click event listeners
+    buttons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            modals[index].style.display = "block";
+            errorMessage = "";
+        });
+    });
+
+    // Loop through each span to add click event listeners
+    spans.forEach(function (span, index) {
+        span.addEventListener('click', function () {
+            modals[index].style.display = "none";
+            errorMessage = "";
+        });
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        modals.forEach(function (modal) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                errorMessage = "";
+            }
+        });
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

@@ -117,14 +117,36 @@ namespace API.Controllers
 
         // PUT: api/Users/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UserPutRequest user)
         {
-            if (id != user.Id)
+            if (user == null)
             {
-                return BadRequest();
+                return BadRequest("User data is null.");
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingUser = await _context.Users.FindAsync(id);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            // Update properties
+            existingUser.Username = user.Username;
+
+            // Handle password update if provided
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                var hashedPassword = HashedPassword.FromPassword(user.Password);
+                existingUser.Password = hashedPassword.Hash;
+                existingUser.Salt = hashedPassword.Salt;
+            }
+
+            _context.Entry(existingUser).State = EntityState.Modified;
 
             try
             {
@@ -144,6 +166,7 @@ namespace API.Controllers
 
             return NoContent();
         }
+
 
         // DELETE: api/Users/id
         [HttpDelete("{id}")]

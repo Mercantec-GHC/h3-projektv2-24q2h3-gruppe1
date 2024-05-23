@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Syncfusion.Blazor.Charts.Chart.Internal;
 using System.Text;
 
@@ -16,8 +17,7 @@ namespace BlazorApp.Components.Layout
         string errorMessage = "";
         string errorMessageLogin = "";
         string errorMessageSignup = "";
-
-  
+        string errorMessageEditProfile = "";
 
         bool usernameCheck = false;
         bool passwordCheck = false;
@@ -117,7 +117,7 @@ namespace BlazorApp.Components.Layout
                 else
                 {
                     // Registration failed, navigate to signup page
-                    errorMessageLogin = "Registration failed. Please try again.";
+                    errorMessageLogin = "Wrong username or password. Please try again.";
                 }
             }
         }
@@ -135,6 +135,35 @@ namespace BlazorApp.Components.Layout
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        // Edit profile WIP (Work in progress)
+        public async Task HandleEditProfile()
+        {
+            if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize(userProfile);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync("api/Users", content);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "change succesfull";
+                    Navigation.NavigateTo("/signup");
+                    Navigation.NavigateTo("/");
+                }
+
+                else
+                {
+                    // Registration failed, navigate to signup page
+                    errorMessageEditProfile = "Please enter a correct username and password. Note that both fields may be case-sensitive";
+                }
+            }
+            else
+            {
+              
             }
         }
 

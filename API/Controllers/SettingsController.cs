@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
@@ -39,7 +39,7 @@ namespace API.Controllers
             _context.Setting.Add(settings);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPlantOverview", new { id = settings.Id }, settings);
+            return CreatedAtAction("GetSettingsOverview", new { id = settings.Id }, settings);
         }
 
         // ----------------------- ID -------------------------- //
@@ -47,7 +47,7 @@ namespace API.Controllers
 
         // GET: api/PlantOverviews/id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Setting>> GetPlantOverview(int id)
+        public async Task<ActionResult<Setting>> GetSettingsOverview(int id)
         {
             var settings = await _context.Setting.FindAsync(id);
 
@@ -61,7 +61,7 @@ namespace API.Controllers
 
         // PUT: api/PlantOverviews/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlantOverview(int id, Setting settings)
+        public async Task<IActionResult> PutSettingsOverview(int id, Setting settings)
         {
             if (id != settings.Id)
             {

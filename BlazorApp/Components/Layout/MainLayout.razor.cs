@@ -1,3 +1,4 @@
+using API.Migrations;
 using API.Models;
 using BlazorApp.Containers;
 using Microsoft.AspNetCore.Components;
@@ -28,8 +29,9 @@ namespace BlazorApp.Components.Layout
 
         public UserLoginRequest userLogin = new UserLoginRequest();
         public UserSignUpRequest userSignup = new UserSignUpRequest();
+      
         public UserPutRequest userProfile = new UserPutRequest();
-
+        public Setting settings = new Setting();
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
 
         // Sign up user WIP (Work in progress)
@@ -37,7 +39,6 @@ namespace BlazorApp.Components.Layout
         {
             // Reset error message
             errorMessage = "";
-
 
             // Perform username and password policy checks
             UsernamePolicyCheck(userSignup.Username);
@@ -69,19 +70,43 @@ namespace BlazorApp.Components.Layout
                 if (response.IsSuccessStatusCode)
                 {
                     message = "Registration successful";
-                    await JS.InvokeVoidAsync("closeModal", "myModalSignup");
+
+                    // Deserialize the created user from the response content
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var newUser = System.Text.Json.JsonSerializer.Deserialize<User>(responseContent);
+
+                    // Create a setup settings for the new user
+                    var settings = new Setting
+                    {
+                        UserId = newUser.Id,
+                    };
+
+                    string jsonPostSettings = System.Text.Json.JsonSerializer.Serialize(settings);
+                    var contentPostSettings = new StringContent(jsonPostSettings, Encoding.UTF8, "application/json");
+                    var responsePostSettings = await client.PostAsync("api/settings", contentPostSettings);
+
+                    if (responsePostSettings.IsSuccessStatusCode)
+                    {
+                        await JS.InvokeVoidAsync("closeModal", "myModalSignup");
+                    }
+                    else
+                    {
+                        // Handle error when creating settings
+                        var settingsResponseContent = await responsePostSettings.Content.ReadAsStringAsync();
+                        var settingsErrorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(settingsResponseContent);
+                        errorMessageSignup = settingsErrorResponse?.Detail ?? "An error occurred while creating settings.";
+                    }
                 }
                 else
                 {
                     // Read the response content to get the error message from the API
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
-                    errorMessageSignup = errorResponse?.Detail;
+                    errorMessageSignup = errorResponse?.Detail ?? "An error occurred during signup.";
                 }
             }
-
-
         }
+
         // --------------------------- Users ---------------------------- //
 
         public async Task HandleLogin()

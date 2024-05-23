@@ -22,13 +22,13 @@ namespace BlazorApp.Components.Layout
         bool usernameCheck = false;
         bool passwordCheck = false;
 
-     
+
 
         public List<Setting>? settingList;
 
         public UserLoginRequest userLogin = new UserLoginRequest();
         public UserSignUpRequest userSignup = new UserSignUpRequest();
-        public User userProfile = new User();
+        public UserPutRequest userProfile = new UserPutRequest();
 
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
 
@@ -105,7 +105,7 @@ namespace BlazorApp.Components.Layout
 
                         AccountSession.UserSession = user;
 
-                        Navigation.NavigateTo("/signup");                   
+                        Navigation.NavigateTo("/signup");
                         Navigation.NavigateTo("/");
 
                         await JS.InvokeVoidAsync("closeModal", "myModalLogin");
@@ -137,35 +137,57 @@ namespace BlazorApp.Components.Layout
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
-
-        // Edit profile WIP (Work in progress)
+        // Edit profile
         public async Task HandleEditProfile()
         {
-            if (!string.IsNullOrWhiteSpace(userProfile.Username) && !string.IsNullOrWhiteSpace(userProfile.Password))
+            if (!string.IsNullOrWhiteSpace(userProfile.Username) || !string.IsNullOrWhiteSpace(userProfile.Password))
             {
+                // Perform username and password policy checks if they are being updated
+                if (!string.IsNullOrEmpty(userProfile.Username))
+                {
+                    var usernameMessage = UsernamePolicyCheck(userProfile.Username);
+                    if (usernameMessage != "Username is valid")
+                    {
+                        errorMessageEditProfile = usernameMessage;
+                        return;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(userProfile.Password))
+                {
+                    var passwordMessage = PasswordPolicyCheck(userProfile.Password);
+                    if (passwordMessage != "Password is valid")
+                    {
+                        errorMessageEditProfile = passwordMessage;
+                        return;
+                    }
+                }
+
+                // Serialize the user profile object
                 string json = System.Text.Json.JsonSerializer.Serialize(userProfile);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PutAsync("api/Users", content);
-
+                var response = await client.PutAsync($"api/Users/{AccountSession.UserSession.Id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    message = "change succesfull";
-                    Navigation.NavigateTo("/signup");
+                    message = "Profile updated successfully";
                     Navigation.NavigateTo("/");
+                    await JS.InvokeVoidAsync("closeModal", "myModalEditProfile");
                 }
-
                 else
                 {
-                    // Registration failed, navigate to signup page
-                    errorMessageEditProfile = "Please enter a correct username and password. Note that both fields may be case-sensitive";
+                    // Read the response content to get the error message from the API
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                    errorMessageEditProfile = errorResponse?.Detail ?? "An error occurred while updating the profile.";
                 }
             }
             else
             {
-              
+                errorMessageEditProfile = "Please provide a username or password to update.";
             }
         }
+
 
         // This is an email policy for insuring that there is fx. @ so that we are sure that it is a valid email 
         public void EmailPolicyCheck(string email)

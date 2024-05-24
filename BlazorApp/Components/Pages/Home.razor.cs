@@ -16,6 +16,7 @@ namespace BlazorApp.Components.Pages
         string errorMessageEditPlant = "";
         string errorMessageDeletePlant = "";
         string errorMessageSignup = "";
+        string errorMessage = "";
 
         bool usernameCheck = false;
         bool passwordCheck = false;
@@ -30,6 +31,7 @@ namespace BlazorApp.Components.Pages
 
         public Plant plantProfile = new Plant();
         public Plant createPlantProfile = new Plant();
+        public PutSettings settings = new PutSettings();
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
@@ -200,7 +202,19 @@ namespace BlazorApp.Components.Pages
         {
             try
             {
-                settingList = await client.GetFromJsonAsync<List<Setting>>("api/Settings");
+                if (AccountSession.UserSession != null)
+                {
+                    settingList = await client.GetFromJsonAsync<List<Setting>>("api/Settings");
+                    var filteredUserOnlySettings = settingList.Where(userOnlySettings => userOnlySettings.UserId == AccountSession.UserSession.Id).ToList();
+
+                    if (filteredUserOnlySettings.Any())
+                    {
+                        var userSettings = filteredUserOnlySettings[0];
+                        settingsId = userSettings.Id; // Save the settings ID
+                        sensorName1 = filteredUserOnlySettings[0].Sensor1Name;
+                        sensorName2 = filteredUserOnlySettings[0].Sensor2Name;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -209,11 +223,34 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-
-        // --------------------------- Sensor --------------------------- //
-        public async Task SetupSensor()
+        public async Task PutSensorNames()
         {
+            settings.Sensor2Name = sensorName2;
+            settings.Sensor1Name = sensorName1;
+            //make put request
+            string json = System.Text.Json.JsonSerializer.Serialize(settings);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"api/settings/sensorname/{settingsId}", content);
 
+            if(response.IsSuccessStatusCode)
+            {
+                message = "Updated name";
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                errorMessage = errorResponse?.Detail ?? "An error occurred while saving settings.";
+            }
+        }
+
+            // --------------------------- Sensor --------------------------- //
+            public async Task SetupSensor()
+        {
+            //make put request
+            string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"api/settings/{AccountSession.UserSession.Id}", content);
         }
 
         // ---------------------------- Misc ---------------------------- //

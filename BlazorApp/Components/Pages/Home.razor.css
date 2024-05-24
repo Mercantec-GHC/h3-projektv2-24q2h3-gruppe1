@@ -1,4 +1,4 @@
-﻿.container {
+.container {
     position: fixed;
     left: 50%;
     width: 250px;
@@ -50,4 +50,12 @@
 .buttons
 {
     margin-left: 5%;
+}
+
+.editIcon {
+    height: 1.75rem;
+}
+
+.editIcon:hover {
+    cursor: pointer;
 }

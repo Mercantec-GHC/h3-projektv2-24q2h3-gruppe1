@@ -1,4 +1,4 @@
-﻿namespace API.Models
+namespace API.Models
 {
     public class Setting :Common
     {
@@ -7,5 +7,10 @@
         public string Sensor1Name { get; set; } = "sensor1";
        public string Sensor2Name { get; set; } = "sensor2";
 
+    }
+    public class PutSettings
+    {
+        public string Sensor1Name { get; set; }
+        public string Sensor2Name { get; set; }
     }
 }

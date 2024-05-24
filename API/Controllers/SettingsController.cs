@@ -60,15 +60,30 @@ namespace API.Controllers
         }
 
         // PUT: api/PlantOverviews/id
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSettingsOverview(int id, Setting settings)
+        [HttpPut("sensorname/{id}")]
+        public async Task<IActionResult> PutSettingsOverview(int id, PutSettings settings)
         {
-            if (id != settings.Id)
+            if (settings == null)
             {
-                return BadRequest();
+                return BadRequest("Settings data is null.");
             }
 
-            _context.Entry(settings).State = EntityState.Modified;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingSettings = await _context.Setting.FindAsync(id);
+            if (existingSettings == null)
+            {
+                return NotFound();
+            }
+
+            // Update properties
+            existingSettings.Sensor1Name = settings.Sensor1Name;
+            existingSettings.Sensor2Name = settings.Sensor2Name;
+
+            _context.Entry(existingSettings).State = EntityState.Modified;
 
             try
             {

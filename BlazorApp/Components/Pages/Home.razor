@@ -173,7 +173,7 @@
                         <h5 class="modal-title">Setup Sensor</h5>
                     </div>
 
-                    <h3>Sensor 1 - can change sensor name</h3>
+                    <h3>@sensorName1</h3>
                     <p>selected plant: @selectedPlant1</p>
 
                     <div class="dropdown">
@@ -187,7 +187,8 @@
                             {
                                 @foreach (var plant in plants)
                                 {
-                                    <li><button class="dropdown-item" @onclick="() => SelectPlant1(plant)">@plant.PlantName</button></li>
+                                    <li><button class="dropdown-item" @onclick=" ()=> SelectPlant1(plant)">@plant.PlantName</button></li>
+                                    //@settings.Sensor1Name = plant.PlantName;
                                 }
                             }
                             else
@@ -198,7 +199,19 @@
 
                     </div>
 
-                    <h3>Sensor 2 - can change sensor name</h3>
+                    <div class="d-flex">
+                        @if (isEditingSensorName2)
+                        {
+                            <input type="text" @bind="sensorName2" class="form-control" />
+                            <button class="btn btn-success" @onclick="PutSensorNames">Save</button>
+                            <button class="btn btn-secondary" @onclick="CancelEditSensorName2">Cancel</button>
+                        }
+                        else
+                        {
+                            <h3>@sensorName2</h3>
+                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName2" style="cursor:pointer;" />
+                        }
+                    </div>
                     <p>selected plant: @selectedPlant2</p>
 
                     <div class="dropdown">
@@ -222,7 +235,7 @@
                         </ul>
 
                     </div>
-
+                    <p class="error-message" id="login-error">@errorMessage</p>
                     <div class="modal-footer">
                         <!-- Buttons for login -->
                         <button type="submit" class="btn btn-primary" @onclick="SetupSensor">Save Changes</button>
@@ -280,10 +293,25 @@
         private string selectedPlant2 = "";
         private string selectedEditPlant = "";
         private int selectedEditPlantId = 0;
+        private string sensorName1 = "";
+        private string sensorName2 = "";
+        private bool isEditingSensorName2 = false;
+        private int settingsId; // Store settings ID
 
         protected override async Task OnInitializedAsync()
         {
             await GetListOfPlants(); // This method should populate the 'plants' list
+            await GetListOfSettings();
+        }
+
+        private void SelectedSensorName1(PutSettings name)
+        {
+            sensorName1 = name.Sensor1Name;
+        }
+
+        private void SelectedSensorName2(PutSettings name)
+        {
+            sensorName2 = name.Sensor2Name;
         }
 
         private void SelectPlant1(Plant plant)
@@ -300,6 +328,23 @@
         {
             selectedEditPlant = plant.PlantName;
             selectedEditPlantId = plant.Id;
+        }
+
+        private void EditSensorName2()
+        {
+            isEditingSensorName2 = true;
+        }
+
+        private void SaveSensorName2()
+        {
+            isEditingSensorName2 = false;
+            settings.Sensor2Name = sensorName2;
+        }
+
+        private void CancelEditSensorName2()
+        {
+            isEditingSensorName2 = false;
+            // Reset the sensorName2 to its original value if needed
         }
     }
 </tr>

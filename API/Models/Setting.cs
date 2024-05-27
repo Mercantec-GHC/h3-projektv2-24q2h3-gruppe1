@@ -6,6 +6,8 @@ namespace API.Models
        public bool AutoMode { get; set; } = true;
        public string Sensor1Name { get; set; } = "sensor1";
        public string Sensor2Name { get; set; } = "sensor2";
+       public string? SelectedPlant1 { get; set; }
+       public string? SelectedPlant2 { get; set; }
 
     }
     public class PutSettings
@@ -17,5 +19,11 @@ namespace API.Models
     public class PutMode
     {
         public bool AutoMode { get; set; }
+    }
+
+    public class PutSeletedPlants
+    {
+        public string? SelectedPlant1 { get; set; }
+        public string? SelectedPlant2 { get; set; }
     }
 }

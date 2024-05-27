@@ -144,6 +144,50 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpPut("selectedplants/{id}")]
+        public async Task<IActionResult> PutSettingsPlantsOverview(int id, PutSeletedPlants plants)
+        {
+            if (plants == null)
+            {
+                return BadRequest("Plants data is null.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingSettingsPlants = await _context.Setting.FindAsync(id);
+            if (existingSettingsPlants == null)
+            {
+                return NotFound();
+            }
+
+            // Update properties
+            existingSettingsPlants.SelectedPlant1 = plants.SelectedPlant1;
+            existingSettingsPlants.SelectedPlant2 = plants.SelectedPlant2;
+
+            _context.Entry(existingSettingsPlants).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SettingExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // DELETE: api/PlantOverviews/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSetting(int id)

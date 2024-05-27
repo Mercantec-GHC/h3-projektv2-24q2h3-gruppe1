@@ -219,7 +219,10 @@ namespace BlazorApp.Components.Pages
                         mode.AutoMode = filteredUserOnlySettings[0].AutoMode;
                         current1plant = filteredUserOnlySettings[0].SelectedPlant1;
                         current2plant = filteredUserOnlySettings[0].SelectedPlant2;
+                        originalSensorName1 = filteredUserOnlySettings[0].Sensor1Name;
+                        originalSensorName2 = filteredUserOnlySettings[0].Sensor2Name;
                     }
+
                 }
             }
             catch (Exception ex)
@@ -240,7 +243,10 @@ namespace BlazorApp.Components.Pages
 
             if (response.IsSuccessStatusCode)
             {
+              await GetListOfSettings();
                 message = "Updated name";
+                isEditingSensorName2 = false;
+                isEditingSensorName1 = false;
             }
             else
             {

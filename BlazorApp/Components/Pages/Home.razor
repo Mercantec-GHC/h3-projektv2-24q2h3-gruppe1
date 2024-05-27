@@ -173,7 +173,19 @@
                         <h5 class="modal-title">Setup Sensor</h5>
                     </div>
 
-                    <h3>@sensorName1</h3>
+                    <div class="d-flex">
+                        @if (isEditingSensorName1)
+                        {
+                            <input type="text" @bind="sensorName1" class="form-control" />
+                            <button class="btn btn-success" @onclick="PutSensorNames">Save</button>
+                            <button class="btn btn-secondary" @onclick="CancelEditSensorName1">Cancel</button>
+                        }
+                        else
+                        {
+                            <h3>@sensorName1</h3>
+                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName1" style="cursor:pointer;" />
+                        }
+                    </div>
                     <p>current plant: @current1plant</p>
                     <p>selected plant: @selectedPlant1</p>
 
@@ -336,10 +348,10 @@
     private bool isEditingSensorName1 = false;
     private bool isEditingSensorName2 = false;
     private int settingsId; // Store settings ID
-    private string originalSensorName1 = ""; // To store the original value
-    private string originalSensorName2 = ""; // To store the original value
-    private string? current1plant = "";
-    private string? current2plant = "";
+    private string? originalSensorName1; // To store the original value
+    private string? originalSensorName2; // To store the original value
+    private string? current1plant;
+    private string? current2plant;
 
     protected override async Task OnInitializedAsync()
     {
@@ -376,38 +388,24 @@
     private void EditSensorName2()
     {
         isEditingSensorName2 = true;
-        originalSensorName2 = settings.Sensor2Name;
-    }
-
-    private void SaveSensorName2()
-    {
-        isEditingSensorName2 = false;
-        settings.Sensor2Name = sensorName2;
+        
     }
 
     private void CancelEditSensorName2()
     {
         isEditingSensorName2 = false;
         sensorName2 = originalSensorName2; // Revert to the original value
-        StateHasChanged();
     }
 
     private void EditSensorName1()
     {
-        isEditingSensorName2 = true;
-        originalSensorName1 = settings.Sensor1Name;
-    }
-
-    private void SaveSensorName1()
-    {
-        isEditingSensorName2 = false;
-        settings.Sensor2Name = sensorName2;
+        isEditingSensorName1 = true;
     }
 
     private void CancelEditSensorName1()
     {
-        isEditingSensorName2 = false;
-        sensorName2 = originalSensorName2; // Revert to the original value
+        isEditingSensorName1 = false;
+        sensorName1 = originalSensorName1; // Revert to the original value
     }
 }
 

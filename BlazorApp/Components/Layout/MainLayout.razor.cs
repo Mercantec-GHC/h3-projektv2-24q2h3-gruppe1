@@ -22,8 +22,8 @@ namespace BlazorApp.Components.Layout
 
         bool usernameCheck = false;
         bool passwordCheck = false;
-
-
+        private bool IsAutoChecked = true;
+        private bool IsManualChecked = false;
 
         public List<Setting>? settingList;
 
@@ -212,7 +212,6 @@ namespace BlazorApp.Components.Layout
                 errorMessageEditProfile = "Please provide a username or password to update.";
             }
         }
-
 
         // This is an email policy for insuring that there is fx. @ so that we are sure that it is a valid email 
         public void EmailPolicyCheck(string email)

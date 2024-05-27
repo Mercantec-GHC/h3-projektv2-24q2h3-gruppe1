@@ -104,6 +104,46 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpPut("mode/{id}")]
+        public async Task<IActionResult> PutSettingsModeOverview(int id, PutMode mode)
+        {
+            if (mode == null)
+            {
+                return BadRequest("Settings data is null.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingSettingsMode = await _context.Setting.FindAsync(id);
+            if (existingSettingsMode == null)
+            {
+                return NotFound();
+            }
+            existingSettingsMode.AutoMode = mode.AutoMode;
+            _context.Entry(existingSettingsMode).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SettingExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // DELETE: api/PlantOverviews/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSetting(int id)

@@ -32,6 +32,7 @@ namespace BlazorApp.Components.Pages
         public Plant plantProfile = new Plant();
         public Plant createPlantProfile = new Plant();
         public PutSettings settings = new PutSettings();
+        public PutMode mode = new PutMode();
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
@@ -244,6 +245,24 @@ namespace BlazorApp.Components.Pages
             }
         }
 
+        public async Task PutModeState()
+        {
+            string json = System.Text.Json.JsonSerializer.Serialize(mode);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"api/settings/mode/{settingsId}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                message = "Updated name";
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                errorMessage = errorResponse?.Detail ?? "An error occurred while saving settings.";
+            }
+        }
+
             // --------------------------- Sensor --------------------------- //
             public async Task SetupSensor()
         {
@@ -255,8 +274,6 @@ namespace BlazorApp.Components.Pages
 
         // ---------------------------- Misc ---------------------------- //
 
-
-
         // The auto or manual mode toggle for the Arduino 
         //make a put request then auto changes a put request
         public void Toggle(char switchName)
@@ -265,14 +282,14 @@ namespace BlazorApp.Components.Pages
             if (!IsManualChecked && !IsAutoChecked)
             {
                 IsAutoChecked = true;
-                // setting.AutoMode = true;
+                mode.AutoMode = true;
             }
             // The else insures that no matter what if both are set to false that the if statement is true insuring one is always active
             else
             {
                 IsAutoChecked = !IsAutoChecked;
                 IsManualChecked = !IsManualChecked;
-                //setting.AutoMode = false;
+                mode.AutoMode = false;
             }
         }
     }

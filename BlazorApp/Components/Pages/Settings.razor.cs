@@ -1,4 +1,4 @@
-﻿using API.Models;
+using API.Models;
 using Syncfusion.Blazor.Charts.Chart.Internal;
 using System.Numerics;
 
@@ -30,13 +30,11 @@ namespace BlazorApp.Components.Pages
             if (!IsManualChecked && !IsAutoChecked)
             {
                 IsAutoChecked = true;
-               // setting.AutoMode = true;
             }
             else
             {
                 IsAutoChecked = !IsAutoChecked;
                 IsManualChecked = !IsManualChecked;
-                //setting.AutoMode = false;
             }
         }
     }

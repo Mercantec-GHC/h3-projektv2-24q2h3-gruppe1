@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol.Plugins;
 using System.Text;
 using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorApp.Components.Pages
 {
@@ -214,6 +215,7 @@ namespace BlazorApp.Components.Pages
                         settingsId = userSettings.Id; // Save the settings ID
                         sensorName1 = filteredUserOnlySettings[0].Sensor1Name;
                         sensorName2 = filteredUserOnlySettings[0].Sensor2Name;
+                        mode.AutoMode = filteredUserOnlySettings[0].AutoMode;
                     }
                 }
             }
@@ -254,6 +256,7 @@ namespace BlazorApp.Components.Pages
             if (response.IsSuccessStatusCode)
             {
                 message = "Updated name";
+                await JS.InvokeVoidAsync("closeModal", "myModalSettings");
             }
             else
             {
@@ -270,27 +273,28 @@ namespace BlazorApp.Components.Pages
             string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PutAsync($"api/settings/{AccountSession.UserSession.Id}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                message = "Updated name";
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                errorMessage = errorResponse?.Detail ?? "An error occurred while saving settings.";
+            }
         }
 
         // ---------------------------- Misc ---------------------------- //
 
         // The auto or manual mode toggle for the Arduino 
         //make a put request then auto changes a put request
-        public void Toggle(char switchName)
+        private async Task Toggle()
         {
-            // It checks if both toggles are set to false and sets IsAutoChecked to true 
-            if (!IsManualChecked && !IsAutoChecked)
-            {
-                IsAutoChecked = true;
-                mode.AutoMode = true;
-            }
-            // The else insures that no matter what if both are set to false that the if statement is true insuring one is always active
-            else
-            {
-                IsAutoChecked = !IsAutoChecked;
-                IsManualChecked = !IsManualChecked;
-                mode.AutoMode = false;
-            }
+            // Toggle the state
+            mode.AutoMode = !mode.AutoMode;        
         }
+
     }
 }

@@ -254,7 +254,7 @@
             <button id="myBtnSettings" class="btn btn-primary buttons">Arduino Settings</button>
 
             <!-- The Modal -->
-            <div id="myBtnSettings" class="modal">
+            <div id="myModalSettings" class="modal">
 
                 <!-- Modal content -->
                 <div class="modal-content">
@@ -265,17 +265,10 @@
                     </div>
 
                     <div class="d-flex justify-content-center text-center">
-                        <div class="w-50 ">
+                        <div class="w-100 ">
                             <p>Auto</p>
                             <label class="switch">
-                                <input type="checkbox" checked="@IsAutoChecked" @onchange="() => Toggle('a')">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        <div class="w-50">
-                            <p>Manuel</p>
-                            <label class="switch">
-                                <input type="checkbox" checked="@IsManualChecked" @onchange="() => Toggle('m')">
+                                <input type="checkbox" checked="@mode.AutoMode" @onclick="Toggle">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -345,12 +338,6 @@
     private int settingsId; // Store settings ID
     private string originalSensorName1 = ""; // To store the original value
     private string originalSensorName2 = ""; // To store the original value
-    bool modesate;
-
-    private void Selectedmode(Setting settings)
-    {
-        modesate = settings.AutoMode;
-    }
 
     protected override async Task OnInitializedAsync()
     {

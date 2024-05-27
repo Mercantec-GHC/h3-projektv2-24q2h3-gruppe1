@@ -1,12 +1,10 @@
-using API.Models;
+﻿using API.Models;
 using BlazorApp.Containers;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Plugins;
 using System.Text;
 
 namespace BlazorApp.Components.Pages
 {
-    public partial class Home
+    public partial class HomeDemo
     {
         #region Top Level Variables
         string message = "";
@@ -44,7 +42,7 @@ namespace BlazorApp.Components.Pages
         //need to get user id
         public async Task HandleCreatePlant()
         {
-    
+
             if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             {
                 errorMessage = "invalid plant name";
@@ -86,7 +84,7 @@ namespace BlazorApp.Components.Pages
         // Edit plant info for the database
         public async Task HandleEditPlant()
         {
-          
+
             //if (string.IsNullOrWhiteSpace(plantProfile.PlantName))
             //{
             //    errorMessage = "invalid plant name";
@@ -123,7 +121,7 @@ namespace BlazorApp.Components.Pages
                 }
             }
         }
-        
+
         //make put request in settings then we change plant name in setup sensor
         // ------------- Get -------------- //
 
@@ -190,11 +188,9 @@ namespace BlazorApp.Components.Pages
         {
             try
             {
-                // Sets the users account session to null to logout the user
                 AccountSession.UserSession = null;
             }
 
-            // Catch the exception
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex.Message}");
@@ -209,13 +205,14 @@ namespace BlazorApp.Components.Pages
             if (!IsManualChecked && !IsAutoChecked)
             {
                 IsAutoChecked = true;
+                // setting.AutoMode = true;
             }
-
             // The else insures that no matter what if both are set to false that the if statement is true insuring one is always active
             else
             {
                 IsAutoChecked = !IsAutoChecked;
                 IsManualChecked = !IsManualChecked;
+                //setting.AutoMode = false;
             }
         }
     }

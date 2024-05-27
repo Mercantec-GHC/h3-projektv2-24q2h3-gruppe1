@@ -1,0 +1,472 @@
+﻿@page "/HomeDemo"
+@using API;
+@using API.Models;
+@using BlazorApp.Containers;
+@using System.Threading.Tasks;
+@using Syncfusion.Blazor.Charts;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Syncfusion.Blazor.Charts.Chart.Internal;
+
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<!-- Pie & Line Chart Scripts -->
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<!-- Bootstrap Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+@namespace BlazorApp.Components.Pages
+
+<PageTitle>Home</PageTitle>
+
+<h1>Home</h1>
+
+<div class="d-flex">
+    <!---------------------------------- Pie Chart -------------------------------->
+    <div id="pie-chart-container" class="chart-container">
+        <select id="pie-chart-select" class="btn btn-primary buttonSelect" @onchange="OnPieChartSelectionChange">
+            <option value="chartdiv1">Plant 1</option>
+            <option value="chartdiv2">Plant 2</option>
+            <option value="chartdiv3">Plant 3</option>
+        </select>
+        <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
+        <div id="chartdiv2" class="chartdiv" data-initialized="false" style="display: none;"></div>
+        <div id="chartdiv3" class="chartdiv" data-initialized="false" style="display: none;"></div>
+    </div>
+
+    <!--------------------------------- Line Chart ------------------------------->
+    <div id="line-chart-container" class="chart-container">
+        <select id="line-chart-select" class="btn btn-primary buttonSelect" @onchange="OnLineChartSelectionChange">
+            <option value="chartdiv4">Plant 1</option>
+            <option value="chartdiv5">Plant 2</option>
+            <option value="chartdiv6">Plant 3</option>
+        </select>
+        <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
+        <div id="chartdiv2" class="chartdiv" data-initialized="false" style="display: none;"></div>
+        <div id="chartdiv3" class="chartdiv" data-initialized="false" style="display: none;"></div>
+    </div>
+</div>
+
+<!--------------------------------- Pie Chart --------------------------------->
+<script>
+
+    am5.ready(function () {
+
+
+        function createChart(rootId, data) {
+
+            var root = am5.Root.new(rootId);
+
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            var chart = root.container.children.push(
+                am5percent.PieChart.new(root, { endAngle: 270 })
+            );
+
+            var series = chart.series.push(
+                am5percent.PieSeries.new(root, {
+                    valueField: "value",
+                    categoryField: "category",
+                    endAngle: 270
+                })
+            );
+            series.states.create("hidden", { endAngle: -90 });
+
+            series.data.setAll(data);
+
+            series.labels.template.setAll({
+                fill: am5.color(0xFFFFFF), // Set label text color to white
+            });
+
+            series.slices.template.setAll({
+            });
+
+            series.appear(1000, 100);
+        }
+
+        // Data for the charts
+        var data1 = [
+            { category: "Moisture Level", value: 601.9 },
+            { category: "Drought Level", value: 301.9 }
+        ];
+        var data2 = [
+            { category: "Moisture Level", value: 641.9 },
+            { category: "Drought Level", value: 358.1 }
+        ];
+        var data3 = [
+            { category: "Moisture Level", value: 751.9 },
+            { category: "Drought Level", value: 208.1 }
+        ];
+
+        // Create charts
+        createChart("chartdiv1", data1);
+        createChart("chartdiv2", data2);
+        createChart("chartdiv3", data3);
+
+        // Dropdown change event
+        document.getElementById("chart-select").addEventListener("change", function () {
+            var selectedChart = this.value;
+            document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
+                chartDiv.style.display = "none";
+            });
+            document.getElementById(selectedChart).style.display = "block";
+        });
+    });
+</script>
+
+<!--------------------------------- Line Chart -------------------------------->
+<script>
+
+    am5.ready(function () {
+        // Common chart creation function
+        function createPieChart(rootId, data) {
+
+            var root = am5.Root.new(rootId);
+
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            var chart = root.container.children.push(
+                am5percent.PieChart.new(root, { endAngle: 270 })
+            );
+
+            var series = chart.series.push(
+                am5percent.PieSeries.new(root, {
+                    valueField: "value",
+                    categoryField: "category",
+                    endAngle: 270
+                })
+            );
+
+            series.states.create("hidden", { endAngle: -90 });
+            series.data.setAll(data);
+            series.labels.template.setAll({ fill: am5.color(0xFFFFFF) });
+        }
+
+        var data1 = [{ category: "Moisture Level", value: 601.9 }, { category: "Drought Level", value: 301.9 }];
+        var data2 = [{ category: "Moisture Level", value: 641.9 }, { category: "Drought Level", value: 358.1 }];
+        var data3 = [{ category: "Moisture Level", value: 751.9 }, { category: "Drought Level", value: 208.1 }];
+
+        createPieChart("chartdiv1", data1);
+        createPieChart("chartdiv2", data2);
+        createPieChart("chartdiv3", data3);
+
+        document.getElementById("chart-select").addEventListener("change", function () {
+            var selectedChart = this.value;
+            document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
+                chartDiv.style.display = "none";
+            });
+            document.getElementById(selectedChart).style.display = "block";
+        });
+    });
+
+    am5.ready(function () {
+        function createLineChart(containerId) {
+            document.getElementById(containerId).innerHTML = "";
+
+            var root = am5.Root.new(containerId);
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            var chart = root.container.children.push(am5xy.XYChart.new(root, { panX: false, panY: false, wheelX: "panX", wheelY: "zoomX" }));
+
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "zoomX" }));
+            cursor.lineY.set("visible", false);
+
+            var date = new Date();
+
+            date.setHours(0, 0, 0, 0);
+
+            var value = 100;
+
+            function generateData() {
+                value = Math.round((Math.random() * 10 - 5) + value);
+                am5.time.add(date, "day", 1);
+                return { date: date.getTime(), value: value };
+            }
+
+            function generateDatas(count) {
+                var data = [];
+                for (var i = 0; i < count; ++i) {
+                    data.push(generateData());
+                }
+                return data;
+            }
+
+            var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, { maxDeviation: 0, baseInterval: { timeUnit: "day", count: 1 }, renderer: am5xy.AxisRendererX.new(root, { minorGridEnabled: true, minGridDistance: 200, minorLabelsEnabled: true }), tooltip: am5.Tooltip.new(root, {}) }));
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, { renderer: am5xy.AxisRendererY.new(root, {}) }));
+            var series = chart.series.push(am5xy.LineSeries.new(root, { name: "Series", xAxis: xAxis, yAxis: yAxis, valueYField: "value", valueXField: "date", tooltip: am5.Tooltip.new(root, { labelText: "{valueY}" }) }));
+
+            series.bullets.push(function () { return am5.Bullet.new(root, { sprite: am5.Circle.new(root, { radius: 5, fill: series.get("fill") }) }) });
+            chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
+
+            var data = generateDatas(30);
+
+            series.data.setAll(data);
+            series.appear(1000);
+            chart.appear(1000, 100);
+        }
+
+        createLineChart("chartdiv4");
+
+        document.getElementById("chart-select-line").addEventListener("change", function (event) {
+            var selectedValue = event.target.value;
+            document.querySelectorAll('.chartdiv').forEach(function (chart) {
+                chart.style.display = 'none';
+            });
+            document.getElementById(selectedValue).style.display = 'block';
+            createLineChart(selectedValue);
+        });
+    });
+
+</script>
+
+<!-------------------------------- Chart script ------------------------------->
+<script>
+
+    am5.ready(function () {
+        // Common chart creation function
+        function createPieChart(rootId, data) {
+            var root = am5.Root.new(rootId);
+            root.setThemes([am5themes_Animated.new(root)]);
+            var chart = root.container.children.push(
+                am5percent.PieChart.new(root, { endAngle: 270 })
+            );
+
+            var series = chart.series.push(
+                am5percent.PieSeries.new(root, {
+                    valueField: "value",
+                    categoryField: "category",
+                    endAngle: 270
+                })
+            );
+
+            series.states.create("hidden", { endAngle: -90 });
+            series.data.setAll(data);
+            series.labels.template.setAll({ fill: am5.color(0xFFFFFF) });
+        }
+
+        var data1 = [{ category: "Moisture Level", value: 601.9 }, { category: "Drought Level", value: 301.9 }];
+        var data2 = [{ category: "Moisture Level", value: 641.9 }, { category: "Drought Level", value: 358.1 }];
+        var data3 = [{ category: "Moisture Level", value: 751.9 }, { category: "Drought Level", value: 208.1 }];
+
+        createPieChart("chartdiv1", data1);
+        createPieChart("chartdiv2", data2);
+        createPieChart("chartdiv3", data3);
+
+        document.getElementById("chart-select").addEventListener("change", function () {
+
+            var selectedChart = this.value;
+            document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
+                chartDiv.style.display = "none";
+            });
+
+            document.getElementById(selectedChart).style.display = "block";
+        });
+    });
+
+    am5.ready(function () {
+        function createLineChart(containerId) {
+
+            document.getElementById(containerId).innerHTML = "";
+            var root = am5.Root.new(containerId);
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            var chart = root.container.children.push(am5xy.XYChart.new(root, { panX: false, panY: false, wheelX: "panX", wheelY: "zoomX" }));
+
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "zoomX" }));
+
+            cursor.lineY.set("visible", false);
+
+            var date = new Date();
+            date.setHours(0, 0, 0, 0);
+
+            var value = 100;
+
+            function generateData() {
+                value = Math.round((Math.random() * 10 - 5) + value);
+                am5.time.add(date, "day", 1);
+                return { date: date.getTime(), value: value };
+            }
+            function generateDatas(count) {
+
+                var data = [];
+                for (var i = 0; i < count; ++i) {
+                    data.push(generateData());
+                }
+                return data;
+            }
+
+            var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, { maxDeviation: 0, baseInterval: { timeUnit: "day", count: 1 }, renderer: am5xy.AxisRendererX.new(root, { minorGridEnabled: true, minGridDistance: 200, minorLabelsEnabled: true }), tooltip: am5.Tooltip.new(root, {}) }));
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, { renderer: am5xy.AxisRendererY.new(root, {}) }));
+
+            var series = chart.series.push(am5xy.LineSeries.new(root, { name: "Series", xAxis: xAxis, yAxis: yAxis, valueYField: "value", valueXField: "date", tooltip: am5.Tooltip.new(root, { labelText: "{valueY}" }) }));
+
+            series.bullets.push(function () { return am5.Bullet.new(root, { sprite: am5.Circle.new(root, { radius: 5, fill: series.get("fill") }) }) });
+            chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
+
+            var data = generateDatas(30);
+            series.data.setAll(data);
+            series.appear(1000);
+            chart.appear(1000, 100);
+        }
+
+        createLineChart("chartdiv4");
+
+        document.getElementById("chart-select-line").addEventListener("change", function (event) {
+            var selectedValue = event.target.value;
+            document.querySelectorAll('.chartdiv').forEach(function (chart) {
+                chart.style.display = 'none';
+            });
+            document.getElementById(selectedValue).style.display = 'block';
+            createLineChart(selectedValue);
+        });
+    });
+
+</script>
+
+<script>
+    window.chartInterop = {
+        initializeChart: function (chartDivId) {
+            const chartDiv = document.getElementById(chartDivId);
+            if (chartDiv.dataset.initialized === "false") {
+                // Replace this with actual chart initialization logic
+                console.log(`Initializing chart in ${chartDivId}`);
+                // e.g., new Chart(chartDiv, {...});
+                chartDiv.dataset.initialized = "true";
+            }
+        },
+        updateChartVisibility: function (selectElementId, containerId) {
+            const selectElement = document.getElementById(selectElementId);
+            const selectedValue = selectElement.value;
+            const chartDivs = document.querySelectorAll(`#${containerId} .chartdiv`);
+
+            chartDivs.forEach(div => {
+                if (div.id === selectedValue) {
+                    div.style.display = 'block';
+                    window.chartInterop.initializeChart(div.id);
+                } else {
+                    div.style.display = 'none';
+                }
+            });
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        window.chartInterop.updateChartVisibility("pie-chart-select", "pie-chart-container");
+        window.chartInterop.updateChartVisibility("line-chart-select", "line-chart-container");
+    });
+</script>
+
+<!-------------------------------- Modal Script ------------------------------->
+<script>
+    // Get the modals
+    var modals = document.querySelectorAll('.modal');
+
+    // Get the buttons that open the modals
+    var buttons = document.querySelectorAll('.btn');
+
+    // Get the <span> elements that close the modals
+    var spans = document.querySelectorAll('.close');
+
+    console.log("re-run");
+
+    // Loop through each button to add click event listeners
+    buttons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            4
+            console.log(index);
+            modals[index].style.display = "block";
+            errorMessage = "";
+        });
+    });
+
+    // Loop through each span to add click event listeners
+    spans.forEach(function (span, index) {
+        span.addEventListener('click', function () {
+            modals[index].style.display = "none";
+            errorMessage = "";
+        });
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        modals.forEach(function (modal) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                errorMessage = "";
+            }
+        });
+    }
+
+    function loginUser() {
+        alert("User has been logged in")
+    }
+</script>
+
+<!--------------------------------- Plant Code -------------------------------->
+<tr>
+    @code {
+        private string selectedPlant1 = "";
+        private string selectedPlant2 = "";
+        private string selectedEditPlant = "";
+        private int selectedEditPlantId = 0;
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GetListOfPlants(); // This method should populate the 'plants' list
+        }
+
+        private void SelectPlant1(Plant plant)
+        {
+            selectedPlant1 = plant.PlantName;
+        }
+
+        private void SelectPlant2(Plant plant)
+        {
+            selectedPlant2 = plant.PlantName;
+        }
+
+        private void SelectEditPlant(Plant plant)
+        {
+            selectedEditPlant = plant.PlantName;
+            selectedEditPlantId = plant.Id;
+        }
+    }
+</tr>
+
+<!--------------------------------- Chart Code -------------------------------->
+<tr>
+    @code
+    {
+
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
+        // Call this method when the page has rendered
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
+                await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+            }
+        }
+
+        // Call this method when the selection changes
+        private async Task OnPieChartSelectionChange(ChangeEventArgs e)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
+        }
+
+        private async Task OnLineChartSelectionChange(ChangeEventArgs e)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+        }
+
+    }
+
+</tr>

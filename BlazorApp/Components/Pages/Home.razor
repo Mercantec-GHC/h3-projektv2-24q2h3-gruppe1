@@ -287,64 +287,87 @@
 </script>
 
 <!--------------------------------- Plant Code -------------------------------->
-<tr>
-    @code {
-        private string selectedPlant1 = "";
-        private string selectedPlant2 = "";
-        private string selectedEditPlant = "";
-        private int selectedEditPlantId = 0;
-        private string sensorName1 = "";
-        private string sensorName2 = "";
-        private bool isEditingSensorName2 = false;
-        private int settingsId; // Store settings ID
 
-        protected override async Task OnInitializedAsync()
-        {
-            await GetListOfPlants(); // This method should populate the 'plants' list
-            await GetListOfSettings();
-        }
+@code {
+    private string selectedPlant1 = "";
+    private string selectedPlant2 = "";
+    private string selectedEditPlant = "";
+    private int selectedEditPlantId = 0;
+    private string sensorName1 = "";
+    private string sensorName2 = "";
+    private bool isEditingSensorName1 = false;
+    private bool isEditingSensorName2 = false;
+    private int settingsId; // Store settings ID
+    private string originalSensorName1 = ""; // To store the original value
+    private string originalSensorName2 = ""; // To store the original value
 
-        private void SelectedSensorName1(PutSettings name)
-        {
-            sensorName1 = name.Sensor1Name;
-        }
-
-        private void SelectedSensorName2(PutSettings name)
-        {
-            sensorName2 = name.Sensor2Name;
-        }
-
-        private void SelectPlant1(Plant plant)
-        {
-            selectedPlant1 = plant.PlantName;
-        }
-
-        private void SelectPlant2(Plant plant)
-        {
-            selectedPlant2 = plant.PlantName;
-        }
-
-        private void SelectEditPlant(Plant plant)
-        {
-            selectedEditPlant = plant.PlantName;
-            selectedEditPlantId = plant.Id;
-        }
-
-        private void EditSensorName2()
-        {
-            isEditingSensorName2 = true;
-        }
-
-        private void SaveSensorName2()
-        {
-            isEditingSensorName2 = false;
-            settings.Sensor2Name = sensorName2;
-        }
-
-        private void CancelEditSensorName2()
-        {
-            isEditingSensorName2 = false;
-            // Reset the sensorName2 to its original value if needed
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetListOfPlants(); // This method should populate the 'plants' list
+        await GetListOfSettings();
     }
-</tr>
+
+    private void SelectedSensorName1(PutSettings name)
+    {
+        sensorName1 = name.Sensor1Name;
+    }
+
+    private void SelectedSensorName2(PutSettings name)
+    {
+        sensorName2 = name.Sensor2Name;
+    }
+
+    private void SelectPlant1(Plant plant)
+    {
+        selectedPlant1 = plant.PlantName;
+    }
+
+    private void SelectPlant2(Plant plant)
+    {
+        selectedPlant2 = plant.PlantName;
+    }
+
+    private void SelectEditPlant(Plant plant)
+    {
+        selectedEditPlant = plant.PlantName;
+        selectedEditPlantId = plant.Id;
+    }
+
+    private void EditSensorName2()
+    {
+        isEditingSensorName2 = true;
+        originalSensorName2 = settings.Sensor2Name;
+    }
+
+    private void SaveSensorName2()
+    {
+        isEditingSensorName2 = false;
+        settings.Sensor2Name = sensorName2;
+    }
+
+    private void CancelEditSensorName2()
+    {
+        isEditingSensorName2 = false;
+        sensorName2 = originalSensorName2; // Revert to the original value
+        StateHasChanged();
+    }
+
+    private void EditSensorName1()
+    {
+        isEditingSensorName2 = true;
+        originalSensorName1 = settings.Sensor1Name;
+    }
+
+    private void SaveSensorName1()
+    {
+        isEditingSensorName2 = false;
+        settings.Sensor2Name = sensorName2;
+    }
+
+    private void CancelEditSensorName1()
+    {
+        isEditingSensorName2 = false;
+        sensorName2 = originalSensorName2; // Revert to the original value
+    }
+}
+

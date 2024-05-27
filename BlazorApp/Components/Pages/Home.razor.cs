@@ -34,6 +34,7 @@ namespace BlazorApp.Components.Pages
         public Plant createPlantProfile = new Plant();
         public PutSettings settings = new PutSettings();
         public PutMode mode = new PutMode();
+        public PutSeletedPlants selectedPlants = new PutSeletedPlants();
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
@@ -84,7 +85,7 @@ namespace BlazorApp.Components.Pages
                     await JS.InvokeVoidAsync("closeModal", "myModalCreatePlant");
                     //Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
                     NavigationManager.NavigateTo("/login");
-                    NavigationManager.NavigateTo("/");NavigationManager.NavigateTo("/login");
+                    NavigationManager.NavigateTo("/"); NavigationManager.NavigateTo("/login");
                     NavigationManager.NavigateTo("/");
                 }
             }
@@ -216,6 +217,8 @@ namespace BlazorApp.Components.Pages
                         sensorName1 = filteredUserOnlySettings[0].Sensor1Name;
                         sensorName2 = filteredUserOnlySettings[0].Sensor2Name;
                         mode.AutoMode = filteredUserOnlySettings[0].AutoMode;
+                        current1plant = filteredUserOnlySettings[0].SelectedPlant1;
+                        current2plant = filteredUserOnlySettings[0].SelectedPlant2;
                     }
                 }
             }
@@ -235,7 +238,7 @@ namespace BlazorApp.Components.Pages
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PutAsync($"api/settings/sensorname/{settingsId}", content);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 message = "Updated name";
             }
@@ -262,12 +265,58 @@ namespace BlazorApp.Components.Pages
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
-                errorMessage = errorResponse?.Detail ?? "An error occurred while saving settings.";
+                errorMessage = errorResponse?.Detail ?? "An error occurred while saving mode.";
             }
         }
 
-            // --------------------------- Sensor --------------------------- //
-            public async Task SetupSensor()
+        public async Task PutSelectedPlants()
+        {
+
+            if (!string.IsNullOrWhiteSpace(selectedPlant1) || !string.IsNullOrWhiteSpace(selectedPlant2))
+            {
+                // Perform username and password policy checks if they are being updated
+                if (!string.IsNullOrEmpty(selectedPlant1))
+                {
+                    selectedPlants.SelectedPlant1 = selectedPlant1;
+                }
+
+                if (!string.IsNullOrEmpty(selectedPlant2))
+                {
+                    selectedPlants.SelectedPlant2 = selectedPlant2;
+                }
+                if (string.IsNullOrEmpty(selectedPlant1))
+                {
+                    selectedPlants.SelectedPlant1 = current1plant;
+                }
+
+                if (string.IsNullOrEmpty(selectedPlant2))
+                {
+                    selectedPlants.SelectedPlant2 = current2plant;
+                }
+                //make put request
+                string json = System.Text.Json.JsonSerializer.Serialize(selectedPlants);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync($"api/settings/selectedplants/{settingsId}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    message = "Updated plant";
+                    await JS.InvokeVoidAsync("closeModal", "myModalSetupSensor");
+                    Navigation.NavigateTo("/signup");
+                    Navigation.NavigateTo("/");
+                }
+                else
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+                    errorMessage = errorResponse?.Detail ?? "An error occurred while saving plants.";
+                }
+            }
+
+        }
+
+        // --------------------------- Sensor --------------------------- //
+        public async Task SetupSensor()
         {
             //make put request
             string json = System.Text.Json.JsonSerializer.Serialize(plantProfile);
@@ -293,7 +342,7 @@ namespace BlazorApp.Components.Pages
         private async Task Toggle()
         {
             // Toggle the state
-            mode.AutoMode = !mode.AutoMode;        
+            mode.AutoMode = !mode.AutoMode;
         }
 
     }

@@ -8,6 +8,8 @@ namespace API.Models
        public string Sensor2Name { get; set; } = "sensor2";
        public string? SelectedPlant1 { get; set; }
        public string? SelectedPlant2 { get; set; }
+        public int SensorID1 { get; set; }
+        public int SensorID2 { get; set;}
 
     }
     public class PutSettings
@@ -25,5 +27,11 @@ namespace API.Models
     {
         public string? SelectedPlant1 { get; set; }
         public string? SelectedPlant2 { get; set; }
+    }
+
+    public class PutSensorID
+    {
+        public int SensorID1 { get; set; }
+        public int SensorID2 { get; set; }
     }
 }

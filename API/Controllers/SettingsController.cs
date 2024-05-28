@@ -188,6 +188,50 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpPut("sensorid/{id}")]
+        public async Task<IActionResult> PutSettingsSensorIDOverview(int id, PutSensorID sensorID)
+        {
+            if (sensorID == null)
+            {
+                return BadRequest("Plants data is null.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingSettingsSensorID = await _context.Setting.FindAsync(id);
+            if (existingSettingsSensorID == null)
+            {
+                return NotFound();
+            }
+
+            // Update properties
+            existingSettingsSensorID.SensorID1 = sensorID.SensorID1;
+            existingSettingsSensorID.SensorID2 = sensorID.SensorID2;
+
+            _context.Entry(existingSettingsSensorID).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SettingExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // DELETE: api/PlantOverviews/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSetting(int id)

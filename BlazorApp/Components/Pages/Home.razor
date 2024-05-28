@@ -182,8 +182,24 @@
                         }
                         else
                         {
-                            <h3>@sensorName1</h3>
+                            <h3>Sensor name 1: </h3>
+                            <h3 style="margin: 0 0 0 10px;">@sensorName1</h3>
                             <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName1" style="cursor:pointer;" />
+                        }
+                    </div>
+
+                    <div class="d-flex">
+                        @if (isEditingSensorID1)
+                        {
+                            <input type="text" @bind="sensorID1" class="form-control" />
+                            <button class="btn btn-success" @onclick="PutSensorID">Save</button>
+                            <button class="btn btn-secondary" @onclick="CancelEditSensorID1">Cancel</button>
+                        }
+                        else
+                        {
+                            <p>Enter Sensor id 1: </p>
+                            <p>@sensorID1</p>
+                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorID1" style="cursor:pointer;" />
                         }
                     </div>
                     <p>current plant: @current1plant</p>
@@ -220,8 +236,23 @@
                         }
                         else
                         {
-                            <h3>@sensorName2</h3>
+                            <h3>Sensor name 2: </h3>
+                            <h3 style="margin: 0 0 0 10px;">@sensorName2</h3>
                             <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName2" style="cursor:pointer;" />
+                        }
+                    </div>
+                    <div class="d-flex">
+                        @if (isEditingSensorID2)
+                        {
+                            <input type="text" @bind="sensorID2" class="form-control" />
+                            <button class="btn btn-success" @onclick="PutSensorID">Save</button>
+                            <button class="btn btn-secondary" @onclick="CancelEditSensorID2">Cancel</button>
+                        }
+                        else
+                        {
+                            <p>Enter Sensor id 2: </p>
+                            <p>@sensorID2</p>
+                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorID2" style="cursor:pointer;" />
                         }
                     </div>
                     <p>current plant: @current2plant</p>
@@ -345,11 +376,17 @@
     private int selectedEditPlantId = 0;
     private string sensorName1 = "";
     private string sensorName2 = "";
+    private int sensorID1;
+    private int sensorID2;
     private bool isEditingSensorName1 = false;
     private bool isEditingSensorName2 = false;
+    private bool isEditingSensorID1 = false;
+    private bool isEditingSensorID2 = false;
     private int settingsId; // Store settings ID
     private string? originalSensorName1; // To store the original value
     private string? originalSensorName2; // To store the original value
+    private int originalSensorID1;
+    private int originalSensorID2;
     private string? current1plant;
     private string? current2plant;
 
@@ -406,6 +443,28 @@
     {
         isEditingSensorName1 = false;
         sensorName1 = originalSensorName1; // Revert to the original value
+    }
+
+    private void EditSensorID1()
+    {
+        isEditingSensorID1 = true;
+    }
+
+    private void CancelEditSensorID1()
+    {
+        isEditingSensorID1 = false;
+        sensorID1 = originalSensorID1; // Revert to the original value
+    }
+
+    private void EditSensorID2()
+    {
+        isEditingSensorID2 = true;
+    }
+
+    private void CancelEditSensorID2()
+    {
+        isEditingSensorID2 = false;
+        sensorID2 = originalSensorID2; // Revert to the original value
     }
 }
 

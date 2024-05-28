@@ -129,7 +129,7 @@ namespace BlazorApp.Components.Layout
                         Console.WriteLine("Deserialized Id: " + user.Id); // Debug: Log the deserialized Id
 
                         AccountSession.UserSession = user;
-
+               
                         Navigation.NavigateTo("/signup");
                         Navigation.NavigateTo("/");
 

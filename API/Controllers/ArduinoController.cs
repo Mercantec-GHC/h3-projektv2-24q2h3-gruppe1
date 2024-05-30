@@ -1,4 +1,4 @@
-﻿using API.Data;
+using API.Data;
 using API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +26,7 @@ namespace API.Controllers
 
 		// ---------------- Plant Credentials ------------------ //
 
-		[HttpPost]
+		[HttpPost("createArduino")]
 		public async Task<ActionResult<Arduino>> PostPlant(CreateArduino arduino)
 		{
 			Arduino arduinoCreate = new Arduino

@@ -19,8 +19,7 @@ namespace API.Data
         }
 
         public DbSet<API.Models.PlantOverview> PlantOverviews { get; set; }
-        public DbSet<API.Models.PlantSensor> PlantSensor { get; set; } = default!;
-        public DbSet<API.Models.Sensor> Sensor { get; set; } = default!;
+        public DbSet<API.Models.Arduino> Arduinos { get; set; } = default!;
         public DbSet<API.Models.User> Users { get; set; } = default!;
         public DbSet<API.Models.Plant> Plants { get; set; } = default!;
         public DbSet<API.Models.Setting> Setting { get; set; } = default!;

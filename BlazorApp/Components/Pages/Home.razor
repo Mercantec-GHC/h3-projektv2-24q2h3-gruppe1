@@ -188,20 +188,7 @@
                         }
                     </div>
 
-                    <div class="d-flex">
-                        @if (isEditingSensorID1)
-                        {
-                            <input type="text" @bind="sensorID1" class="form-control" />
-                            <button class="btn btn-success" @onclick="PutSensorID">Save</button>
-                            <button class="btn btn-secondary" @onclick="CancelEditSensorID1">Cancel</button>
-                        }
-                        else
-                        {
-                            <p>Enter Sensor id 1: </p>
-                            <p>@sensorID1</p>
-                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorID1" style="cursor:pointer;" />
-                        }
-                    </div>
+                
                     <p>current plant: @current1plant</p>
                     <p>selected plant: @selectedPlant1</p>
 
@@ -241,20 +228,7 @@
                             <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName2" style="cursor:pointer;" />
                         }
                     </div>
-                    <div class="d-flex">
-                        @if (isEditingSensorID2)
-                        {
-                            <input type="text" @bind="sensorID2" class="form-control" />
-                            <button class="btn btn-success" @onclick="PutSensorID">Save</button>
-                            <button class="btn btn-secondary" @onclick="CancelEditSensorID2">Cancel</button>
-                        }
-                        else
-                        {
-                            <p>Enter Sensor id 2: </p>
-                            <p>@sensorID2</p>
-                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorID2" style="cursor:pointer;" />
-                        }
-                    </div>
+                
                     <p>current plant: @current2plant</p>
                     <p>selected plant: @selectedPlant2</p>
 
@@ -396,12 +370,12 @@
         await GetListOfSettings();
     }
 
-    private void SelectedSensorName1(PutSettings name)
+    private void SelectedSensorName1(PutSensorName name)
     {
         sensorName1 = name.Sensor1Name;
     }
 
-    private void SelectedSensorName2(PutSettings name)
+    private void SelectedSensorName2(PutSensorName name)
     {
         sensorName2 = name.Sensor2Name;
     }

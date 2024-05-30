@@ -59,50 +59,7 @@ namespace API.Controllers
             return settings;
         }
 
-        // PUT: api/PlantOverviews/id
-        [HttpPut("sensorname/{id}")]
-        public async Task<IActionResult> PutSettingsOverview(int id, PutSettings settings)
-        {
-            if (settings == null)
-            {
-                return BadRequest("Settings data is null.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingSettings = await _context.Setting.FindAsync(id);
-            if (existingSettings == null)
-            {
-                return NotFound();
-            }
-
-            // Update properties
-            existingSettings.Sensor1Name = settings.Sensor1Name;
-            existingSettings.Sensor2Name = settings.Sensor2Name;
-
-            _context.Entry(existingSettings).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SettingExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+ 
 
         [HttpPut("mode/{id}")]
         public async Task<IActionResult> PutSettingsModeOverview(int id, PutMode mode)
@@ -188,49 +145,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPut("sensorid/{id}")]
-        public async Task<IActionResult> PutSettingsSensorIDOverview(int id, PutSensorID sensorID)
-        {
-            if (sensorID == null)
-            {
-                return BadRequest("Plants data is null.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingSettingsSensorID = await _context.Setting.FindAsync(id);
-            if (existingSettingsSensorID == null)
-            {
-                return NotFound();
-            }
-
-            // Update properties
-            existingSettingsSensorID.SensorID1 = sensorID.SensorID1;
-            existingSettingsSensorID.SensorID2 = sensorID.SensorID2;
-
-            _context.Entry(existingSettingsSensorID).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SettingExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+   
 
         // DELETE: api/PlantOverviews/id
         [HttpDelete("{id}")]

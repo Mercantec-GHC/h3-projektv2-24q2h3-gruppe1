@@ -22,6 +22,47 @@ namespace API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("API.Models.Arduino", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasAnnotation("Relational:JsonPropertyName", "createdAt");
+
+                    b.Property<string>("Sensor1Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sensor2Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SensorId1")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SensorId2")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasAnnotation("Relational:JsonPropertyName", "updatedAt");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Arduinos");
+                });
+
             modelBuilder.Entity("API.Models.Plant", b =>
                 {
                     b.Property<int>("Id")
@@ -70,12 +111,6 @@ namespace API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasAnnotation("Relational:JsonPropertyName", "createdAt");
 
-                    b.Property<int>("MaxWaterLevel")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MinWaterLevel")
-                        .HasColumnType("integer");
-
                     b.Property<int>("MoistureLevel")
                         .HasColumnType("integer");
 
@@ -92,69 +127,6 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PlantOverviews");
-                });
-
-            modelBuilder.Entity("API.Models.PlantSensor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasAnnotation("Relational:JsonPropertyName", "createdAt");
-
-                    b.Property<int>("Plant_idId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Sensor_idId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasAnnotation("Relational:JsonPropertyName", "updatedAt");
-
-                    b.Property<int>("User_idId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Plant_idId");
-
-                    b.HasIndex("Sensor_idId");
-
-                    b.HasIndex("User_idId");
-
-                    b.ToTable("PlantSensor");
-                });
-
-            modelBuilder.Entity("API.Models.Sensor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasAnnotation("Relational:JsonPropertyName", "createdAt");
-
-                    b.Property<string>("SensortName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasAnnotation("Relational:JsonPropertyName", "updatedAt");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sensor");
                 });
 
             modelBuilder.Entity("API.Models.Setting", b =>
@@ -245,33 +217,6 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("API.Models.PlantSensor", b =>
-                {
-                    b.HasOne("API.Models.Plant", "Plant_id")
-                        .WithMany()
-                        .HasForeignKey("Plant_idId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Models.Sensor", "Sensor_id")
-                        .WithMany()
-                        .HasForeignKey("Sensor_idId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Models.User", "User_id")
-                        .WithMany()
-                        .HasForeignKey("User_idId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Plant_id");
-
-                    b.Navigation("Sensor_id");
-
-                    b.Navigation("User_id");
                 });
 #pragma warning restore 612, 618
         }

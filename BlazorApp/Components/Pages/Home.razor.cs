@@ -26,16 +26,17 @@ namespace BlazorApp.Components.Pages
         public List<Plant>? Useronlyplants;
 
         public List<Setting>? settingList;
+        public List<Arduino>? arduinoList;
 
         public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
 
         public Plant plantProfile = new Plant();
         public Plant createPlantProfile = new Plant();
-        public PutSettings settings = new PutSettings();
+        public PutSensorName settings = new PutSensorName();
         public PutMode mode = new PutMode();
         public PutSeletedPlants selectedPlants = new PutSeletedPlants();
-        public PutSensorID sensorIDs = new PutSensorID();
+ 
 
         public bool IsAutoChecked = true;
         public bool IsManualChecked = false;
@@ -210,22 +211,20 @@ namespace BlazorApp.Components.Pages
                 {
                     settingList = await client.GetFromJsonAsync<List<Setting>>("api/Settings");
                     var filteredUserOnlySettings = settingList.Where(userOnlySettings => userOnlySettings.UserId == AccountSession.UserSession.Id).ToList();
+                    var filteredUserOnlyarduino = arduinoList.Where(userOnlySettings => userOnlySettings.UserId == AccountSession.UserSession.Id).ToList();
 
                     if (filteredUserOnlySettings.Any())
                     {
                         var userSettings = filteredUserOnlySettings[0];
                         settingsId = userSettings.Id; // Save the settings ID
-                        sensorName1 = filteredUserOnlySettings[0].Sensor1Name;
-                        sensorName2 = filteredUserOnlySettings[0].Sensor2Name;
+                        sensorName1 = filteredUserOnlyarduino[0].Sensor1Name;
+                        sensorName2 = filteredUserOnlyarduino[0].Sensor2Name;
                         mode.AutoMode = filteredUserOnlySettings[0].AutoMode;
                         current1plant = filteredUserOnlySettings[0].SelectedPlant1;
                         current2plant = filteredUserOnlySettings[0].SelectedPlant2;
-                        originalSensorName1 = filteredUserOnlySettings[0].Sensor1Name;
-                        originalSensorName2 = filteredUserOnlySettings[0].Sensor2Name;
-                        originalSensorID1 = filteredUserOnlySettings[0].SensorID1;
-                        originalSensorID2 = filteredUserOnlySettings[0].SensorID2;
-                        sensorID1 = filteredUserOnlySettings[0].SensorID1;
-                        sensorID2 = filteredUserOnlySettings[0].SensorID2;
+                        originalSensorName1 = filteredUserOnlyarduino[0].Sensor1Name;
+                        originalSensorName2 = filteredUserOnlyarduino[0].Sensor2Name;
+             
                     }
 
                 }
@@ -326,28 +325,7 @@ namespace BlazorApp.Components.Pages
 
         }
 
-        public async Task PutSensorID()
-        {
-            sensorIDs.SensorID1 = sensorID1;
-            sensorIDs.SensorID2 = sensorID2;
-            string json = System.Text.Json.JsonSerializer.Serialize(sensorIDs);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PutAsync($"api/settings/sensorID/{settingsId}", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                await GetListOfSettings();
-                message = "Updated name";
-                isEditingSensorID2 = false;
-                isEditingSensorID1 = false;
-            }
-            else
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
-                errorMessage = errorResponse?.Detail ?? "An error occurred while saving sensorID.";
-            }
-        }
+   
         // --------------------------- Sensor --------------------------- //
         public async Task SetupSensor()
         {

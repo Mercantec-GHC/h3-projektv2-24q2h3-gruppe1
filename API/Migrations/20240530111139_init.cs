@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class updated : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,12 +74,8 @@ namespace API.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     AutoMode = table.Column<bool>(type: "boolean", nullable: false),
-                    Sensor1Name = table.Column<string>(type: "text", nullable: false),
-                    Sensor2Name = table.Column<string>(type: "text", nullable: false),
                     SelectedPlant1 = table.Column<string>(type: "text", nullable: true),
                     SelectedPlant2 = table.Column<string>(type: "text", nullable: true),
-                    SensorID1 = table.Column<int>(type: "integer", nullable: false),
-                    SensorID2 = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240530075640_updated")]
-    partial class updated
+    [Migration("20240530111139_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,20 +153,6 @@ namespace API.Migrations
 
                     b.Property<string>("SelectedPlant2")
                         .HasColumnType("text");
-
-                    b.Property<string>("Sensor1Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Sensor2Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("SensorID1")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SensorID2")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")

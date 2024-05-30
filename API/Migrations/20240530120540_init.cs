@@ -20,8 +20,8 @@ namespace API.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Sensor1Name = table.Column<string>(type: "text", nullable: false),
                     Sensor2Name = table.Column<string>(type: "text", nullable: false),
-                    SensorId1 = table.Column<string>(type: "text", nullable: false),
-                    SensorId2 = table.Column<string>(type: "text", nullable: false),
+                    SensorId1 = table.Column<int>(type: "integer", nullable: false),
+                    SensorId2 = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -40,6 +40,7 @@ namespace API.Migrations
                     PlantNameId = table.Column<int>(type: "integer", nullable: false),
                     MoistureLevel = table.Column<int>(type: "integer", nullable: false),
                     sensorId = table.Column<int>(type: "integer", nullable: false),
+                    ArduinoId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

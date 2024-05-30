@@ -8,6 +8,7 @@ namespace API.Models
         public int MoistureLevel { get; set; }
 
 		public int sensorId { get; set; }
+        public int ArduinoId { get; set; }
 
 	}
 }

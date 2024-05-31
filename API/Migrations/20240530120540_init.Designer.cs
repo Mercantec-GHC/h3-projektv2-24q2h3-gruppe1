@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240530111139_init")]
+    [Migration("20240530120540_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -46,13 +46,11 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("SensorId1")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("SensorId1")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("SensorId2")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("SensorId2")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -109,6 +107,9 @@ namespace API.Migrations
                         .HasAnnotation("Relational:JsonPropertyName", "id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArduinoId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

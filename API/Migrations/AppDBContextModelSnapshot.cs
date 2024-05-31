@@ -43,13 +43,11 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("SensorId1")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("SensorId1")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("SensorId2")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("SensorId2")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -106,6 +104,9 @@ namespace API.Migrations
                         .HasAnnotation("Relational:JsonPropertyName", "id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArduinoId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

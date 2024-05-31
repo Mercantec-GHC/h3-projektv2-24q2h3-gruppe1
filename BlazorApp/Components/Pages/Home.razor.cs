@@ -210,6 +210,7 @@ namespace BlazorApp.Components.Pages
                 if (AccountSession.UserSession != null)
                 {
                     settingList = await client.GetFromJsonAsync<List<Setting>>("api/Settings");
+                    arduinoList = await client.GetFromJsonAsync<List<Arduino>>("api/arduino");
                     var filteredUserOnlySettings = settingList.Where(userOnlySettings => userOnlySettings.UserId == AccountSession.UserSession.Id).ToList();
                     var filteredUserOnlyarduino = arduinoList.Where(userOnlySettings => userOnlySettings.UserId == AccountSession.UserSession.Id).ToList();
 
@@ -243,7 +244,7 @@ namespace BlazorApp.Components.Pages
             //make put request
             string json = System.Text.Json.JsonSerializer.Serialize(settings);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PutAsync($"api/settings/sensorname/{settingsId}", content);
+            var response = await client.PutAsync($"api/arduino/sensorname/{settingsId}", content);
 
             if (response.IsSuccessStatusCode)
             {

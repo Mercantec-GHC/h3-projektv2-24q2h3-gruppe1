@@ -22,4 +22,9 @@
 		public string Sensor1Name { get; set; }
 		public string Sensor2Name { get; set; }
 	}
+	public class AddUserToArduino
+	{
+		public int UserId { get; set; }
+
+	}
 }

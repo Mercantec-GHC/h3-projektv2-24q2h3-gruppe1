@@ -104,6 +104,50 @@ namespace API.Controllers
 			return NoContent();
 		}
 
+		// PUT: api/PlantOverviews/id
+		[HttpPut("adduserarduino/{id}")]
+		public async Task<IActionResult> PutUserIdOverview(int id, AddUserToArduino settings)
+		{
+			if (settings == null)
+			{
+				return BadRequest("User data is null.");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var existingSettings = await _context.Arduinos.FindAsync(id);
+			if (existingSettings == null)
+			{
+				return NotFound();
+			}
+
+			// Update properties
+			existingSettings.UserId = settings.UserId;
+
+			_context.Entry(existingSettings).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!arduinoExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
+		}
+
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeletePlant(int id)

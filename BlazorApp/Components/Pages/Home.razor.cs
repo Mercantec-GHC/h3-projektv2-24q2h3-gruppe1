@@ -21,7 +21,7 @@ namespace BlazorApp.Components.Pages
 
         bool usernameCheck = false;
         bool passwordCheck = false;
-
+        int arduinoId;
         public List<Plant>? plants;
         public List<Plant>? Useronlyplants;
 
@@ -30,6 +30,7 @@ namespace BlazorApp.Components.Pages
 
         public UserSignUpRequest userSignup = new UserSignUpRequest();
         public User userProfile = new User();
+        public AddUserToArduino addUserArduino = new AddUserToArduino();
 
         public Plant plantProfile = new Plant();
         public Plant createPlantProfile = new Plant();
@@ -280,7 +281,25 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        public async Task PutSelectedPlants()
+		public async Task PutAddUser()
+		{
+			string json = System.Text.Json.JsonSerializer.Serialize(addUserArduino);
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			var response = await client.PutAsync($"api/arduino/adduserarduino/{arduinoId}", content);
+
+			if (response.IsSuccessStatusCode)
+			{
+				message = "Updated name";
+				await JS.InvokeVoidAsync("closeModal", "myModalSettings");
+			}
+			else
+			{
+				var responseContent = await response.Content.ReadAsStringAsync();
+				var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ProblemDetails>(responseContent);
+				errorMessage = errorResponse?.Detail ?? "An error occurred while saving mode.";
+			}
+		}
+		public async Task PutSelectedPlants()
         {
 
             if (!string.IsNullOrWhiteSpace(selectedPlant1) || !string.IsNullOrWhiteSpace(selectedPlant2))

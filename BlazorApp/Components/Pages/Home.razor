@@ -281,7 +281,20 @@
                     <div class="modal-header">
                         <h5 class="modal-title">Arduino Settings</h5>
                     </div>
-
+                    <div class="d-flex">
+                        @if (isEditingarduino)
+                        {
+                            <input type="text" @bind="arduinoId" class="form-control" />
+                            <button class="btn btn-success" @onclick="PutAddUser">Save</button>
+                            <button class="btn btn-secondary" @onclick="CancelEditarduino">Cancel</button>
+                        }
+                        else
+                        {
+                            <h3>Arduino id: </h3>
+                            <h3 style="margin: 0 0 0 10px;">@arduinoId</h3>
+                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="Editarduino" style="cursor:pointer;" />
+                        }
+                    </div>
                     <div class="d-flex justify-content-center text-center">
                         <div class="w-100 ">
                             <p>Auto</p>
@@ -356,6 +369,8 @@
     private bool isEditingSensorName2 = false;
     private bool isEditingSensorID1 = false;
     private bool isEditingSensorID2 = false;
+    private bool isEditingarduino = false;
+
     private int settingsId; // Store settings ID
     private string? originalSensorName1; // To store the original value
     private string? originalSensorName2; // To store the original value
@@ -439,6 +454,16 @@
     {
         isEditingSensorID2 = false;
         sensorID2 = originalSensorID2; // Revert to the original value
+    }
+    private void Editarduino()
+    {
+        isEditingarduino = true;
+    }
+
+    private void CancelEditarduino()
+    {
+        isEditingarduino = false;
+       // sensorID2 = originalSensorID2; // Revert to the original value
     }
 }
 

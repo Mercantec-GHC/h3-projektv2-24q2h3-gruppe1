@@ -283,7 +283,9 @@ namespace BlazorApp.Components.Pages
 
 		public async Task PutAddUser()
 		{
-			string json = System.Text.Json.JsonSerializer.Serialize(addUserArduino);
+            addUserArduino.UserId = AccountSession.UserSession.Id;
+
+            string json = System.Text.Json.JsonSerializer.Serialize(addUserArduino);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			var response = await client.PutAsync($"api/arduino/adduserarduino/{arduinoId}", content);
 

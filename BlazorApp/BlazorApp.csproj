@@ -7,7 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\pdf.js-master\**" />
+    <Content Remove="wwwroot\pdf.js-master\**" />
+    <EmbeddedResource Remove="wwwroot\pdf.js-master\**" />
+    <None Remove="wwwroot\pdf.js-master\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\files\CaseBeskrivelseH3.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\bootstrap\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -14,8 +14,7 @@ char pass[] = "Merc1234";
 
 const int serverPort = 443; // Use port 443 for HTTPS
 const char* endpoint = "/api/PlantOverviews";
-const char* settingEndpoint = "/api/Settings";
-const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-sqve.onrender.com";
+const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-rolc.onrender.com";
 
 WiFiSSLClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);
@@ -27,7 +26,7 @@ String modePrint = "";
 bool autoUpdate = false;     // Flag to control automatic update
 const int moisturePin = A6;  // Change this if needed
 const int moisturePin2 = A5; // Change this if needed
-const long interval = 60000; // Interval at which to update (10 seconds)
+const long interval = 60000; // Interval at which to update (1 minut)
 bool showNotification = false;
 unsigned long previousMillis = 0; // Store last update time
 
@@ -41,8 +40,9 @@ int moistureValue2 = analogRead(moisturePin2);
 int percentageHumididySensor;
 int percentageHumididySensor2;
 
-// SQL update statement
-String httpRequestData = "query=UPDATE Settings SET AutoMode=" + String(autoMode) + " WHERE userId=0";
+// Retrieving Arduino's unique ID
+int uniqueArduinoID = 1;
+int enteredArduinoID = 0;
 
 // -------------------------------------------------------------- //
 
@@ -56,12 +56,14 @@ void setup() {
     // myServo2.attach(9); // Attaching the motor to pin 9
 
     connectToWiFi();
+    sendGetRequestArduinoID();
     Serial.println("Setup complete");
 }
 
 // -------------------------------------------------------------- //
 
 void loop() {
+  if(uniqueArduinoID == enteredArduinoID) {
     handleButtons();
 
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
@@ -96,6 +98,7 @@ void loop() {
    
 
     delay(10); // Short delay for button responsiveness
+  }
 }
 
 // -------------------------------------------------------------- //
@@ -246,6 +249,43 @@ void sendGetRequest() {
     float maxWaterLevel = doc["maxWaterLevel"];
     delay(10000);
 }
+
+void sendGetRequestArduinoID() {
+    // Make the HTTP GET request
+    const char* arduinosEndpoint = "h3-projektv2-24q2h3-gruppe1-rolc.onrender.com/api/Arduino";
+    client.get(arduinosEndpoint);
+
+    // Wait for the server's response
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+
+    // Print the response
+    Serial.println(statusCode);
+    Serial.print("Response: ");
+    Serial.println(response);
+
+    // Check if the response is OK
+   if (statusCode == 200) { // Status code 200 indicates success
+        // Parse the JSON response
+        DynamicJsonDocument doc(1024);
+        DeserializationError error = deserializeJson(doc, response);
+
+        if (!error) {
+            int enteredArduinoID = doc["userId"];
+        } else {
+            Serial.print("deserializeJson() failed: ");
+            Serial.println(error.c_str());
+        }
+    } else {
+        Serial.print("Error on HTTP request: ");
+        Serial.println(statusCode);
+    }
+
+    // Small delay to avoid spamming the server
+    delay(10);
+}
+
+
 
 void sendPutSettingRequest(bool mode) {
   DynamicJsonDocument doc(1024);

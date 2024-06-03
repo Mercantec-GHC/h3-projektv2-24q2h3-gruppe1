@@ -7,8 +7,7 @@ namespace API.Models
 		public int SensorId1 { get; set; } = 1;
 		public int SensorId2 { get; set; } = 2;
 		public int UserId { get; set; }
-
-	}
+    }
 
 	public class PutSensorName
 	{

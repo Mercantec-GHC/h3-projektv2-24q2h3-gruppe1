@@ -59,8 +59,8 @@ namespace API.Controllers
 			return arduino;
 		}
 
-		// PUT: api/PlantOverviews/id
-		[HttpPut("sensorname/{id}")]
+        // PUT: api/PlantOverviews/id
+        [HttpPut("sensorname/{id}")]
 		public async Task<IActionResult> PutSettingsOverview(int id, PutSensorName settings)
 		{
 			if (settings == null)

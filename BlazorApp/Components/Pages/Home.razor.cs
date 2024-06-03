@@ -21,7 +21,7 @@ namespace BlazorApp.Components.Pages
 
         bool usernameCheck = false;
         bool passwordCheck = false;
-        int arduinoId;
+     
         public List<Plant>? plants;
         public List<Plant>? Useronlyplants;
 
@@ -226,7 +226,8 @@ namespace BlazorApp.Components.Pages
                         current2plant = filteredUserOnlySettings[0].SelectedPlant2;
                         originalSensorName1 = filteredUserOnlyarduino[0].Sensor1Name;
                         originalSensorName2 = filteredUserOnlyarduino[0].Sensor2Name;
-             
+                        arduinoID = filteredUserOnlyarduino[0].Id;
+
                     }
 
                 }
@@ -245,7 +246,7 @@ namespace BlazorApp.Components.Pages
             //make put request
             string json = System.Text.Json.JsonSerializer.Serialize(settings);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PutAsync($"api/arduino/sensorname/{settingsId}", content);
+            var response = await client.PutAsync($"api/arduino/sensorname/{arduinoID}", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -287,7 +288,7 @@ namespace BlazorApp.Components.Pages
 
             string json = System.Text.Json.JsonSerializer.Serialize(addUserArduino);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			var response = await client.PutAsync($"api/arduino/adduserarduino/{arduinoId}", content);
+			var response = await client.PutAsync($"api/arduino/adduserarduino/{arduinoID}", content);
 
 			if (response.IsSuccessStatusCode)
 			{

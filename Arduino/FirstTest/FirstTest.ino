@@ -57,6 +57,7 @@ void setup() {
 
     connectToWiFi();
     sendGetRequestArduinoID();
+
     Serial.println("Setup complete");
 }
 
@@ -226,7 +227,8 @@ void sendPostRequest(int moisturePercentage, const char* sensorName, const char*
 
     int statusCode = client.responseStatusCode();
     String response = client.responseBody();
-//makes a json object
+    
+    //makes a json object
     float minWaterLevel = doc["minWaterLevel"];
     float maxWaterLevel = doc["maxWaterLevel"];
     Serial.print("HTTP Response Code: ");
@@ -243,7 +245,8 @@ void sendGetRequest() {
     Serial.println(statusCode);
     Serial.print("Response: ");
     Serial.println(response);
-//makes a json object
+
+    //makes a json object
     DynamicJsonDocument doc(1024);
     float minWaterLevel = doc["minWaterLevel"];
     float maxWaterLevel = doc["maxWaterLevel"];
@@ -251,9 +254,13 @@ void sendGetRequest() {
 }
 
 void sendGetRequestArduinoID() {
+
     // Make the HTTP GET request
-    const char* arduinosEndpoint = "h3-projektv2-24q2h3-gruppe1-rolc.onrender.com/api/Arduino";
+    String arduinosEndpoint = "/api/Arduino";
+    client.beginRequest();
     client.get(arduinosEndpoint);
+    client.sendHeader(HTTP_HEADER_CONNECTION, "close");
+    client.endRequest();
 
     // Wait for the server's response
     int statusCode = client.responseStatusCode();
@@ -265,7 +272,7 @@ void sendGetRequestArduinoID() {
     Serial.println(response);
 
     // Check if the response is OK
-   if (statusCode == 200) { // Status code 200 indicates success
+    if (statusCode == 200) { // Status code 200 indicates success
         // Parse the JSON response
         DynamicJsonDocument doc(1024);
         DeserializationError error = deserializeJson(doc, response);
@@ -288,7 +295,7 @@ void sendGetRequestArduinoID() {
 
 
 void sendPutSettingRequest(bool mode) {
-  DynamicJsonDocument doc(1024);
+    DynamicJsonDocument doc(1024);
     doc["AutoMode"] = mode;
  
     String payload;

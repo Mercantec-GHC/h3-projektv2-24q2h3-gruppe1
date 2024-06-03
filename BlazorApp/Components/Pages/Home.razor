@@ -214,6 +214,8 @@
 
                     </div>
 
+                    <hr />
+
                     <div class="d-flex">
                         @if (isEditingSensorName2)
                         {
@@ -284,14 +286,14 @@
                     <div class="d-flex">
                         @if (isEditingarduino)
                         {
-                            <input type="text" @bind="arduinoId" class="form-control" />
+                            <input type="text" @bind="arduinoID" class="form-control" />
                             <button class="btn btn-success" @onclick="PutAddUser">Save</button>
                             <button class="btn btn-secondary" @onclick="CancelEditarduino">Cancel</button>
                         }
                         else
                         {
                             <h3>Arduino id: </h3>
-                            <h3 style="margin: 0 0 0 10px;">@arduinoId</h3>
+                            <h3 style="margin: 0 0 0 10px;">@arduinoID</h3>
                             <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="Editarduino" style="cursor:pointer;" />
                         }
                     </div>
@@ -378,6 +380,7 @@
     private int originalSensorID2;
     private string? current1plant;
     private string? current2plant;
+    private int arduinoID;
 
     protected override async Task OnInitializedAsync()
     {

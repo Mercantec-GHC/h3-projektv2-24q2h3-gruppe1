@@ -1,4 +1,4 @@
-﻿@model API.Models.PlantOverview
+@model API.Models.PlantOverview
 
 @{
     ViewData["Title"] = "Details";
@@ -11,10 +11,10 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PlantNameId)
+            @Html.DisplayNameFor(model => model.PlantName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PlantNameId)
+            @Html.DisplayFor(model => model.PlantName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MoistureLevel)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<API.Models.PlantOverview>
+@model IEnumerable<API.Models.PlantOverview>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PlantNameId)
+                @Html.DisplayNameFor(model => model.PlantName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MoistureLevel)
@@ -35,7 +35,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PlantNameId)
+                @Html.DisplayFor(modelItem => item.PlantName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MoistureLevel)

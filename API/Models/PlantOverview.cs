@@ -4,7 +4,7 @@ namespace API.Models
 {
     public class PlantOverview :Common
     {
-        public int PlantNameId { get; set; }
+        public string PlantName { get; set; }
         public int MoistureLevel { get; set; }
 
 		public int sensorId { get; set; }

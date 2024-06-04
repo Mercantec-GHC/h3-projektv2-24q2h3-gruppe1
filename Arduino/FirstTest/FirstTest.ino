@@ -42,7 +42,9 @@ int percentageHumididySensor2;
 
 // Retrieving Arduino's unique ID
 int uniqueArduinoID = 1;
-int enteredArduinoID = 0;
+int userID = 0;
+const char* selectedPlant1Adrduino = "";
+const char* selectedPlant2Adrduino = "";
 
 // -------------------------------------------------------------- //
 
@@ -64,9 +66,8 @@ void setup() {
 // -------------------------------------------------------------- //
 
 void loop() {
-  if(uniqueArduinoID == enteredArduinoID) {
+  if(userID != 0) {
     handleButtons();
-
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
     percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
 
@@ -86,17 +87,11 @@ void loop() {
     if (autoUpdate && displayOn && currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis; // Save the last update time
         displayMoisture();
+        sendGetRequestArduinoPlants();
         sendPutSettingRequest(autoMode);
-        sendPostRequest(percentageHumididySensor, "s1", "sol");
-        sendPostRequest(percentageHumididySensor2, "s2", "sne");
+        sendPostRequest(percentageHumididySensor, 1, selectedPlant1Adrduino, uniqueArduinoID);
+        sendPostRequest(percentageHumididySensor2, 2, selectedPlant2Adrduino, uniqueArduinoID);
     }
-
-    // if (currentMillis - lastPostTime >= postInterval) {
-    //     lastPostTime = currentMillis;
-    //    
-    // }
-
-   
 
     delay(10); // Short delay for button responsiveness
   }
@@ -208,12 +203,13 @@ void connectToWiFi() {
 
 // -------------------------------------------------------------- //
 
-void sendPostRequest(int moisturePercentage, const char* sensorName, const char* plantName) {
+void sendPostRequest(int moisturePercentage, int sensorID, const char* plantName, int arduinoId) {
     DynamicJsonDocument doc(1024);
     doc["moistureLevel"] = moisturePercentage;
-    doc["SensorName"] = sensorName;
+    doc["SensorId1"] = sensorID;
+    doc["SensorId2"] = sensorID;
     doc["PlantName"] = plantName;
-
+  doc["ArduinoId"] = arduinoId;
     String payload;
     serializeJson(doc, payload);
 
@@ -238,27 +234,13 @@ void sendPostRequest(int moisturePercentage, const char* sensorName, const char*
     delay(10);
 }
 
-void sendGetRequest() {
-    int statusCode = client.responseStatusCode();
-    String response = client.responseBody();
-
-    Serial.println(statusCode);
-    Serial.print("Response: ");
-    Serial.println(response);
-
-    //makes a json object
-    DynamicJsonDocument doc(1024);
-    float minWaterLevel = doc["minWaterLevel"];
-    float maxWaterLevel = doc["maxWaterLevel"];
-    delay(10000);
-}
-
 void sendGetRequestArduinoID() {
 
     // Make the HTTP GET request
-    String arduinosEndpoint = "/api/Arduino";
+    String arduinosEndpoint = "/api/Arduino/";
+
     client.beginRequest();
-    client.get(arduinosEndpoint);
+    client.get(arduinosEndpoint + uniqueArduinoID);
     client.sendHeader(HTTP_HEADER_CONNECTION, "close");
     client.endRequest();
 
@@ -278,7 +260,7 @@ void sendGetRequestArduinoID() {
         DeserializationError error = deserializeJson(doc, response);
 
         if (!error) {
-            int enteredArduinoID = doc["userId"];
+            userID = doc["userId"];
         } else {
             Serial.print("deserializeJson() failed: ");
             Serial.println(error.c_str());
@@ -292,7 +274,46 @@ void sendGetRequestArduinoID() {
     delay(10);
 }
 
+void sendGetRequestArduinoPlants() {
 
+    // Make the HTTP GET request
+    String arduinosEndpoint = "/api/Settings/";
+
+    client.beginRequest();
+    client.get(arduinosEndpoint + userID);
+    client.sendHeader(HTTP_HEADER_CONNECTION, "close");
+    client.endRequest();
+
+    // Wait for the server's response
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+
+    // Print the response
+    Serial.println(statusCode);
+    Serial.print("Response: ");
+    Serial.println(response);
+
+    // Check if the response is OK
+    if (statusCode == 200) { // Status code 200 indicates success
+        // Parse the JSON response
+        DynamicJsonDocument doc(1024);
+        DeserializationError error = deserializeJson(doc, response);
+
+        if (!error) {
+            selectedPlant1Adrduino = doc["SelectedPlant1"];
+            selectedPlant2Adrduino = doc["SelectedPlant2"];
+        } else {
+            Serial.print("deserializeJson() failed: ");
+            Serial.println(error.c_str());
+        }
+    } else {
+        Serial.print("Error on HTTP request: ");
+        Serial.println(statusCode);
+    }
+
+    // Small delay to avoid spamming the server
+    delay(10);
+}
 
 void sendPutSettingRequest(bool mode) {
     DynamicJsonDocument doc(1024);

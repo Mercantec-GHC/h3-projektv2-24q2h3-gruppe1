@@ -14,7 +14,7 @@ char pass[] = "Merc1234";
 
 const int serverPort = 443; // Use port 443 for HTTPS
 const char* endpoint = "/api/PlantOverviews/postvalue";
-const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-rolc.onrender.com";
+const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-pjo3.onrender.com";
 
 WiFiSSLClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);

@@ -32,7 +32,7 @@ namespace BlazorApp.Components.Layout
       
         public UserPutRequest userProfile = new UserPutRequest();
         public Setting settings = new Setting();
-        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-rolc.onrender.com") };
+        private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-pjo3.onrender.com") };
 
         // Sign up user WIP (Work in progress)
         public async Task HandleSignUp()

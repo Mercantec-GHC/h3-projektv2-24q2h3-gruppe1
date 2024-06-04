@@ -13,14 +13,14 @@ char ssid[] = "H3Gruppe1";
 char pass[] = "Merc1234";
 
 const int serverPort = 443; // Use port 443 for HTTPS
-const char* endpoint = "/api/PlantOverviews";
+const char* endpoint = "/api/PlantOverviews/postvalue";
 const char* serverAddress = "h3-projektv2-24q2h3-gruppe1-rolc.onrender.com";
 
 WiFiSSLClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);
 
 // Define the pins connected to the moisture sensors
-bool autoMode = true;
+bool autoMode;
 bool displayOn = true;
 String modePrint = "";
 bool autoUpdate = false;     // Flag to control automatic update
@@ -43,8 +43,8 @@ int percentageHumididySensor2;
 // Retrieving Arduino's unique ID
 int uniqueArduinoID = 1;
 int userID = 0;
-const char* selectedPlant1Adrduino = "";
-const char* selectedPlant2Adrduino = "";
+String selectedPlant1Arduino;
+String selectedPlant2Arduino;
 
 // -------------------------------------------------------------- //
 
@@ -59,7 +59,8 @@ void setup() {
 
     connectToWiFi();
     sendGetRequestArduinoID();
-
+    sendGetRequestArduinoPlants();
+    
     Serial.println("Setup complete");
 }
 
@@ -88,12 +89,13 @@ void loop() {
         previousMillis = currentMillis; // Save the last update time
         displayMoisture();
         sendGetRequestArduinoPlants();
-        sendPutSettingRequest(autoMode);
-        sendPostRequest(percentageHumididySensor, 1, selectedPlant1Adrduino, uniqueArduinoID);
-        sendPostRequest(percentageHumididySensor2, 2, selectedPlant2Adrduino, uniqueArduinoID);
+       // sendPutSettingRequest(autoMode);
+  
+        sendPostRequest(percentageHumididySensor, 1, selectedPlant1Arduino, uniqueArduinoID);
+        sendPostRequest(percentageHumididySensor2, 2, selectedPlant2Arduino, uniqueArduinoID);
     }
 
-    delay(10); // Short delay for button responsiveness
+    delay(10); // Short delay for button responsivenes
   }
 }
 
@@ -207,8 +209,8 @@ void sendPostRequest(int moisturePercentage, int sensorID, String plantName, int
     DynamicJsonDocument doc(1024);
     doc["moistureLevel"] = moisturePercentage;
     doc["sensorId"] = sensorID;
-    doc["PlantName"] = plantName;
     doc["ArduinoId"] = arduinoId;
+    doc["PlantName"] = plantName;
     String payload;
     serializeJson(doc, payload);
 
@@ -223,9 +225,6 @@ void sendPostRequest(int moisturePercentage, int sensorID, String plantName, int
     int statusCode = client.responseStatusCode();
     String response = client.responseBody();
     
-    //makes a json object
-    float minWaterLevel = doc["minWaterLevel"];
-    float maxWaterLevel = doc["maxWaterLevel"];
     Serial.print("HTTP Response Code: ");
     Serial.println(statusCode);
     Serial.print("Response Body: ");
@@ -299,8 +298,9 @@ void sendGetRequestArduinoPlants() {
         DeserializationError error = deserializeJson(doc, response);
 
         if (!error) {
-            selectedPlant1Adrduino = doc["SelectedPlant1"];
-            selectedPlant2Adrduino = doc["SelectedPlant2"];
+          selectedPlant1Arduino = doc["selectedPlant1"].as<String>();
+          selectedPlant2Arduino = doc["selectedPlant2"].as<String>();
+            autoMode = doc["AutoMode"];
         } else {
             Serial.print("deserializeJson() failed: ");
             Serial.println(error.c_str());

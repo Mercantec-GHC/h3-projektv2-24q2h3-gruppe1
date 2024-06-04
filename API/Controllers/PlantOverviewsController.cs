@@ -49,6 +49,8 @@ namespace API.Controllers
                 sensorId = postValue.sensorId,
                 ArduinoId = postValue.ArduinoId,
                 PlantName = postValue.PlantName,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
             };
             _context.PlantOverviews.Add(plantOverview);
             await _context.SaveChangesAsync();

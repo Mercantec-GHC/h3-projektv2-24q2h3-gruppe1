@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models;
@@ -39,7 +39,22 @@ namespace API.Controllers
 
             return CreatedAtAction("GetPlantOverview", new { id = plantOverview.Id }, plantOverview);
         }
+        // POST: api/PlantOverviews
+        [HttpPost("postValue")]
+        public async Task<ActionResult<PlantOverview>> PostValue(PostMoistureValue postValue)
+        {
+            PlantOverview plantOverview = new PlantOverview()
+            {
+                MoistureLevel = postValue.MoistureLevel,
+                sensorId = postValue.sensorId,
+                ArduinoId = postValue.ArduinoId,
+                PlantName = postValue.PlantName,
+            };
+            _context.PlantOverviews.Add(plantOverview);
+            await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetPlantOverview", new { id = plantOverview.Id }, plantOverview);
+        }
         // ----------------------- ID -------------------------- //
 
         // GET: api/PlantOverviews/id

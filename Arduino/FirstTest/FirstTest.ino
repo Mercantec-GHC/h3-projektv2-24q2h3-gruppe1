@@ -203,13 +203,12 @@ void connectToWiFi() {
 
 // -------------------------------------------------------------- //
 
-void sendPostRequest(int moisturePercentage, int sensorID, const char* plantName, int arduinoId) {
+void sendPostRequest(int moisturePercentage, int sensorID, String plantName, int arduinoId) {
     DynamicJsonDocument doc(1024);
     doc["moistureLevel"] = moisturePercentage;
-    doc["SensorId1"] = sensorID;
-    doc["SensorId2"] = sensorID;
+    doc["sensorId"] = sensorID;
     doc["PlantName"] = plantName;
-  doc["ArduinoId"] = arduinoId;
+    doc["ArduinoId"] = arduinoId;
     String payload;
     serializeJson(doc, payload);
 

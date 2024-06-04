@@ -379,5 +379,36 @@ namespace BlazorApp.Components.Pages
             mode.AutoMode = !mode.AutoMode;
         }
 
+        // Dependency injection to use JavaScript runtime in Blazor
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
+
+        // Method called after the component has rendered
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender) // Check if this is the first time the component is rendering
+            {
+                // Invoke the JavaScript function to update chart visibility
+                await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
+                await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+            }
+        }
+
+        // Method to handle changes in the pie chart selection
+        private async Task OnPieChartSelectionChange(ChangeEventArgs e)
+        {
+            // Invoke the JavaScript function to update chart visibility based on selection
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
+        }
+
+        private async Task OnPlantSelectionChange(ChangeEventArgs e)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+        }
+
+        private async Task OnLineChartSelectionChange(ChangeEventArgs e)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+        }
     }
 }

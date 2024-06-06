@@ -36,6 +36,10 @@ const int wet = 0; // Value for wet sensor
 const int dry = 1023; // Value for dry sensor
 int moistureValue = analogRead(moisturePin);
 int moistureValue2 = analogRead(moisturePin2);
+int MinWaterLevelplant;
+int MaxWaterLevelplant;
+int MinWaterLevelplant2;
+int MaxWaterLevelplant2; 
 
 // Convert the measured values to a percentage with map()
 int percentageHumididySensor;
@@ -60,6 +64,8 @@ void setup() {
  
 
     connectToWiFi();
+                sendGetRequestmaxminPlants();
+
     sendGetRequestArduinoID();
     sendGetRequestArduinoPlants();
       //    myServo1.attach(8); // Attaching the motor to pin 8
@@ -74,7 +80,6 @@ void loop() {
     handleButtons();
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
     percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
-
     if ((moistureValue < 1000 || moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
         notification();
         showNotification = true; // Set the flag after showing notification
@@ -84,11 +89,11 @@ void loop() {
         showNotification = false; // Set the flag after showing notification
 
     }
-    if (moistureValue < 10 && modePrint == "Mode: auto") {
+    if (percentageHumididySensor < MinWaterLevelplant && modePrint == "Mode: auto") {
        turnOnMotor1();
 
     }
-     else if (moistureValue2 < 2 && modePrint == "Mode: auto") {
+     else if (percentageHumididySensor2 < MinWaterLevelplant2 && modePrint == "Mode: auto") {
        turnOnMotor2();
 
     }
@@ -97,9 +102,9 @@ void loop() {
     if (autoUpdate && displayOn && currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis; // Save the last update time
         displayMoisture();
+            sendGetRequestmaxminPlants();
         sendGetRequestArduinoPlants();
         sendPutSettingRequest(autoMode);
-        mode();
         sendPostRequest(percentageHumididySensor, 1, selectedPlant1Arduino, uniqueArduinoID);
         sendPostRequest(percentageHumididySensor2, 2, selectedPlant2Arduino, uniqueArduinoID);
     }
@@ -188,13 +193,13 @@ void notification() {
     carrier.display.setTextSize(2); // Set text size
     carrier.display.setTextColor(ST77XX_WHITE); // Set text color
     carrier.display.setCursor(10, 100); // Set position to start writing text
-    if(moistureValue < 1000 && moistureValue2 < 1000) {
+    if(moistureValue < MinWaterLevelplant && moistureValue2 < MinWaterLevelplant2) {
         carrier.display.print("Both plants are dying!");
     }
-    else if(moistureValue < 1000) {
+    else if(moistureValue < MinWaterLevelplant) {
         carrier.display.print("Plant 1 is dying!");
     }
-    else if(moistureValue2 < 1000) {
+    else if(moistureValue2 < MinWaterLevelplant2) {
         carrier.display.print("Plant 2 is dying!");
     }
     delay(10);
@@ -281,7 +286,63 @@ void sendGetRequestArduinoID() {
     // Small delay to avoid spamming the server
     delay(10);
 }
+void sendGetRequestmaxminPlants() {
+    // Make the HTTP GET request
+    String plantsEndpoint = "/api/Plants/";
 
+    client.beginRequest();
+    client.get(plantsEndpoint);
+    client.sendHeader(HTTP_HEADER_CONNECTION, "close");
+    client.endRequest();
+
+    // Wait for the server's response
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+
+    // Print the response
+    Serial.println(statusCode);
+    Serial.print("Response: ");
+    Serial.println(response);
+
+    // Check if the response is OK
+    if (statusCode == 200) { // Status code 200 indicates success
+        // Parse the JSON response
+        DynamicJsonDocument doc(1024);
+        DeserializationError error = deserializeJson(doc, response);
+
+        if (!error) {
+            JsonArray plants = doc.as<JsonArray>();
+
+            for (JsonObject plant : plants) {
+                int plantUserID = plant["userID"];
+                String plantID = plant["plantID"].as<String>();
+
+                if (plantUserID == userID) {
+                    if (plantID == selectedPlant1Arduino) {
+                        int minWaterLevel1 = plant["MinWaterLevel"];
+                        int maxWaterLevel1 = plant["MaxWaterLevel"];
+                        MinWaterLevelplant = minWaterLevel1;
+                        MaxWaterLevelplant = maxWaterLevel1;
+                    } else if (plantID == selectedPlant2Arduino) {
+                        int minWaterLevel2 = plant["MinWaterLevel"];
+                        int maxWaterLevel2 = plant["MaxWaterLevel"];
+                        MinWaterLevelplant2 = minWaterLevel2;
+                        MaxWaterLevelplant2 = maxWaterLevel2;
+                    }
+                }
+            }
+        } else {
+            Serial.print("deserializeJson() failed: ");
+            Serial.println(error.c_str());
+        }
+    } else {
+        Serial.print("Error on HTTP request: ");
+        Serial.println(statusCode);
+    }
+
+    // Small delay to avoid spamming the server
+    delay(10);
+}
 void sendGetRequestArduinoPlants() {
 
     // Make the HTTP GET request

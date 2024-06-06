@@ -1,0 +1,14 @@
+﻿@page "/UserManual"
+
+@using API;
+@using API.Models;
+@using BlazorApp.Containers;
+@using static Microsoft.EntityFrameworkCore.DbLoggerCategory
+
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@namespace BlazorApp.Components.Pages
+
+<div class="content">
+	<embed src="files/ÜserManual.pdf" id="pdf" />
+</div>

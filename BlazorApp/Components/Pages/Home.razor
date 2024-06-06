@@ -1,7 +1,6 @@
 @page "/"
 @using API;
 @using API.Models;
-@using BlazorApp.Pages;
 @using BlazorApp.Containers;
 @using System.Threading.Tasks;
 @using Syncfusion.Blazor.Charts;
@@ -23,8 +22,6 @@
 <script src="https://cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
 
 <PageTitle>Home</PageTitle>
-
-<h1>Home</h1>
 
 <div class="d-flex">
     <!-------------------------------- Create Plant ------------------------------->
@@ -323,55 +320,53 @@
         </div>
     }
 </div>
-@*  @if (AccountSession.UserSession != null)
-{ *@
-    <div class="d-flex m-4">
-        <!--------------------------------- Line Chart ------------------------------->
-        <div style="background-color: red;">
-            <div id="line-chart-container" class="linechart-container">
 
-                <select id="line-chart-plant-select" class="btn btn-primary buttonSelect" @onchange="OnPlantSelectionChange">
-                    <option value="plant1">Plant 1</option>
-                    <option value="plant2">Plant 2</option>
+<div class="d-flex mt-5">
+    <!--------------------------------- Line Chart ------------------------------->
+    <div>
+        <div id="line-chart-container" class="linechart-container">
 
-                </select>
+            <select id="line-chart-plant-select" class="btn btn-primary buttonSelect-line" @onchange="OnPlantSelectionChange">
+                <option value="plant1">Plant 1</option>
+                <option value="plant2">Plant 2</option>
+                <option value="plant3">Plant 3</option>
+            </select>
 
-                <select id="line-chart-select" class="btn btn-primary buttonSelect" @onchange="OnLineChartSelectionChange">
-                    <option value="chartdiv4">Week</option>
-                    <option value="chartdiv5">Month</option>
-                    <option value="chartdiv6">Year</option>
-                </select>
+            <select id="line-chart-select" class="btn btn-primary buttonSelect-line" @onchange="OnLineChartSelectionChange">
+                <option value="chartdiv4">Week</option>
+                <option value="chartdiv5">Month</option>
+                <option value="chartdiv6">Year</option>
+            </select>
 
-                <div id="chartdiv4" class="chartdiv" data-initialized="false" style="display: block;"></div>
-                <div id="chartdiv5" class="chartdiv" data-initialized="false"></div>
-                <div id="chartdiv6" class="chartdiv" data-initialized="false"></div>
+            <div id="chartdiv4" class="chartdiv" data-initialized="false" style="display: block;"></div>
+            <div id="chartdiv5" class="chartdiv" data-initialized="false"></div>
+            <div id="chartdiv6" class="chartdiv" data-initialized="false"></div>
 
-            </div>
-        </div>
-        <!---------------------------------- Pie Chart -------------------------------->
-
-        <div style="background-color: black;">
-            <div id="pie-chart-container" class="piechart-container">
-
-                <!-- The select button for the different plants -->
-                <select id="pie-chart-select" class="btn btn-primary buttonSelect" @onchange="OnPieChartSelectionChange">
-
-                    <!-- The different plants -->
-                    <option value="chartdiv1">Plant 1</option>
-                    <option value="chartdiv2">Plant 2</option>
-
-
-                </select>
-
-                <!-- This is used to make sure that only one chart is displayed at a time -->
-                <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
-                <div id="chartdiv2" class="chartdiv" data-initialized="false"></div>
-                <div id="chartdiv3" class="chartdiv" data-initialized="false"></div>
-
-            </div>
         </div>
     </div>
-@* } *@
+
+    <!---------------------------------- Pie Chart -------------------------------->
+    <div>
+        <div id="pie-chart-container" class="piechart-container">
+
+            <!-- The select button for the different plants -->
+            <select id="pie-chart-select" class="btn btn-primary buttonSelect-pie" @onchange="OnPieChartSelectionChange">
+                <!-- The different plants -->
+                <option value="chartdiv1">Plant 1</option>
+                <option value="chartdiv2">Plant 2</option>
+                <option value="chartdiv3">Plant 3</option>
+            </select>
+
+            <!-- This is used to make sure that only one chart is displayed at a time -->
+            <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
+            <div id="chartdiv2" class="chartdiv" data-initialized="false"></div>
+            <div id="chartdiv3" class="chartdiv" data-initialized="false"></div>
+
+        </div>
+    </div>
+</div>
+        
+
 <!-------------------------------- Modal Script ------------------------------->
 
 <script>
@@ -456,7 +451,7 @@
                     return data;
                 }
 
-                // ------------------ X, Y & Series Code  ------------------ //
+    @* ---------------------- X, Y & Series Code ----------------------- *@
 
                 // Create axes
                 var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
@@ -489,7 +484,7 @@
                     })
                 }));
 
-                // ----------------- Data & Chart Appear  ----------------- //
+    @* ---------------------- Data & Chart Appear ----------------------- *@
 
                 var data = generateDatas(input);
                 series.data.setAll(data);
@@ -605,6 +600,8 @@
             createPieChart("chartdiv1", dataPie1);
             createPieChart("chartdiv2", dataPie2);
             createPieChart("chartdiv3", dataPie3);
+
+
 
             // Event listener for dropdown change to switch between charts
             document.getElementById("chart-select").addEventListener("change", function () {

@@ -4,9 +4,10 @@
 #include <ArduinoHttpClient.h>
 #include <Arduino_MKRIoTCarrier.h>
 
+MKRIoTCarrier carrier;
 Servo myServo1;
 Servo myServo2;
-MKRIoTCarrier carrier;
+
 
 // WiFi credentials
 char ssid[] = "H3Gruppe1";
@@ -45,22 +46,24 @@ int uniqueArduinoID = 1;
 int userID = 0;
 String selectedPlant1Arduino;
 String selectedPlant2Arduino;
+boolean activeMotor = false;
 
 // -------------------------------------------------------------- //
 
 void setup() {
     // Initialize carrier and display
+    carrier.noCase();
     carrier.begin();
-    carrier.display.setRotation(2); // Adjust rotation to your setup
+
     Serial.begin(9600); // Initialize serial communication for debugging
 
-    // myServo1.attach(8); // Attaching the motor to pin 8
-    // myServo2.attach(9); // Attaching the motor to pin 9
+ 
 
     connectToWiFi();
     sendGetRequestArduinoID();
     sendGetRequestArduinoPlants();
-    
+      //    myServo1.attach(8); // Attaching the motor to pin 8
+      // myServo2.attach(9); // Attaching the motor to pin 9
     Serial.println("Setup complete");
 }
 
@@ -75,11 +78,19 @@ void loop() {
     if ((moistureValue < 1000 || moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
         notification();
         showNotification = true; // Set the flag after showing notification
-        Serial.println("Jeg er inde i if");
+      
     }
     else if ((moistureValue < 1000 || moistureValue2 < 1000) && showNotification) {
         showNotification = false; // Set the flag after showing notification
-        Serial.println("Jeg er inde i else");
+
+    }
+    if (moistureValue < 10 && modePrint == "Mode: auto") {
+       turnOnMotor1();
+
+    }
+     else if (moistureValue2 < 2 && modePrint == "Mode: auto") {
+       turnOnMotor2();
+
     }
 
     unsigned long currentMillis = millis();
@@ -114,9 +125,10 @@ void handleButtons() {
     } else if (carrier.Buttons.onTouchDown(TOUCH2)) {
         mode();
         delay(50);
-    } else if (carrier.Buttons.onTouchDown(TOUCH4)) { // Reset notification on TOUCH3
-        showNotification = false;
-        delay(50);
+    } else if (carrier.Buttons.onTouchDown(TOUCH3)) {
+        turnOnMotor1();
+    } else if (carrier.Buttons.onTouchDown(TOUCH4)) {
+        turnOffMotor();
     }
 }
 
@@ -335,4 +347,71 @@ void sendPutSettingRequest(bool mode) {
     Serial.print("Response Body: ");
     Serial.println(response);
     delay(10);
+}
+        // ----------------------------------------------------------------------------- //
+
+void turnOnMotor1() {
+    activeMotor = true;
+
+    if (activeMotor) {
+        // Rotate motor clockwise
+        myServo1.write(180); // Set motor to maximum angle (clockwise)
+        delay(3000); // Wait for 1 second
+
+        // Stop the motor
+        myServo1.write(90); // Set motor to stop position
+        delay(3000); // Wait for 1 second
+
+        // Rotate motor counterclockwise
+        myServo1.write(0); // Set motor to minimum angle (counterclockwise)
+        delay(3000); // Wait for 1 second
+
+        // Stop the motor
+        myServo1.write(90); // Set motor to stop position
+        delay(1000); // Wait for 1 second
+    }
+}
+void turnOnMotor2() {
+    activeMotor = true;
+
+    if (activeMotor) {
+        // Rotate motor clockwise
+        myServo2.write(180); // Set motor to maximum angle (clockwise)
+        delay(3000); // Wait for 1 second
+
+        // Stop the motor
+        myServo2.write(90); // Set motor to stop position
+        delay(3000); // Wait for 1 second
+
+        // Rotate motor counterclockwise
+        myServo2.write(0); // Set motor to minimum angle (counterclockwise)
+        delay(3000); // Wait for 1 second
+
+        // Stop the motor
+        myServo2.write(90); // Set motor to stop position
+        delay(3000); // Wait for 1 second
+    }
+}
+void turnOffMotor() {
+    activeMotor = false;
+
+    if (!activeMotor) {
+        // Rotate motor counterclockwise
+        myServo1.write(0); // Set motor to minimum angle (counterclockwise)
+
+        // ----------------------------------------------------------------------------- //
+
+        // Rotate motor counterclockwise
+        myServo2.write(0); // Set motor to minimum angle (counterclockwise)
+    }
+}
+
+void activateServos() {
+    myServo1.write(90);
+    delay(1000);
+    myServo1.write(0);
+
+    myServo2.write(90);
+    delay(1000);
+    myServo2.write(0);
 }

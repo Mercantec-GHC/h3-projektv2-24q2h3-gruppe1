@@ -102,7 +102,7 @@ void loop() {
     if (autoUpdate && displayOn && currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis; // Save the last update time
         displayMoisture();
-            sendGetRequestmaxminPlants();
+        sendGetRequestmaxminPlants();
         sendGetRequestArduinoPlants();
         sendPutSettingRequest(autoMode);
         sendPostRequest(percentageHumididySensor, 1, selectedPlant1Arduino, uniqueArduinoID);
@@ -140,9 +140,9 @@ void handleButtons() {
 // -------------------------------------------------------------- //
 
 void displayMoisture() {
-    moistureValue = analogRead(moisturePin);
-    moistureValue2 = analogRead(moisturePin2);
-
+ 
+int moistureValue = analogRead(moisturePin);
+int moistureValue2 = analogRead(moisturePin2);
     percentageHumididySensor = map(moistureValue, wet, dry, 100, 0);
     percentageHumididySensor2 = map(moistureValue2, wet, dry, 100, 0);
 

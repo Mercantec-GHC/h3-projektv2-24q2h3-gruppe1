@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Content Include="Components\Pages\CreatePlant.razor.css" />
-    <Content Include="Components\Pages\Login.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

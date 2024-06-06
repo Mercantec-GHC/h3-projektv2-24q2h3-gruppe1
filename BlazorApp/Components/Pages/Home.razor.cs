@@ -1,11 +1,10 @@
 using API.Models;
-using BlazorApp.Containers;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using NuGet.Protocol.Plugins;
 using System.Text;
 using Microsoft.JSInterop;
+using BlazorApp.Containers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BlazorApp.Components.Pages
 {

@@ -1,6 +1,14 @@
-﻿namespace BlazorApp.Components.Pages
-{
-    public class UserManual
-    {
-    }
-}
+﻿@page "/UserManual"
+
+@using API;
+@using API.Models;
+@using BlazorApp.Containers;
+@using static Microsoft.EntityFrameworkCore.DbLoggerCategory
+
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@namespace BlazorApp.Components.Pages
+
+<div class="content">
+	<embed src="files/CaseBeskrivelseH3.pdf" id="pdf" />
+</div>

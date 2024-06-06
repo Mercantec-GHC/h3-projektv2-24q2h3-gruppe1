@@ -1,11 +1,11 @@
 @using API;
 @using API.Models;
-@using BlazorApp.Pages;
 @using BlazorApp.Containers;
 @using System.Threading.Tasks;
 @using Syncfusion.Blazor.Charts;
 @using Microsoft.AspNetCore.Components.Forms;
 @using Syncfusion.Blazor.Charts.Chart.Internal;
+
 @inherits LayoutComponentBase
 @inject IJSRuntime JS
 
@@ -25,7 +25,7 @@
             {
                 <div>
                     <!-- Trigger/Open The Modal -->
-                    <button id="myBtnSignup" class="btn btn-primary buttons">Sign up</button>
+                    <button id="myBtnSignup" class="btn btn-primary buttons nav-btn">Sign up</button>
 
                     <!-- The Modal -->
                     <div id="myModalSignup" class="modal">
@@ -73,12 +73,13 @@
                     </div>
                 </div>
             }
+            
             <!-------------------------------- Edit Profile ------------------------------->
             @if (AccountSession.UserSession != null)
             {
                 <div>
                     <!-- Trigger/Open The Modal -->
-                    <button id="myBtnEditProfile" class="btn btn-primary buttons">Edit Profile</button>
+                    <button id="myBtnEditProfile" class="btn btn-primary buttons nav-btn">Edit Profile</button>
 
                     <!-- The Modal -->
                     <div id="myModalEditProfile" class="modal">
@@ -120,15 +121,16 @@
                     </div>
                 </div>
             }
+            
             <!----------------------------------- Login ----------------------------------->
             <!-- Trigger/Open The Modal -->
             @if (AccountSession.UserSession == null)
             {
-                <button href="login" id="myBtnLogin" style="background-color: darkslategrey;" class="btn btn-primary buttons">Login</button>
+                <button href="login" id="myBtnLogin" style="background-color: darkslategrey;" class="btn btn-primary buttons nav-btn">Login</button>
             }
             else
             {
-                <button id="myBtnLogin" style="background-color: darkslategrey;" @onclick="Logout" class="btn btn-primary buttons">Logout</button>
+                <button id="myBtnLogin" style="background-color: darkslategrey;" @onclick="Logout" class="btn btn-primary buttons nav-btn">Logout</button>
             }
 
             <!-- The Modal -->
@@ -182,6 +184,7 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
 <script>
     // Get the modals
     var modals = document.querySelectorAll('.modal');

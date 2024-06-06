@@ -1,3 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#pdf {
+    border: 1px solid black;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    height: 93% !important;
+}
+
 .container {
     position: fixed;
     left: 50%;
@@ -27,7 +41,8 @@
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 25%; /* Could be more or less, depending on screen size */
+    margin-top: 5%;
 }
 
 /* The Close Button */
@@ -37,6 +52,7 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-left
 }
 
 .close:hover,
@@ -45,11 +61,6 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
-
-.buttons
-{
-    margin-left: 5%;
 }
 
 .editIcon {
@@ -69,11 +80,11 @@
 }
 
     /* Hide default HTML checkbox */
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
 /* The slider */
 .slider {
@@ -88,17 +99,17 @@
     transition: .4s;
 }
 
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
 
 input:checked + .slider {
     background-color: #2196F3;
@@ -119,6 +130,12 @@ input:checked + .slider:before {
     border-radius: 34px;
 }
 
-    .slider.round:before {
-        border-radius: 50%;
-    }
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.d-flex{
+    justify-content: space-between;
+    width: 50%;
+    margin-left: 25%;
+}

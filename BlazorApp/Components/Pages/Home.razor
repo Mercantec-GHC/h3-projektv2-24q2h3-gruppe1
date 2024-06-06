@@ -1,7 +1,6 @@
 @page "/"
 @using API;
 @using API.Models;
-@using BlazorApp.Pages;
 @using BlazorApp.Containers;
 @using System.Threading.Tasks;
 @using Syncfusion.Blazor.Charts;
@@ -11,14 +10,25 @@
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @inject NavigationManager Navigation
+
 @inject IJSRuntime JS
 
 @namespace BlazorApp.Components.Pages
 
+<!-- Pie Chart Scripts -->
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
+
+<!-- Bootstrap Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <PageTitle>Home</PageTitle>
 
-<h1>Home</h1>
+<br>
+<br>
 
 <div class="d-flex">
     <!-------------------------------- Create Plant ------------------------------->
@@ -26,7 +36,7 @@
     {
         <div>
             <!-- Trigger/Open The Modal -->
-            <button id="myBtnCreatePlant" class="btn btn-primary buttons">Create Plant</button>
+            <button id="myBtnCreatePlant" class="btn btn-primary buttons home-btn">Create Plant</button>
 
             <!-- The Modal -->
             <div id="myModalCreatePlant" class="modal">
@@ -80,12 +90,13 @@
             </div>
         </div>
     }
+
     <!--------------------------------- Edit Plant -------------------------------->
     @if (AccountSession.UserSession != null)
     {
         <div>
             <!-- Trigger/Open The Modal -->
-            <button id="myBtnEditPlant" class="btn btn-primary buttons">Edit Plant</button>
+            <button id="myBtnEditPlant" class="btn btn-primary buttons home-btn">Edit Plant</button>
 
             <!-- The Modal -->
             <div id="myModalEditPlant" class="modal">
@@ -154,13 +165,14 @@
             </div>
         </div>
     }
+
     <!-------------------------------- Setup Sensor ------------------------------->
     <!-------------------------------- make put request in settings then we change plant name in setup sensor ------------------------------->
     @if (AccountSession.UserSession != null)
     {
         <div>
             <!-- Trigger/Open The Modal -->
-            <button id="myBtnSetupSensor" class="btn btn-primary buttons">Setup Sensor</button>
+            <button id="myBtnSetupSensor" class="btn btn-primary buttons home-btn">Setup Sensor</button>
 
             <!-- The Modal -->
             <div id="myModalSetupSensor" class="modal">
@@ -173,7 +185,7 @@
                         <h5 class="modal-title">Setup Sensor</h5>
                     </div>
 
-                    <div class="d-flex">
+                    <div class="d-flex" style="margin-top: 5%; margin-left: 0%;">
                         @if (isEditingSensorName1)
                         {
                             <input type="text" @bind="sensorName1" class="form-control" />
@@ -214,7 +226,7 @@
 
                     </div>
 
-                    <div class="d-flex">
+                    <div class="d-flex" style="margin-top: 5%; margin-left: 0%;">
                         @if (isEditingSensorName2)
                         {
                             <input type="text" @bind="sensorName2" class="form-control" />
@@ -253,7 +265,9 @@
                         </ul>
 
                     </div>
+                    
                     <p class="error-message" id="login-error">@errorMessage</p>
+                    
                     <div class="modal-footer">
                         <!-- Buttons for login -->
                         <button type="submit" class="btn btn-primary" @onclick="PutSelectedPlants">Save Changes</button>
@@ -264,12 +278,13 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         </div>
     }
+
     <!-------------------------------- Arduino settings ------------------------------->
     @if (AccountSession.UserSession != null)
     {
         <div>
             <!-- Trigger/Open The Modal -->
-            <button id="myBtnSettings" class="btn btn-primary buttons">Arduino Settings</button>
+            <button id="myBtnSettings" class="btn btn-primary buttons home-btn">Arduino Settings</button>
 
             <!-- The Modal -->
             <div id="myModalSettings" class="modal">
@@ -314,10 +329,68 @@
             </div>
         </div>
     }
+
+
 </div>
 
-<!-------------------------------- Modal Script ------------------------------->
+<div class="d-flex mt-5">
+    <!---------------------------------- Pie Chart -------------------------------->
+    @if (AccountSession.UserSession != null)
+    {
+        <div>
+            <div id="pie-chart-container" class="piechart-container">
 
+                <!-- The select button for the different plants -->
+                <select id="pie-chart-select" class="btn btn-primary buttonSelect" @onchange="OnPieChartSelectionChange">
+
+                    <!-- The different plants -->
+                    <option value="chartdiv1">Plant 1</option>
+                    <option value="chartdiv2">Plant 2</option>
+                    <option value="chartdiv3">Plant 3</option>
+
+                </select>
+
+                <!-- This is used to make sure that only one chart is displayed at a time -->
+                <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
+                <div id="chartdiv2" class="chartdiv" data-initialized="false"></div>
+                <div id="chartdiv3" class="chartdiv" data-initialized="false"></div>
+
+            </div>
+        </div>
+    }
+
+    <!--------------------------------- Line Chart ------------------------------->
+    @if (AccountSession.UserSession != null)
+    {
+        <div>
+            <div id="line-chart-container" class="linechart-container">
+
+                <select id="line-chart-plant-select" class="btn btn-primary buttonSelect" @onchange="OnPlantSelectionChange">
+                    <option value="plant1">Plant 1</option>
+                    <option value="plant2">Plant 2</option>
+                    <option value="plant3">Plant 3</option>
+                </select>
+
+                <select id="line-chart-select" class="btn btn-primary buttonSelect" @onchange="OnLineChartSelectionChange">
+                    <option value="chartdiv4">Week</option>
+                    <option value="chartdiv5">Month</option>
+                    <option value="chartdiv6">Year</option>
+                </select>
+
+                <div id="chartdiv4" class="chartdiv" data-initialized="false" style="display: block;"></div>
+                <div id="chartdiv5" class="chartdiv" data-initialized="false"></div>
+                <div id="chartdiv6" class="chartdiv" data-initialized="false"></div>
+
+            </div>
+        </div>
+    }
+
+    <br>
+    <br>
+
+</div>
+
+<!-------------------------------- Modal script ------------------------------->
 <script>
     var modals = document.querySelectorAll('.modal');
     var buttons = document.querySelectorAll('.btn-primary.buttons');
@@ -344,7 +417,7 @@
                 errorMessage = "";
             }
         });
-    }
+    };
 
     function closeModal(modalId) {
         var modal = document.getElementById(modalId);
@@ -355,7 +428,6 @@
 </script>
 
 <!--------------------------------- Plant Code -------------------------------->
-
 @code {
     private string selectedPlant1 = "";
     private string selectedPlant2 = "";
@@ -467,3 +539,263 @@
     }
 }
 
+<!------------------------------ Pie Chart Script ----------------------------->
+<script>
+    // Ensure the amCharts library is ready before executing the script
+    am5.ready(function () {
+
+        // Function to create a pie chart
+        function createPieChart(rootId, data) {
+
+            // Create a new amCharts root element
+            var root = am5.Root.new(rootId);
+
+            // Apply the animated theme to the chart
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            // Create a new PieChart within the root container, ending at 270 degrees
+            var chart = root.container.children.push(
+                am5percent.PieChart.new(root, { endAngle: 270 })
+            );
+
+            // Create a new PieSeries within the chart, mapping data fields
+            var series = chart.series.push(
+                am5percent.PieSeries.new(root, {
+                    valueField: "value", // Field containing the values
+                    categoryField: "category", // Field containing the categories
+                    endAngle: 270 // End angle for the pie slices
+                })
+            );
+
+            // Define the "hidden" state for the series, setting the end angle to -90 degrees
+            series.states.create("hidden", { endAngle: -90 });
+
+            // Set the data for the series
+            series.data.setAll(data);
+
+            // Set the label text color to white
+            series.labels.template.setAll({
+                fill: am5.color(0xFFFFFF)
+            });
+        }
+
+        // Data arrays for the charts
+        var dataPie1 = [
+            { category: "Moisture Level", value: 601.9 },
+            { category: "Drought Level", value: 301.9 }
+        ];
+
+        var dataPie2 = [
+            { category: "Moisture Level", value: 641.9 },
+            { category: "Drought Level", value: 358.1 }
+        ];
+
+        var dataPie3 = [
+            { category: "Moisture Level", value: 751.9 },
+            { category: "Drought Level", value: 208.1 }
+        ];
+
+        // Create the pie charts with the respective data sets
+        createPieChart("chartdiv1", dataPie1);
+        createPieChart("chartdiv2", dataPie2);
+        createPieChart("chartdiv3", dataPie3);
+
+        // Event listener for dropdown change to switch between charts
+        document.getElementById("chart-select").addEventListener("change", function () {
+            var selectedChart = this.value; // Get the selected chart's ID
+
+            // Hide all charts
+            document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
+                chartDiv.style.display = "none";
+            });
+
+            // Display the selected chart
+            document.getElementById(selectedChart).style.display = "block";
+        });
+    });
+</script>
+
+<!----------------------------- Line Chart Script ----------------------------->
+<script>
+    am5.ready(function () {
+
+        function createLineChart(rootId, input) {
+
+            // Create root element
+            var root = am5.Root.new(rootId);
+
+            // Set themes
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            // Create chart
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                paddingLeft: 0
+            }));
+
+            // Add cursor
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+                behavior: "none"
+            }));
+            cursor.lineY.set("visible", false);
+
+            // Generate random data
+            var date = new Date();
+            date.setHours(0, 0, 0, 0);
+            var value = 100;
+
+            function generateData() {
+                value = Math.round((Math.random() * 10 - 5) + value);
+                am5.time.add(date, "day", 1);
+                return {
+                    date: date.getTime(),
+                    value: value
+                };
+            }
+
+            function generateDatas(count) {
+                var data = [];
+                for (var i = 0; i < count; ++i) {
+                    data.push(generateData());
+                }
+                return data;
+            }
+
+            // ------------------ X, Y & Series Code  ------------------ //
+
+            // Create axes
+            var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+                maxDeviation: 0.2,
+                baseInterval: {
+                    timeUnit: "day",
+                    count: 1
+                },
+                renderer: am5xy.AxisRendererX.new(root, {
+                    minorGridEnabled: true
+                }),
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {
+                    pan: "zoom"
+                })
+            }));
+
+            // Add series
+            var series = chart.series.push(am5xy.LineSeries.new(root, {
+                name: "Series",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "value",
+                valueXField: "date",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}"
+                })
+            }));
+
+            // ----------------- Data & Chart Appear  ----------------- //
+
+            var data = generateDatas(input);
+            series.data.setAll(data);
+            chart.appear(1000, 100);
+        }
+
+        createLineChart("chartdiv4", 7);
+        createLineChart("chartdiv5", 31);
+        createLineChart("chartdiv6", 365);
+
+    });
+</script>
+
+<!-------------------------------- Chart script ------------------------------->
+<script>
+    // Create a global object `chartInterop` to manage chart-related functions
+    window.chartInterop = {
+
+        // Function to initialize a chart in a specific div
+        initializeChart: function (chartDivId) {
+            const chartDiv = document.getElementById(chartDivId); // Get the div element by ID
+
+            // Check if the chart in the div is already initialized
+            if (chartDiv.dataset.initialized === "false") {
+                // Replace this with actual chart initialization logic
+                console.log(`Initializing chart in ${chartDivId}`);
+
+                // e.g., new Chart(chartDiv, {...});
+                chartDiv.dataset.initialized = "true"; // Mark the chart as initialized
+            }
+        },
+
+        // Function to update chart visibility based on a selected value from a dropdown
+        updateChartVisibility: function (selectElementId, containerId) {
+            const selectElement = document.getElementById(selectElementId); // Get the dropdown element by ID
+            const selectedValue = selectElement.value; // Get the selected value from the dropdown
+            const chartDivs = document.querySelectorAll(`#${containerId} .chartdiv`); // Get all chart divs in the container
+
+            // Loop through each chart div
+            chartDivs.forEach(div => {
+                if (div.id === selectedValue) { // If the div ID matches the selected value
+                    div.style.display = 'block'; // Display the matching chart div
+                    window.chartInterop.initializeChart(div.id); // Initialize the chart if not already done
+                } else {
+                    div.style.display = 'none'; // Hide other chart divs
+                }
+            });
+        }
+    };
+
+    // Wait until the DOM content is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize chart visibility based on the selected value in the dropdown
+        window.chartInterop.updateChartVisibility("pie-chart-select", "pie-chart-container");
+    });
+</script>
+
+<!--------------------------------- Chart Code -------------------------------->
+<tr>
+    @code {
+    // Dependency injection to use JavaScript runtime in Blazor
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    // Method called after the component has rendered
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AccountSession.UserSession != null) // Check if this is the first time the component is rendering and user session is active
+        {
+
+            // Invoke the JavaScript function to update chart visibility
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+        }
+    }
+
+    // Method to handle changes in the pie chart selection
+    private async Task OnPieChartSelectionChange(ChangeEventArgs e)
+    {
+        if (AccountSession.UserSession != null)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
+        }
+    }
+
+    private async Task OnPlantSelectionChange(ChangeEventArgs e)
+    {
+        if (AccountSession.UserSession != null)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+        }
+    }
+
+    private async Task OnLineChartSelectionChange(ChangeEventArgs e)
+    {
+        if (AccountSession.UserSession != null)
+        {
+            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
+        }
+    }
+}
+</tr>

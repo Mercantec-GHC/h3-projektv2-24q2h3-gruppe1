@@ -75,13 +75,11 @@ void loop() {
     if ((moistureValue < 1000 || moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
         notification();
         showNotification = true; // Set the flag after showing notification
-    }
-    else if ((moistureValue < 1000 && moistureValue2 < 1000) && !showNotification && modePrint == "Mode: manuel") {
-        notification();
-        showNotification = true; // Set the flag after showing notification
+        Serial.println("Jeg er inde i if");
     }
     else if ((moistureValue < 1000 || moistureValue2 < 1000) && showNotification) {
         showNotification = false; // Set the flag after showing notification
+        Serial.println("Jeg er inde i else");
     }
 
     unsigned long currentMillis = millis();
@@ -89,8 +87,8 @@ void loop() {
         previousMillis = currentMillis; // Save the last update time
         displayMoisture();
         sendGetRequestArduinoPlants();
-       // sendPutSettingRequest(autoMode);
-  
+        sendPutSettingRequest(autoMode);
+        mode();
         sendPostRequest(percentageHumididySensor, 1, selectedPlant1Arduino, uniqueArduinoID);
         sendPostRequest(percentageHumididySensor2, 2, selectedPlant2Arduino, uniqueArduinoID);
     }
@@ -315,6 +313,7 @@ void sendGetRequestArduinoPlants() {
 }
 
 void sendPutSettingRequest(bool mode) {
+   String arduinosEndpoint = "/api/Settings/mode/";
     DynamicJsonDocument doc(1024);
     doc["AutoMode"] = mode;
  
@@ -325,7 +324,7 @@ void sendPutSettingRequest(bool mode) {
 
     // Make a HTTP request:
     client.beginRequest();
-    client.put("/api/settings", "application/json", payload);
+    client.put(arduinosEndpoint + userID, "application/json", payload);
     client.endRequest();
  
     int statusCode = client.responseStatusCode();

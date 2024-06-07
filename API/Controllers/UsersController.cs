@@ -119,7 +119,13 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, UserPutRequest user)
         {
-            if (user == null)
+			var userFinder = await _context.Users.Where(item => item.Username == user.Username).ToListAsync();
+			if (userFinder.Count > 0)
+			{
+				return BadRequest("Username is in use");
+			}
+
+			if (user == null)
             {
                 return BadRequest("User data is null.");
             }

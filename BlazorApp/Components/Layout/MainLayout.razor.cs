@@ -171,6 +171,7 @@ namespace BlazorApp.Components.Layout
                 if (!string.IsNullOrEmpty(userProfile.Username))
                 {
                     var usernameMessage = UsernamePolicyCheck(userProfile.Username);
+
                     if (usernameMessage != "Username is valid")
                     {
                         errorMessageEditProfile = usernameMessage;

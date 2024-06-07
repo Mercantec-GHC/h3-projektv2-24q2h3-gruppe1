@@ -26,6 +26,14 @@ Fjern denne forklarende tekst men behold mappe struktur og skriv jeres projekt p
 .gitignore
 README.md
 
+hardware:
+2 motroer 
+1 breadboard
+1 arduino opla
+1 carrier 
+2 moisture sensor 
+1 batteri
+
 arduino opsætning link
 https://edumercantec-my.sharepoint.com/:w:/g/personal/kasp728h_edu_mercantec_dk/ER_L0DI7PcxKqu4w2yCBPpoBz_kl4gHjbhax_bbsrdaxVg?e=fvy0Ci
 ### Projekt pitch:

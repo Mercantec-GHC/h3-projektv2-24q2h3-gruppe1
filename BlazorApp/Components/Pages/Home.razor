@@ -23,7 +23,7 @@
 
 <PageTitle>Home</PageTitle>
 
-<div class="d-flex">
+<div class="d-flex homeBtns">
     <!-------------------------------- Create Plant ------------------------------->
     @if (AccountSession.UserSession != null && arduinoID != 0)
     {
@@ -322,11 +322,12 @@
 </div>
 
 <div class="d-flex mt-5">
+    
     <!--------------------------------- Line Chart ------------------------------->
-    <div>
-        <div id="line-chart-container" class="linechart-container">
-
-            <select id="line-chart-plant-select" class="btn btn-primary buttonSelect-line" @onchange="OnPlantSelectionChange">
+    <div class="charts-container mt-5">
+        <!-- Line Chart -->
+        <div id="line-chart-container" class="chart-section">
+            <select id="line-chart-plant-select" class="btn btn-primary buttonSelect-line" @onchange="OnLineChartSelectionChange">
                 <option value="plant1">Plant 1</option>
                 <option value="plant2">Plant 2</option>
                 <option value="plant3">Plant 3</option>
@@ -341,27 +342,20 @@
             <div id="chartdiv4" class="chartdiv" data-initialized="false" style="display: block;"></div>
             <div id="chartdiv5" class="chartdiv" data-initialized="false"></div>
             <div id="chartdiv6" class="chartdiv" data-initialized="false"></div>
-
         </div>
-    </div>
 
     <!---------------------------------- Pie Chart -------------------------------->
-    <div>
-        <div id="pie-chart-container" class="piechart-container">
-
-            <!-- The select button for the different plants -->
+        <!-- Pie Chart -->
+        <div id="pie-chart-container" class="chart-section">
             <select id="pie-chart-select" class="btn btn-primary buttonSelect-pie" @onchange="OnPieChartSelectionChange">
-                <!-- The different plants -->
                 <option value="chartdiv1">Plant 1</option>
                 <option value="chartdiv2">Plant 2</option>
                 <option value="chartdiv3">Plant 3</option>
             </select>
 
-            <!-- This is used to make sure that only one chart is displayed at a time -->
             <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
             <div id="chartdiv2" class="chartdiv" data-initialized="false"></div>
             <div id="chartdiv3" class="chartdiv" data-initialized="false"></div>
-
         </div>
     </div>
 </div>
@@ -616,6 +610,8 @@
                 document.getElementById(selectedChart).style.display = "block";
             });
         });
+
+
 </script>
 
 <!--------------------------------- Plant Code -------------------------------->
@@ -633,6 +629,7 @@
     private bool isEditingSensorID1 = false;
     private bool isEditingSensorID2 = false;
     private bool isEditingarduino = false;
+    private List<PlantOverview> userOnlyPlantData;
 
     private int settingsId; // Store settings ID
     private string? originalSensorName1; // To store the original value
@@ -719,6 +716,7 @@
         isEditingSensorID2 = false;
         sensorID2 = originalSensorID2; // Revert to the original value
     }
+    
     private void Editarduino()
     {
         isEditingarduino = true;
@@ -730,6 +728,10 @@
         // sensorID2 = originalSensorID2; // Revert to the original value
     }
 
-
+    // private async Task FetchWaterData()
+    // {
+    //     userOnlyPlantData = await GetWaterData();
+    //     await JSRuntime.InvokeVoidAsync("createPieCharts", userOnlyPlantData);
+    //     await JSRuntime.InvokeVoidAsync("createLineCharts", userOnlyPlantData);
+    // }
 }
-

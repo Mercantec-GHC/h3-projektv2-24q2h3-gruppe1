@@ -7,16 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Components\Pages\CreatePlant.razor.css" />
-    <None Remove="Components\Pages\Login.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Components\Pages\CreatePlant.razor.css" />
-    <Content Include="Components\Pages\Login.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
   </ItemGroup>
 

@@ -47,8 +47,7 @@
     cursor: pointer;
 }
 
-.buttons
-{
+.buttons {
     margin-left: 5%;
 }
 
@@ -126,4 +125,12 @@ input:checked + .slider:before {
 #chartdiv4, #chartdiv1, #chartdiv5, #chartdiv3, #chartdiv2, #chartdiv6 {
     height: 500px;
     width: 800px;
+}
+
+.buttonSelect-line{
+    margin-left: 30%;
+}
+
+.buttonSelect-pie {
+    margin-left: 45%;
 }

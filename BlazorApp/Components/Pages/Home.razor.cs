@@ -332,6 +332,7 @@ namespace BlazorApp.Components.Pages
 			if (response.IsSuccessStatusCode)
 			{
 				message = "Updated name";
+				isEditingarduino = false;
 				await JS.InvokeVoidAsync("closeModal", "myModalSettings");
 			}
 			else

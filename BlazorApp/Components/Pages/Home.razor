@@ -25,7 +25,7 @@
 
 <div class="d-flex">
     <!-------------------------------- Create Plant ------------------------------->
-    @if (AccountSession.UserSession != null)
+    @if (AccountSession.UserSession != null && arduinoID != 0)
     {
         <div>
             <!-- Trigger/Open The Modal -->
@@ -84,7 +84,7 @@
         </div>
     }
     <!--------------------------------- Edit Plant -------------------------------->
-    @if (AccountSession.UserSession != null)
+    @if (AccountSession.UserSession != null && arduinoID != 0)
     {
         <div>
             <!-- Trigger/Open The Modal -->
@@ -159,7 +159,7 @@
     }
     <!-------------------------------- Setup Sensor ------------------------------->
     <!-------------------------------- make put request in settings then we change plant name in setup sensor ------------------------------->
-    @if (AccountSession.UserSession != null)
+    @if (AccountSession.UserSession != null && arduinoID != 0 )
     {
         <div>
             <!-- Trigger/Open The Modal -->

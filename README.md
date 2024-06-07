@@ -27,6 +27,9 @@ hardware:
 
 arduino opsætning link
 https://edumercantec-my.sharepoint.com/:w:/g/personal/kasp728h_edu_mercantec_dk/ER_L0DI7PcxKqu4w2yCBPpoBz_kl4gHjbhax_bbsrdaxVg?e=fvy0Ci
+
+figma:
+https://www.figma.com/file/yQbDyUX8CwpgOMrzQIVtuS/H3-WaterMyPot?type=design&node-id=3-60&mode=design&t=DIdujAyk9nQZQGPo-0
 ### Projekt pitch:
 
 "Vi vil lave et vandingssystem, som man både kan benytte manuelt, men også automatisk. Hvor brugeren vælger hvilken plante som er tilknyttet hvilken sensor, så vil en ventil åbne og kunne vande planterne, som gør brug af disse hardwarekomponenter: arduino 2+ moisture, heat sensor and a motor. Vores mål er at udvikle en løsning, der kan vande planter, ved at integrere et interaktivt system, der kan indsamle og reagere på data. For at opnå dette, tænker vi at anvende  programmeringssprog c#(blazor og asp .net api), databaser mysql(heidi). til at opbygge systemet, som vil tillade os at bruge teknologien, til hvis man nu glemmer at vande dine planter, at det bliver gjort automatisk når fugtigheden er for lav, at den så selv vil vande planten, hvor vi har motor som åbner og lukker en ventil, som er forbundet til en vand container.

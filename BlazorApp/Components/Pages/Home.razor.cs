@@ -6,6 +6,7 @@ using NuGet.Protocol.Plugins;
 using System.Text;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Charts.Internal;
 
 namespace BlazorApp.Components.Pages
 {
@@ -25,6 +26,9 @@ namespace BlazorApp.Components.Pages
         public List<Plant>? plants;
         public List<Plant>? Useronlyplants;
 
+        public List<Arduino>? userOnlyArduino;
+        public List<PlantOverview>? userOnlyplantdata;
+
         public List<Setting>? settingList;
         public List<Arduino>? arduinoList;
 
@@ -43,6 +47,9 @@ namespace BlazorApp.Components.Pages
         public bool IsManualChecked = false;
 
         private HttpClient client = new HttpClient() { BaseAddress = new Uri("https://h3-projektv2-24q2h3-gruppe1-pjo3.onrender.com") };
+
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; }
         #endregion
 
         // -------------------------- Plants ---------------------------- //
@@ -184,16 +191,7 @@ namespace BlazorApp.Components.Pages
                     plants = filteredPlants;
                     Useronlyplants = filtereduseronlyPlants;
                 }
-                else
-                {
-                    var allPlants = await client.GetFromJsonAsync<List<Plant>>("api/Plants");
-
-                    // Filter plants where UserId is 0 and AccountSessionId matches
-                    var filteredPlants = allPlants.Where(plant => plant.UserId == 0).ToList();
-
-                    // Assign filtered plants to the plants list
-                    plants = filteredPlants;
-                }
+              
 
             }
             catch (Exception ex)
@@ -202,6 +200,47 @@ namespace BlazorApp.Components.Pages
                 Console.WriteLine($"Error fetching plants: {ex.Message}");
             }
         }
+
+        //public async Task<List<PlantOverview>> GetWaterData()
+        //{
+        //    try
+        //    {
+        //        List<PlantOverview> allWaterData = null;
+        //        List<Arduino> allWaterData2 = null;
+
+        //        if (AccountSession.UserSession != null)
+        //        {
+        //            allWaterData = await client.GetFromJsonAsync<List<PlantOverview>>("api/PlantOverviews");
+        //            allWaterData2 = await client.GetFromJsonAsync<List<Arduino>>("api/Arduino");
+
+        //            if (allWaterData != null && allWaterData2 != null)
+        //            {
+        //                var filteredWater2 = allWaterData2.Where(userOnlyArduino => userOnlyArduino.UserId == AccountSession.UserSession.Id).ToList();
+        //                var filteredWater = allWaterData.Where(userOnlyplantdata => filteredWater2.Any(arduino => arduino.Id == userOnlyplantdata.ArduinoId)).ToList();
+        //                return filteredWater;
+        //            }
+        //        }
+                
+        //        else
+        //        {
+        //            allWaterData = await client.GetFromJsonAsync<List<PlantOverview>>("api/PlantOverviews");
+
+        //            if (allWaterData != null)
+        //            {
+        //                var filteredWater = allWaterData.Where(plant => plant.ArduinoId == 0).ToList();
+        //                return filteredWater;
+        //            }
+        //        }
+
+        //        return new List<PlantOverview>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log or handle the exception
+        //        Console.WriteLine($"Error fetching plants: {ex.Message}");
+        //        return new List<PlantOverview>();
+        //    }
+        //}
 
         // Get the settings the user has set
         public async Task GetListOfSettings()
@@ -302,7 +341,8 @@ namespace BlazorApp.Components.Pages
 				errorMessage = errorResponse?.Detail ?? "An error occurred while saving mode.";
 			}
 		}
-		public async Task PutSelectedPlants()
+		
+        public async Task PutSelectedPlants()
         {
 
             if (!string.IsNullOrWhiteSpace(selectedPlant1) || !string.IsNullOrWhiteSpace(selectedPlant2))
@@ -379,10 +419,6 @@ namespace BlazorApp.Components.Pages
             mode.AutoMode = !mode.AutoMode;
         }
 
-        // Dependency injection to use JavaScript runtime in Blazor
-        [Inject]
-        private IJSRuntime JSRuntime { get; set; }
-
         // Method called after the component has rendered
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -399,11 +435,6 @@ namespace BlazorApp.Components.Pages
         {
             // Invoke the JavaScript function to update chart visibility based on selection
             await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "pie-chart-select", "pie-chart-container");
-        }
-
-        private async Task OnPlantSelectionChange(ChangeEventArgs e)
-        {
-            await JSRuntime.InvokeVoidAsync("chartInterop.updateChartVisibility", "line-chart-select", "line-chart-container");
         }
 
         private async Task OnLineChartSelectionChange(ChangeEventArgs e)

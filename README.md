@@ -1,14 +1,5 @@
 ### H3-Smart-Kommunikationsplatform - Water my pot
 
-Her skal alt omkring jeres projekt være. 
-
-Projekt kan findes her: ["Notion link"](https://mercantec.notion.site/Projekt-H3-IoT-og-Serverside-med-Christoffer-og-Kasper-e8980638a8584a72b0c7d718252dbba4?pvs=4)
-
-
-Dette er mappe strukturen (i er velkommen til at ændre i den, men så opdater dette dokument)
-
-Fjern denne forklarende tekst men behold mappe struktur og skriv jeres projekt pitch. Andet info må i også meget gerne have her
-
 - Dokumentation
 	- setup.md
 	- bruger_manual.md

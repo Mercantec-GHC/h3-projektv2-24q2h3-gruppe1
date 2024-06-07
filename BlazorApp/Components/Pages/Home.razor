@@ -24,714 +24,718 @@
 <PageTitle>Home</PageTitle>
 
 <div class="d-flex homeBtns">
-    <!-------------------------------- Create Plant ------------------------------->
-    @if (AccountSession.UserSession != null && arduinoID != 0)
-    {
-        <div>
-            <!-- Trigger/Open The Modal -->
-            <button id="myBtnCreatePlant" class="btn btn-primary buttons">Create Plant</button>
+	@if (AccountSession.UserSession != null && arduinoID == 0)
+	{
+		<h3>You have to have a arduino id to unlock more features</h3>
+	}
+	<!-------------------------------- Create Plant ------------------------------->
+	@if (AccountSession.UserSession != null && arduinoID != 0)
+	{
+		<div>
+			<!-- Trigger/Open The Modal -->
+			<button id="myBtnCreatePlant" class="btn btn-primary buttons">Create Plant</button>
 
-            <!-- The Modal -->
-            <div id="myModalCreatePlant" class="modal">
+			<!-- The Modal -->
+			<div id="myModalCreatePlant" class="modal">
 
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
+				<!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create Plant</h5>
-                    </div>
+					<div class="modal-header">
+						<h5 class="modal-title">Create Plant</h5>
+					</div>
 
-                    <!-- EditForm for login -->
-                    <EditForm Model="@createPlantProfile">
-                        <div class="modal-body">
+					<!-- EditForm for login -->
+					<EditForm Model="@createPlantProfile">
+						<div class="modal-body">
 
-                            <!-- Input fields for login -->
-                            <label for="plantName">Plant Name:</label><br>
-                            <div class="form-group">
-                                <InputText id="plantName" @bind-Value="createPlantProfile.PlantName" placeholder="Plant Name" required /><br><br>
-                            </div>
+							<!-- Input fields for login -->
+							<label for="plantName">Plant Name:</label><br>
+							<div class="form-group">
+								<InputText id="plantName" @bind-Value="createPlantProfile.PlantName" placeholder="Plant Name" required /><br><br>
+							</div>
 
-                            <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
-                            <div class="form-group">
-                                <InputNumber id="plantMinMoisture" @bind-Value="createPlantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
-                            </div>
+							<label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
+							<div class="form-group">
+								<InputNumber id="plantMinMoisture" @bind-Value="createPlantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
+							</div>
 
-                            <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
-                            <div class="form-group">
-                                <InputNumber id="plantMaxMoisture" @bind-Value="createPlantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
-                            </div>
+							<label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
+							<div class="form-group">
+								<InputNumber id="plantMaxMoisture" @bind-Value="createPlantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
+							</div>
 
-                        </div>
+						</div>
 
-                        <div class="modal-footer">
-                            @if (createPlantProfile.PlantName == null || createPlantProfile.MinWaterLevel == 0 || createPlantProfile.MaxWaterLevel == 0)
-                            {
-                                <!-- Buttons for login -->
-                                <button disabled type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
-                            }
-                            else
-                            {
-                                <button type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
-                            }
-                        </div>
+						<div class="modal-footer">
+							@if (createPlantProfile.PlantName == null || createPlantProfile.MinWaterLevel == 0 || createPlantProfile.MaxWaterLevel == 0)
+							{
+								<!-- Buttons for login -->
+								<button disabled type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
+							}
+							else
+							{
+								<button type="submit" class="btn btn-primary" @onclick="HandleCreatePlant">Submit</button>
+							}
+						</div>
 
-                        <p class="error-message" id="login-error">@errorMessageCreatePlant</p>
+						<p class="error-message" id="login-error">@errorMessageCreatePlant</p>
 
-                    </EditForm>
-                </div>
-            </div>
-        </div>
-    }
-    <!--------------------------------- Edit Plant -------------------------------->
-    @if (AccountSession.UserSession != null && arduinoID != 0)
-    {
-        <div>
-            <!-- Trigger/Open The Modal -->
-            <button id="myBtnEditPlant" class="btn btn-primary buttons">Edit Plant</button>
+					</EditForm>
+				</div>
+			</div>
+		</div>
+	}
+	<!--------------------------------- Edit Plant -------------------------------->
+	@if (AccountSession.UserSession != null && arduinoID != 0)
+	{
+		<div>
+			<!-- Trigger/Open The Modal -->
+			<button id="myBtnEditPlant" class="btn btn-primary buttons">Edit Plant</button>
 
-            <!-- The Modal -->
-            <div id="myModalEditPlant" class="modal">
+			<!-- The Modal -->
+			<div id="myModalEditPlant" class="modal">
 
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
+				<!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Plant</h5>
-                    </div>
+					<div class="modal-header">
+						<h5 class="modal-title">Edit Plant</h5>
+					</div>
 
-                    <!-- EditForm for login -->
-                    <EditForm Model="@plantProfile">
-                        <div class="modal-body">
-                            <p>selected plant: @selectedEditPlant</p>
-                            <!-- Input fields for login -->
-                            <div class="dropdown">
+					<!-- EditForm for login -->
+					<EditForm Model="@plantProfile">
+						<div class="modal-body">
+							<p>selected plant: @selectedEditPlant</p>
+							<!-- Input fields for login -->
+							<div class="dropdown">
 
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <text>Choose Plant</text>
-                                </button>
+								<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<text>Choose Plant</text>
+								</button>
 
-                                <ul class="dropdown-menu">
-                                    @if (Useronlyplants != null && Useronlyplants.Count > 0)
-                                    {
-                                        @foreach (var plant in Useronlyplants)
-                                        {
-                                            <li><button class="dropdown-item" @onclick="() => SelectEditPlant(plant)">@plant.PlantName</button></li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li><span class="dropdown-item">No plants made</span></li>
-                                    }
-                                </ul>
+								<ul class="dropdown-menu">
+									@if (Useronlyplants != null && Useronlyplants.Count > 0)
+									{
+										@foreach (var plant in Useronlyplants)
+										{
+											<li><button class="dropdown-item" @onclick="() => SelectEditPlant(plant)">@plant.PlantName</button></li>
+										}
+									}
+									else
+									{
+										<li><span class="dropdown-item">No plants made</span></li>
+									}
+								</ul>
 
-                            </div>
-                            <label for="editplantName">Plant Name:</label><br>
-                            <div class="form-group">
-                                <InputText id="editplantName" @bind-Value="plantProfile.PlantName" required /><br><br>
-                            </div>
+							</div>
+							<label for="editplantName">Plant Name:</label><br>
+							<div class="form-group">
+								<InputText id="editplantName" @bind-Value="plantProfile.PlantName" required /><br><br>
+							</div>
 
-                            <label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
-                            <div class="form-group">
-                                <InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
-                            </div>
+							<label for="plantMinMoisture">Plant Minimum Moisture:</label><br>
+							<div class="form-group">
+								<InputNumber id="plantMinMoisture" @bind-Value="plantProfile.MinWaterLevel" placeholder="Minimum Moisture:" required /><br><br>
+							</div>
 
-                            <label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
-                            <div class="form-group">
-                                <InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
-                            </div>
+							<label for="plantMaxMoisture">Plant Maximum Moisture:</label><br>
+							<div class="form-group">
+								<InputNumber id="plantMaxMoisture" @bind-Value="plantProfile.MaxWaterLevel" placeholder="Maximum Moisture:" required /><br><br>
+							</div>
 
-                        </div>
+						</div>
 
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" @onclick="HandleEditPlant">Save Changes</button>
-                            <button type="submit" class="btn btn-primary" @onclick="HandlePlantDelete" style="background-color:red;">Delete plant</button>
-                        </div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary" @onclick="HandleEditPlant">Save Changes</button>
+							<button type="submit" class="btn btn-primary" @onclick="HandlePlantDelete" style="background-color:red;">Delete plant</button>
+						</div>
 
-                        <p class="error-message" id="login-error">@errorMessageEditPlant</p>
-                        <p class="error-message" id="login-error">@errorMessageDeletePlant</p>
+						<p class="error-message" id="login-error">@errorMessageEditPlant</p>
+						<p class="error-message" id="login-error">@errorMessageDeletePlant</p>
 
-                    </EditForm>
-                </div>
-            </div>
-        </div>
-    }
-    <!-------------------------------- Setup Sensor ------------------------------->
-    <!-------------------------------- make put request in settings then we change plant name in setup sensor ------------------------------->
-    @if (AccountSession.UserSession != null && arduinoID != 0 )
-    {
-        <div>
-            <!-- Trigger/Open The Modal -->
-            <button id="myBtnSetupSensor" class="btn btn-primary buttons">Setup Sensor</button>
+					</EditForm>
+				</div>
+			</div>
+		</div>
+	}
+	<!-------------------------------- Setup Sensor ------------------------------->
+	<!-------------------------------- make put request in settings then we change plant name in setup sensor ------------------------------->
+	@if (AccountSession.UserSession != null && arduinoID != 0)
+	{
+		<div>
+			<!-- Trigger/Open The Modal -->
+			<button id="myBtnSetupSensor" class="btn btn-primary buttons">Setup Sensor</button>
 
-            <!-- The Modal -->
-            <div id="myModalSetupSensor" class="modal">
+			<!-- The Modal -->
+			<div id="myModalSetupSensor" class="modal">
 
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
+				<!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Setup Sensor</h5>
-                    </div>
+					<div class="modal-header">
+						<h5 class="modal-title">Setup Sensor</h5>
+					</div>
 
-                    <div class="d-flex">
-                        @if (isEditingSensorName1)
-                        {
-                            <input type="text" @bind="sensorName1" class="form-control" />
-                            <button class="btn btn-success" @onclick="PutSensorNames">Save</button>
-                            <button class="btn btn-secondary" @onclick="CancelEditSensorName1">Cancel</button>
-                        }
-                        else
-                        {
-                            <h3>Sensor name 1: </h3>
-                            <h3 style="margin: 0 0 0 10px;">@sensorName1</h3>
-                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName1" style="cursor:pointer;" />
-                        }
-                    </div>
+					<div class="d-flex">
+						@if (isEditingSensorName1)
+						{
+							<input type="text" @bind="sensorName1" class="form-control" />
+							<button class="btn btn-success" @onclick="PutSensorNames">Save</button>
+							<button class="btn btn-secondary" @onclick="CancelEditSensorName1">Cancel</button>
+						}
+						else
+						{
+							<h3>Sensor name 1: </h3>
+							<h3 style="margin: 0 0 0 10px;">@sensorName1</h3>
+							<img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName1" style="cursor:pointer;" />
+						}
+					</div>
 
 
-                    <p>current plant: @current1plant</p>
-                    <p>selected plant: @selectedPlant1</p>
+					<p>current plant: @current1plant</p>
+					<p>selected plant: @selectedPlant1</p>
 
-                    <div class="dropdown">
+					<div class="dropdown">
 
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <text>Choose Plant</text>
-                        </button>
+						<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<text>Choose Plant</text>
+						</button>
 
-                        <ul class="dropdown-menu">
-                            @if (plants != null)
-                            {
-                                @foreach (var plant in plants)
-                                {
-                                    <li><button class="dropdown-item" @onclick=" ()=> SelectPlant1(plant)">@plant.PlantName</button></li>
-                                }
-                            }
-                            else
-                            {
-                                <li><span class="dropdown-item">Loading...</span></li>
-                            }
-                        </ul>
+						<ul class="dropdown-menu">
+							@if (plants != null)
+							{
+								@foreach (var plant in plants)
+								{
+									<li><button class="dropdown-item" @onclick=" ()=> SelectPlant1(plant)">@plant.PlantName</button></li>
+								}
+							}
+							else
+							{
+								<li><span class="dropdown-item">Loading...</span></li>
+							}
+						</ul>
 
-                    </div>
+					</div>
 
-                    <hr />
+					<hr />
 
-                    <div class="d-flex">
-                        @if (isEditingSensorName2)
-                        {
-                            <input type="text" @bind="sensorName2" class="form-control" />
-                            <button class="btn btn-success" @onclick="PutSensorNames">Save</button>
-                            <button class="btn btn-secondary" @onclick="CancelEditSensorName2">Cancel</button>
-                        }
-                        else
-                        {
-                            <h3>Sensor name 2: </h3>
-                            <h3 style="margin: 0 0 0 10px;">@sensorName2</h3>
-                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName2" style="cursor:pointer;" />
-                        }
-                    </div>
+					<div class="d-flex">
+						@if (isEditingSensorName2)
+						{
+							<input type="text" @bind="sensorName2" class="form-control" />
+							<button class="btn btn-success" @onclick="PutSensorNames">Save</button>
+							<button class="btn btn-secondary" @onclick="CancelEditSensorName2">Cancel</button>
+						}
+						else
+						{
+							<h3>Sensor name 2: </h3>
+							<h3 style="margin: 0 0 0 10px;">@sensorName2</h3>
+							<img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="EditSensorName2" style="cursor:pointer;" />
+						}
+					</div>
 
-                    <p>current plant: @current2plant</p>
-                    <p>selected plant: @selectedPlant2</p>
+					<p>current plant: @current2plant</p>
+					<p>selected plant: @selectedPlant2</p>
 
-                    <div class="dropdown">
+					<div class="dropdown">
 
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <text>Choose Plant</text>
-                        </button>
+						<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<text>Choose Plant</text>
+						</button>
 
-                        <ul class="dropdown-menu">
-                            @if (plants != null)
-                            {
-                                @foreach (var plant in plants)
-                                {
-                                    <li><button class="dropdown-item" @onclick="() => SelectPlant2(plant)">@plant.PlantName</button></li>
-                                }
-                            }
-                            else
-                            {
-                                <li><span class="dropdown-item">Loading...</span></li>
-                            }
-                        </ul>
+						<ul class="dropdown-menu">
+							@if (plants != null)
+							{
+								@foreach (var plant in plants)
+								{
+									<li><button class="dropdown-item" @onclick="() => SelectPlant2(plant)">@plant.PlantName</button></li>
+								}
+							}
+							else
+							{
+								<li><span class="dropdown-item">Loading...</span></li>
+							}
+						</ul>
 
-                    </div>
-                    <p class="error-message" id="login-error">@errorMessage</p>
-                    <div class="modal-footer">
-                        <!-- Buttons for login -->
-                        <button type="submit" class="btn btn-primary" @onclick="PutSelectedPlants">Save Changes</button>
-                    </div>
-                </div>
-            </div>
+					</div>
+					<p class="error-message" id="login-error">@errorMessage</p>
+					<div class="modal-footer">
+						<!-- Buttons for login -->
+						<button type="submit" class="btn btn-primary" @onclick="PutSelectedPlants">Save Changes</button>
+					</div>
+				</div>
+			</div>
 
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-        </div>
-    }
-    <!-------------------------------- Arduino settings ------------------------------->
-    @if (AccountSession.UserSession != null)
-    {
-        <div>
-            <!-- Trigger/Open The Modal -->
-            <button id="myBtnSettings" class="btn btn-primary buttons">Arduino Settings</button>
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+		</div>
+	}
+	<!-------------------------------- Arduino settings ------------------------------->
+	@if (AccountSession.UserSession != null)
+	{
+		<div>
+			<!-- Trigger/Open The Modal -->
+			<button id="myBtnSettings" class="btn btn-primary buttons">Arduino Settings</button>
 
-            <!-- The Modal -->
-            <div id="myModalSettings" class="modal">
+			<!-- The Modal -->
+			<div id="myModalSettings" class="modal">
 
-                <!-- Modal content -->
-                <div class="modal-content">
-                    <span class="close">&times;</span>
+				<!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Arduino Settings</h5>
-                    </div>
-                    <div class="d-flex">
-                        @if (isEditingarduino)
-                        {
-                            <input type="text" @bind="arduinoID" class="form-control" />
-                            <button class="btn btn-success" @onclick="PutAddUser">Save</button>
-                            <button class="btn btn-secondary" @onclick="CancelEditarduino">Cancel</button>
-                        }
-                        else
-                        {
-                            <h3>Arduino id: </h3>
-                            <h3 style="margin: 0 0 0 10px;">@arduinoID</h3>
-                            <img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="Editarduino" style="cursor:pointer;" />
-                        }
-                    </div>
-                    <div class="d-flex justify-content-center text-center">
-                        <div class="w-100 ">
-                            <p>Auto</p>
-                            <label class="switch">
-                                <input type="checkbox" checked="@mode.AutoMode" @onclick="Toggle">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div>
+					<div class="modal-header">
+						<h5 class="modal-title">Arduino Settings</h5>
+					</div>
+					<div class="d-flex">
+						@if (isEditingarduino)
+						{
+							<input type="text" @bind="arduinoID" class="form-control" />
+							<button class="btn btn-success" @onclick="PutAddUser">Save</button>
+							<button class="btn btn-secondary" @onclick="CancelEditarduino">Cancel</button>
+						}
+						else
+						{
+							<h3>Arduino id: </h3>
+							<h3 style="margin: 0 0 0 10px;">@arduinoID</h3>
+							<img class="editIcon" src="https://static.vecteezy.com/system/resources/thumbnails/019/552/591/small/sign-up-icon-signup-square-box-on-transparent-background-free-png.png" @onclick="Editarduino" style="cursor:pointer;" />
+						}
+					</div>
+					<div class="d-flex justify-content-center text-center">
+						<div class="w-100 ">
+							<p>Auto</p>
+							<label class="switch">
+								<input type="checkbox" checked="@mode.AutoMode" @onclick="Toggle">
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
 
-                    <p class="error-message" id="login-error">@errorMessage</p>
-                    <div class="modal-footer">
-                        <!-- Buttons for login -->
-                        <button type="submit" class="btn btn-primary" @onclick="PutModeState">Save Changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+					<p class="error-message" id="login-error">@errorMessage</p>
+					<div class="modal-footer">
+						<!-- Buttons for login -->
+						<button type="submit" class="btn btn-primary" @onclick="PutModeState">Save Changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 </div>
 
 <div class="d-flex mt-5">
-    
-    <!--------------------------------- Line Chart ------------------------------->
-    <div class="charts-container mt-5">
-        <!-- Line Chart -->
-        <div id="line-chart-container" class="chart-section">
-            <select id="line-chart-plant-select" class="btn btn-primary buttonSelect-line" @onchange="OnLineChartSelectionChange">
-                <option value="plant1">Plant 1</option>
-                <option value="plant2">Plant 2</option>
-                <option value="plant3">Plant 3</option>
-            </select>
 
-            <select id="line-chart-select" class="btn btn-primary buttonSelect-line" @onchange="OnLineChartSelectionChange">
-                <option value="chartdiv4">Week</option>
-                <option value="chartdiv5">Month</option>
-                <option value="chartdiv6">Year</option>
-            </select>
+	<!--------------------------------- Line Chart ------------------------------->
+	<div class="charts-container mt-5">
+		<!-- Line Chart -->
+		<div id="line-chart-container" class="chart-section">
+			<select id="line-chart-plant-select" class="btn btn-primary buttonSelect-line" @onchange="OnLineChartSelectionChange">
+				<option value="plant1">Plant 1</option>
+				<option value="plant2">Plant 2</option>
+				<option value="plant3">Plant 3</option>
+			</select>
 
-            <div id="chartdiv4" class="chartdiv" data-initialized="false" style="display: block;"></div>
-            <div id="chartdiv5" class="chartdiv" data-initialized="false"></div>
-            <div id="chartdiv6" class="chartdiv" data-initialized="false"></div>
-        </div>
+			<select id="line-chart-select" class="btn btn-primary buttonSelect-line" @onchange="OnLineChartSelectionChange">
+				<option value="chartdiv4">Week</option>
+				<option value="chartdiv5">Month</option>
+				<option value="chartdiv6">Year</option>
+			</select>
 
-    <!---------------------------------- Pie Chart -------------------------------->
-        <!-- Pie Chart -->
-        <div id="pie-chart-container" class="chart-section">
-            <select id="pie-chart-select" class="btn btn-primary buttonSelect-pie" @onchange="OnPieChartSelectionChange">
-                <option value="chartdiv1">Plant 1</option>
-                <option value="chartdiv2">Plant 2</option>
-                <option value="chartdiv3">Plant 3</option>
-            </select>
+			<div id="chartdiv4" class="chartdiv" data-initialized="false" style="display: block;"></div>
+			<div id="chartdiv5" class="chartdiv" data-initialized="false"></div>
+			<div id="chartdiv6" class="chartdiv" data-initialized="false"></div>
+		</div>
 
-            <div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
-            <div id="chartdiv2" class="chartdiv" data-initialized="false"></div>
-            <div id="chartdiv3" class="chartdiv" data-initialized="false"></div>
-        </div>
-    </div>
+		<!---------------------------------- Pie Chart -------------------------------->
+		<!-- Pie Chart -->
+		<div id="pie-chart-container" class="chart-section">
+			<select id="pie-chart-select" class="btn btn-primary buttonSelect-pie" @onchange="OnPieChartSelectionChange">
+				<option value="chartdiv1">Plant 1</option>
+				<option value="chartdiv2">Plant 2</option>
+				<option value="chartdiv3">Plant 3</option>
+			</select>
+
+			<div id="chartdiv1" class="chartdiv" data-initialized="false" style="display: block;"></div>
+			<div id="chartdiv2" class="chartdiv" data-initialized="false"></div>
+			<div id="chartdiv3" class="chartdiv" data-initialized="false"></div>
+		</div>
+	</div>
 </div>
-        
+
 
 <!-------------------------------- Modal Script ------------------------------->
 
 <script>
-    var modals = document.querySelectorAll('.modal');
-    var buttons = document.querySelectorAll('.btn-primary.buttons');
-    var spans = document.querySelectorAll('.close');
+	var modals = document.querySelectorAll('.modal');
+	var buttons = document.querySelectorAll('.btn-primary.buttons');
+	var spans = document.querySelectorAll('.close');
 
-    buttons.forEach(function (button, index) {
-        button.addEventListener('click', function () {
-            modals[index].style.display = "block";
-            errorMessage = "";
-        });
-    });
+	buttons.forEach(function (button, index) {
+		button.addEventListener('click', function () {
+			modals[index].style.display = "block";
+			errorMessage = "";
+		});
+	});
 
-    spans.forEach(function (span, index) {
-        span.addEventListener('click', function () {
-            modals[index].style.display = "none";
-            errorMessage = "";
-        });
-    });
+	spans.forEach(function (span, index) {
+		span.addEventListener('click', function () {
+			modals[index].style.display = "none";
+			errorMessage = "";
+		});
+	});
 
-    window.onclick = function (event) {
-        modals.forEach(function (modal) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-                errorMessage = "";
-            }
-        });
-    }
+	window.onclick = function (event) {
+		modals.forEach(function (modal) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+				errorMessage = "";
+			}
+		});
+	}
 
-    function closeModal(modalId) {
-        var modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = "none";
-        }
-    }
+	function closeModal(modalId) {
+		var modal = document.getElementById(modalId);
+		if (modal) {
+			modal.style.display = "none";
+		}
+	}
 
-    @* ---------------------- Line Chart Script ----------------------- *@
-        am5.ready(function () {
+	@* ---------------------- Line Chart Script ----------------------- *@
+		am5.ready(function () {
 
-            function createLineChart(rootId, input) {
+			function createLineChart(rootId, input) {
 
-                // Create root element
-                var root = am5.Root.new(rootId);
+				// Create root element
+				var root = am5.Root.new(rootId);
 
-                // Set themes
-                root.setThemes([am5themes_Animated.new(root)]);
+				// Set themes
+				root.setThemes([am5themes_Animated.new(root)]);
 
-                // Create chart
-                var chart = root.container.children.push(am5xy.XYChart.new(root, {
-                    panX: true,
-                    panY: true,
-                    wheelX: "panX",
-                    paddingLeft: 0
-                }));
+				// Create chart
+				var chart = root.container.children.push(am5xy.XYChart.new(root, {
+					panX: true,
+					panY: true,
+					wheelX: "panX",
+					paddingLeft: 0
+				}));
 
-                // Add cursor
-                var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-                    behavior: "none"
-                }));
-                cursor.lineY.set("visible", false);
+				// Add cursor
+				var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+					behavior: "none"
+				}));
+				cursor.lineY.set("visible", false);
 
-                // Generate random data
-                var date = new Date();
-                date.setHours(0, 0, 0, 0);
-                var value = 100;
+				// Generate random data
+				var date = new Date();
+				date.setHours(0, 0, 0, 0);
+				var value = 100;
 
-                function generateData() {
-                    value = Math.round((Math.random() * 10 - 5) + value);
-                    am5.time.add(date, "day", 1);
-                    return {
-                        date: date.getTime(),
-                        value: value
-                    };
-                }
+				function generateData() {
+					value = Math.round((Math.random() * 10 - 5) + value);
+					am5.time.add(date, "day", 1);
+					return {
+						date: date.getTime(),
+						value: value
+					};
+				}
 
-                function generateDatas(count) {
-                    var data = [];
-                    for (var i = 0; i < count; ++i) {
-                        data.push(generateData());
-                    }
-                    return data;
-                }
+				function generateDatas(count) {
+					var data = [];
+					for (var i = 0; i < count; ++i) {
+						data.push(generateData());
+					}
+					return data;
+				}
 
-    @* ---------------------- X, Y & Series Code ----------------------- *@
+	@* ---------------------- X, Y & Series Code ----------------------- *@
 
-                // Create axes
-                var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
-                    maxDeviation: 0.2,
-                    baseInterval: {
-                        timeUnit: "day",
-                        count: 1
-                    },
-                    renderer: am5xy.AxisRendererX.new(root, {
-                        minorGridEnabled: true
-                    }),
-                    tooltip: am5.Tooltip.new(root, {})
-                }));
+					// Create axes
+					var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+					maxDeviation: 0.2,
+					baseInterval: {
+						timeUnit: "day",
+						count: 1
+					},
+					renderer: am5xy.AxisRendererX.new(root, {
+						minorGridEnabled: true
+					}),
+					tooltip: am5.Tooltip.new(root, {})
+				}));
 
-                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                    renderer: am5xy.AxisRendererY.new(root, {
-                        pan: "zoom"
-                    })
-                }));
+				var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+					renderer: am5xy.AxisRendererY.new(root, {
+						pan: "zoom"
+					})
+				}));
 
-                // Add series
-                var series = chart.series.push(am5xy.LineSeries.new(root, {
-                    name: "Series",
-                    xAxis: xAxis,
-                    yAxis: yAxis,
-                    valueYField: "value",
-                    valueXField: "date",
-                    tooltip: am5.Tooltip.new(root, {
-                        labelText: "{valueY}"
-                    })
-                }));
+				// Add series
+				var series = chart.series.push(am5xy.LineSeries.new(root, {
+					name: "Series",
+					xAxis: xAxis,
+					yAxis: yAxis,
+					valueYField: "value",
+					valueXField: "date",
+					tooltip: am5.Tooltip.new(root, {
+						labelText: "{valueY}"
+					})
+				}));
 
-    @* ---------------------- Data & Chart Appear ----------------------- *@
+	@* ---------------------- Data & Chart Appear ----------------------- *@
 
-                var data = generateDatas(input);
-                series.data.setAll(data);
-                chart.appear(1000, 100);
-            }
+					var data = generateDatas(input);
+				series.data.setAll(data);
+				chart.appear(1000, 100);
+			}
 
-            createLineChart("chartdiv4", 7)
-            createLineChart("chartdiv5", 31)
-            createLineChart("chartdiv6", 365)
+			createLineChart("chartdiv4", 7)
+			createLineChart("chartdiv5", 31)
+			createLineChart("chartdiv6", 365)
 
-        });
+		});
 
-    // Create a global object `chartInterop` to manage chart-related functions
-    window.chartInterop = {
+	// Create a global object `chartInterop` to manage chart-related functions
+	window.chartInterop = {
 
-        // Function to initialize a chart in a specific div
-        initializeChart: function (chartDivId) {
-            const chartDiv = document.getElementById(chartDivId); // Get the div element by ID
+		// Function to initialize a chart in a specific div
+		initializeChart: function (chartDivId) {
+			const chartDiv = document.getElementById(chartDivId); // Get the div element by ID
 
-            // Check if the chart in the div is already initialized
-            if (chartDiv.dataset.initialized === "false") {
+			// Check if the chart in the div is already initialized
+			if (chartDiv.dataset.initialized === "false") {
 
-                // Replace this with actual chart initialization logic
-                console.log(`Initializing chart in ${chartDivId}`);
+				// Replace this with actual chart initialization logic
+				console.log(`Initializing chart in ${chartDivId}`);
 
-                // e.g., new Chart(chartDiv, {...});
-                chartDiv.dataset.initialized = "true"; // Mark the chart as initialized
-            }
-        },
-        // Function to update chart visibility based on a selected value from a dropdown
-        updateChartVisibility: function (selectElementId, containerId) {
-            const selectElement = document.getElementById(selectElementId); // Get the dropdown element by ID
-            const selectedValue = selectElement.value; // Get the selected value from the dropdown
-            const chartDivs = document.querySelectorAll(`#${containerId} .chartdiv`); // Get all chart divs in the container
+				// e.g., new Chart(chartDiv, {...});
+				chartDiv.dataset.initialized = "true"; // Mark the chart as initialized
+			}
+		},
+		// Function to update chart visibility based on a selected value from a dropdown
+		updateChartVisibility: function (selectElementId, containerId) {
+			const selectElement = document.getElementById(selectElementId); // Get the dropdown element by ID
+			const selectedValue = selectElement.value; // Get the selected value from the dropdown
+			const chartDivs = document.querySelectorAll(`#${containerId} .chartdiv`); // Get all chart divs in the container
 
-            // Loop through each chart div
-            chartDivs.forEach(div => {
-                if (div.id === selectedValue) { // If the div ID matches the selected value
-                    div.style.display = 'block'; // Display the matching chart div
-                    window.chartInterop.initializeChart(div.id); // Initialize the chart if not already done
-                }
+			// Loop through each chart div
+			chartDivs.forEach(div => {
+				if (div.id === selectedValue) { // If the div ID matches the selected value
+					div.style.display = 'block'; // Display the matching chart div
+					window.chartInterop.initializeChart(div.id); // Initialize the chart if not already done
+				}
 
-                else {
-                    div.style.display = 'none'; // Hide other chart divs
-                }
-            });
-        }
-    };
+				else {
+					div.style.display = 'none'; // Hide other chart divs
+				}
+			});
+		}
+	};
 
-    // Wait until the DOM content is fully loaded
-    document.addEventListener("DOMContentLoaded", function () {
-        // Initialize chart visibility based on the selected value in the dropdown
-        window.chartInterop.updateChartVisibility("pie-chart-select", "pie-chart-container");
-    });
+	// Wait until the DOM content is fully loaded
+	document.addEventListener("DOMContentLoaded", function () {
+		// Initialize chart visibility based on the selected value in the dropdown
+		window.chartInterop.updateChartVisibility("pie-chart-select", "pie-chart-container");
+	});
 
-    @* ------------------------------ Pie Chart Script --------------------------------*@
+	@* ------------------------------ Pie Chart Script --------------------------------*@
 
-        // Ensure the amCharts library is ready before executing the script
-        am5.ready(function () {
+		// Ensure the amCharts library is ready before executing the script
+		am5.ready(function () {
 
-            // Function to create a pie chart
-            function createPieChart(rootId, data) {
+			// Function to create a pie chart
+			function createPieChart(rootId, data) {
 
-                // Create a new amCharts root element
-                var root = am5.Root.new(rootId);
+				// Create a new amCharts root element
+				var root = am5.Root.new(rootId);
 
-                // Apply the animated theme to the chart
-                root.setThemes([am5themes_Animated.new(root)]);
+				// Apply the animated theme to the chart
+				root.setThemes([am5themes_Animated.new(root)]);
 
-                // Create a new PieChart within the root container, ending at 270 degrees
-                var chart = root.container.children.push(
-                    am5percent.PieChart.new(root, { endAngle: 270 })
-                );
+				// Create a new PieChart within the root container, ending at 270 degrees
+				var chart = root.container.children.push(
+					am5percent.PieChart.new(root, { endAngle: 270 })
+				);
 
-                // Create a new PieSeries within the chart, mapping data fields
-                var series = chart.series.push(
-                    am5percent.PieSeries.new(root, {
-                        valueField: "value", // Field containing the values
-                        categoryField: "category", // Field containing the categories
-                        endAngle: 270 // End angle for the pie slices
-                    })
-                );
+				// Create a new PieSeries within the chart, mapping data fields
+				var series = chart.series.push(
+					am5percent.PieSeries.new(root, {
+						valueField: "value", // Field containing the values
+						categoryField: "category", // Field containing the categories
+						endAngle: 270 // End angle for the pie slices
+					})
+				);
 
-                // Define the "hidden" state for the series, setting the end angle to -90 degrees
-                series.states.create("hidden", { endAngle: -90 });
+				// Define the "hidden" state for the series, setting the end angle to -90 degrees
+				series.states.create("hidden", { endAngle: -90 });
 
-                // Set the data for the series
-                series.data.setAll(data);
+				// Set the data for the series
+				series.data.setAll(data);
 
-                // Set the label text color to white
-                series.labels.template.setAll({
-                    fill: am5.color(0xFFFFFF)
-                });
-            }
+				// Set the label text color to white
+				series.labels.template.setAll({
+					fill: am5.color(0xFFFFFF)
+				});
+			}
 
-            // Data arrays for the charts
-            var dataPie1 = [
-                { category: "Moisture Level", value: 601.9 },
-                { category: "Drought Level", value: 301.9 }
-            ];
+			// Data arrays for the charts
+			var dataPie1 = [
+				{ category: "Moisture Level", value: 601.9 },
+				{ category: "Drought Level", value: 301.9 }
+			];
 
-            var dataPie2 = [
-                { category: "Moisture Level", value: 641.9 },
-                { category: "Drought Level", value: 358.1 }
-            ];
+			var dataPie2 = [
+				{ category: "Moisture Level", value: 641.9 },
+				{ category: "Drought Level", value: 358.1 }
+			];
 
-            var dataPie3 = [
-                { category: "Moisture Level", value: 751.9 },
-                { category: "Drought Level", value: 208.1 }
-            ];
+			var dataPie3 = [
+				{ category: "Moisture Level", value: 751.9 },
+				{ category: "Drought Level", value: 208.1 }
+			];
 
-            // Create the pie charts with the respective data sets
-            createPieChart("chartdiv1", dataPie1);
-            createPieChart("chartdiv2", dataPie2);
-            createPieChart("chartdiv3", dataPie3);
+			// Create the pie charts with the respective data sets
+			createPieChart("chartdiv1", dataPie1);
+			createPieChart("chartdiv2", dataPie2);
+			createPieChart("chartdiv3", dataPie3);
 
 
 
-            // Event listener for dropdown change to switch between charts
-            document.getElementById("chart-select").addEventListener("change", function () {
-                var selectedChart = this.value; // Get the selected chart's ID
+			// Event listener for dropdown change to switch between charts
+			document.getElementById("chart-select").addEventListener("change", function () {
+				var selectedChart = this.value; // Get the selected chart's ID
 
-                // Hide all charts
-                document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
-                    chartDiv.style.display = "none";
-                });
+				// Hide all charts
+				document.querySelectorAll(".chartdiv").forEach(function (chartDiv) {
+					chartDiv.style.display = "none";
+				});
 
-                // Display the selected chart
-                document.getElementById(selectedChart).style.display = "block";
-            });
-        });
+				// Display the selected chart
+				document.getElementById(selectedChart).style.display = "block";
+			});
+		});
 
 
 </script>
 
 <!--------------------------------- Plant Code -------------------------------->
 @code {
-    private string selectedPlant1 = "";
-    private string selectedPlant2 = "";
-    private string selectedEditPlant = "";
-    private int selectedEditPlantId = 0;
-    private string sensorName1 = "";
-    private string sensorName2 = "";
-    private int sensorID1;
-    private int sensorID2;
-    private bool isEditingSensorName1 = false;
-    private bool isEditingSensorName2 = false;
-    private bool isEditingSensorID1 = false;
-    private bool isEditingSensorID2 = false;
-    private bool isEditingarduino = false;
-    private List<PlantOverview> userOnlyPlantData;
+	private string selectedPlant1 = "";
+	private string selectedPlant2 = "";
+	private string selectedEditPlant = "";
+	private int selectedEditPlantId = 0;
+	private string sensorName1 = "";
+	private string sensorName2 = "";
+	private int sensorID1;
+	private int sensorID2;
+	private bool isEditingSensorName1 = false;
+	private bool isEditingSensorName2 = false;
+	private bool isEditingSensorID1 = false;
+	private bool isEditingSensorID2 = false;
+	private bool isEditingarduino = false;
+	private List<PlantOverview> userOnlyPlantData;
 
-    private int settingsId; // Store settings ID
-    private string? originalSensorName1; // To store the original value
-    private string? originalSensorName2; // To store the original value
-    private int originalSensorID1;
-    private int originalSensorID2;
-    private string? current1plant;
-    private string? current2plant;
-    private int arduinoID;
+	private int settingsId; // Store settings ID
+	private string? originalSensorName1; // To store the original value
+	private string? originalSensorName2; // To store the original value
+	private int originalSensorID1;
+	private int originalSensorID2;
+	private string? current1plant;
+	private string? current2plant;
+	private int arduinoID;
 
-    protected override async Task OnInitializedAsync()
-    {
-        await GetListOfPlants(); // This method should populate the 'plants' list
-        await GetListOfSettings();
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		await GetListOfPlants(); // This method should populate the 'plants' list
+		await GetListOfSettings();
+	}
 
-    private void SelectedSensorName1(PutSensorName name)
-    {
-        sensorName1 = name.Sensor1Name;
-    }
+	private void SelectedSensorName1(PutSensorName name)
+	{
+		sensorName1 = name.Sensor1Name;
+	}
 
-    private void SelectedSensorName2(PutSensorName name)
-    {
-        sensorName2 = name.Sensor2Name;
-    }
+	private void SelectedSensorName2(PutSensorName name)
+	{
+		sensorName2 = name.Sensor2Name;
+	}
 
-    private void SelectPlant1(Plant plant)
-    {
-        selectedPlant1 = plant.PlantName;
-    }
+	private void SelectPlant1(Plant plant)
+	{
+		selectedPlant1 = plant.PlantName;
+	}
 
-    private void SelectPlant2(Plant plant)
-    {
-        selectedPlant2 = plant.PlantName;
-    }
+	private void SelectPlant2(Plant plant)
+	{
+		selectedPlant2 = plant.PlantName;
+	}
 
-    private void SelectEditPlant(Plant plant)
-    {
-        selectedEditPlant = plant.PlantName;
-        selectedEditPlantId = plant.Id;
-    }
+	private void SelectEditPlant(Plant plant)
+	{
+		selectedEditPlant = plant.PlantName;
+		selectedEditPlantId = plant.Id;
+	}
 
-    private void EditSensorName2()
-    {
-        isEditingSensorName2 = true;
+	private void EditSensorName2()
+	{
+		isEditingSensorName2 = true;
 
-    }
+	}
 
-    private void CancelEditSensorName2()
-    {
-        isEditingSensorName2 = false;
-        sensorName2 = originalSensorName2; // Revert to the original value
-    }
+	private void CancelEditSensorName2()
+	{
+		isEditingSensorName2 = false;
+		sensorName2 = originalSensorName2; // Revert to the original value
+	}
 
-    private void EditSensorName1()
-    {
-        isEditingSensorName1 = true;
-    }
+	private void EditSensorName1()
+	{
+		isEditingSensorName1 = true;
+	}
 
-    private void CancelEditSensorName1()
-    {
-        isEditingSensorName1 = false;
-        sensorName1 = originalSensorName1; // Revert to the original value
-    }
+	private void CancelEditSensorName1()
+	{
+		isEditingSensorName1 = false;
+		sensorName1 = originalSensorName1; // Revert to the original value
+	}
 
-    private void EditSensorID1()
-    {
-        isEditingSensorID1 = true;
-    }
+	private void EditSensorID1()
+	{
+		isEditingSensorID1 = true;
+	}
 
-    private void CancelEditSensorID1()
-    {
-        isEditingSensorID1 = false;
-        sensorID1 = originalSensorID1; // Revert to the original value
-    }
+	private void CancelEditSensorID1()
+	{
+		isEditingSensorID1 = false;
+		sensorID1 = originalSensorID1; // Revert to the original value
+	}
 
-    private void EditSensorID2()
-    {
-        isEditingSensorID2 = true;
-    }
+	private void EditSensorID2()
+	{
+		isEditingSensorID2 = true;
+	}
 
-    private void CancelEditSensorID2()
-    {
-        isEditingSensorID2 = false;
-        sensorID2 = originalSensorID2; // Revert to the original value
-    }
-    
-    private void Editarduino()
-    {
-        isEditingarduino = true;
-    }
+	private void CancelEditSensorID2()
+	{
+		isEditingSensorID2 = false;
+		sensorID2 = originalSensorID2; // Revert to the original value
+	}
 
-    private void CancelEditarduino()
-    {
-        isEditingarduino = false;
-        // sensorID2 = originalSensorID2; // Revert to the original value
-    }
+	private void Editarduino()
+	{
+		isEditingarduino = true;
+	}
 
-    // private async Task FetchWaterData()
-    // {
-    //     userOnlyPlantData = await GetWaterData();
-    //     await JSRuntime.InvokeVoidAsync("createPieCharts", userOnlyPlantData);
-    //     await JSRuntime.InvokeVoidAsync("createLineCharts", userOnlyPlantData);
-    // }
+	private void CancelEditarduino()
+	{
+		isEditingarduino = false;
+		// sensorID2 = originalSensorID2; // Revert to the original value
+	}
+
+	// private async Task FetchWaterData()
+	// {
+	//     userOnlyPlantData = await GetWaterData();
+	//     await JSRuntime.InvokeVoidAsync("createPieCharts", userOnlyPlantData);
+	//     await JSRuntime.InvokeVoidAsync("createLineCharts", userOnlyPlantData);
+		// }
 }
